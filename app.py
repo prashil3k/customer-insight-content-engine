@@ -1094,63 +1094,58 @@ SETUP_README = """\
 STORYLANE CONTENT ENGINE — HOW TO OPEN
 =======================================
 
-READ THIS FIRST — macOS blocks downloaded files by default.
-You must do the two steps below before anything will work.
+READ THIS FIRST.
+macOS blocks everything downloaded from the internet by default.
+One Terminal command fixes it. Do this before double-clicking anything.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FIRST TIME ONLY  (takes about 2 minutes)
+FIRST TIME ONLY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-STEP 1 — Unlock the folder in Terminal
-──────────────────────────────────────
-  This tells macOS "I trust everything in this folder."
+STEP 1 — Unlock the folder (30 seconds, one command)
+─────────────────────────────────────────────────────
 
   a) Open Terminal
-     (Press Cmd+Space, type "Terminal", press Enter)
+     Press Cmd+Space, type "Terminal", press Enter.
 
-  b) In Terminal, type the following — then add a SPACE at the end
+  b) In Terminal, type this — then leave a SPACE at the end
      (do NOT press Enter yet):
 
         xattr -rd com.apple.quarantine
 
-  c) Now open Finder and find the folder named:
+  c) Open Finder. Find the extracted folder named:
         "Storylane Customer Insights Content Engine - Complete"
-     Drag that folder into the Terminal window and drop it.
-     The full path will appear next to your command automatically.
+     Drag that entire folder into the Terminal window and drop it.
+     The path fills in automatically next to your command.
 
-  d) Now press Enter.
+  d) Press Enter.
 
-  Nothing will appear to happen — that is correct. You just unlocked every file.
-
-
-STEP 2 — Run the setup script (handles everything else)
-────────────────────────────────────────────────────────
-  Double-click the file:  ▶ Start Here — Mac Setup.command
-
-  A black Terminal window opens and runs automatically.
-  It will tell you when it's done and what to do next.
-
-  (If macOS still shows a security warning: right-click the file → Open → Open)
+  Nothing visible happens — that is correct. Every file is now unlocked.
 
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STARTING THE TOOLS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 2 — Launch the tools
+───────────────────────────
 
-  Always start in this order:
+  Start the Classifier first:
+    Double-click:  storylane-demo-classifier/Start Classifier.command
 
-  1. Double-click:  storylane-demo-classifier/Start Classifier.command
-     A black window opens and installs things the first time (~1 min).
-     Your browser opens to http://localhost:8000 when it's ready.
-     ⚠️  Keep this window open (minimise it — do NOT close it).
+    A black window opens. First run installs things (~1 minute). Don't close it.
+    Your browser opens to http://localhost:8000 when ready.
 
-  2. Double-click:  Storylane Customer Insights Content Engine/Content Engine.command
-     Same process. Your browser opens to http://localhost:8001.
-     ⚠️  Keep this window open too.
+  Then start the Content Engine:
+    Double-click:  Storylane Customer Insights Content Engine/Content Engine.command
 
-  3. In the Content Engine (localhost:8001):
-     Go to Settings → API Keys → paste your Anthropic API key → Save.
+    Same process. Your browser opens to http://localhost:8001 when ready.
+
+  IMPORTANT: Both black windows must stay open while you work.
+             Minimise them — never close them.
+
+
+STEP 3 — Add your API key
+───────────────────────────
+  In the browser at http://localhost:8001:
+    Settings → API Keys → paste your Anthropic API key → Save.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1158,26 +1153,25 @@ EVERY TIME AFTER THAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   Just double-click both launchers. No Terminal needed.
-  Classifier first → Engine second. That's it.
+  Always: Classifier first, then Engine.
 
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TROUBLESHOOTING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  "Operation not permitted"
-      → You skipped Step 1. Run the xattr command again.
+  Nothing happens when I double-click a launcher
+      → Step 1 wasn't done. Run the xattr command above.
 
-  "Permission denied" or nothing happens on double-click
-      → You skipped Step 2. Double-click the setup script.
+  "Operation not permitted" error
+      → Same fix — run the xattr command again.
 
   Browser shows "This site can't be reached"
-      → The launcher window was closed. Re-open it and wait for it to start.
+      → The launcher window was closed. Re-open it and wait.
 
-  Port already in use
+  Port already in use / can't start
       → Open Activity Monitor (Cmd+Space → Activity Monitor),
-        search for "python", and quit any running Python processes.
-        Then try launching again.
+        search "python", quit any running Python processes, try again.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -1207,6 +1201,13 @@ def _add_dir_to_zip(zf: zipfile.ZipFile, source_dir: Path, zip_prefix: str,
                 zf.writestr(arcname, json.dumps(d, indent=2))
             except Exception:
                 zf.write(item, arcname)
+        elif item.suffix == ".command":
+            # Always write .command files with execute bit set — zf.write() copies
+            # the source mode but the file may have been created without +x.
+            info = zipfile.ZipInfo(arcname)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o755 << 16   # rwxr-xr-x
+            zf.writestr(info, item.read_bytes())
         else:
             zf.write(item, arcname)
 
@@ -1238,7 +1239,13 @@ def api_export_zip():
                 # Empty screenshots placeholder so the path exists
                 zf.writestr(f"{BUNDLE_FOLDER}/storylane-demo-classifier/screenshots/.keep", "")
             # Mac setup script + readme at root of the bundle folder
-            zf.writestr(f"{BUNDLE_FOLDER}/▶ Start Here — Mac Setup.command", MAC_SETUP_SCRIPT)
+            # ZipInfo lets us set Unix permissions so the .command is executable
+            # when extracted — critical, otherwise double-click does nothing even
+            # after xattr removes quarantine.
+            setup_info = zipfile.ZipInfo(f"{BUNDLE_FOLDER}/▶ Start Here — Mac Setup.command")
+            setup_info.compress_type = zipfile.ZIP_DEFLATED
+            setup_info.external_attr = 0o755 << 16   # rwxr-xr-x
+            zf.writestr(setup_info, MAC_SETUP_SCRIPT)
             zf.writestr(f"{BUNDLE_FOLDER}/README.txt", SETUP_README)
             download_name = f"{BUNDLE_FOLDER}.zip"
         else:
