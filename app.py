@@ -1238,14 +1238,7 @@ def api_export_zip():
                                 EXCLUDE_DIRS | {"screenshots"})
                 # Empty screenshots placeholder so the path exists
                 zf.writestr(f"{BUNDLE_FOLDER}/storylane-demo-classifier/screenshots/.keep", "")
-            # Mac setup script + readme at root of the bundle folder
-            # ZipInfo lets us set Unix permissions so the .command is executable
-            # when extracted — critical, otherwise double-click does nothing even
-            # after xattr removes quarantine.
-            setup_info = zipfile.ZipInfo(f"{BUNDLE_FOLDER}/▶ Start Here — Mac Setup.command")
-            setup_info.compress_type = zipfile.ZIP_DEFLATED
-            setup_info.external_attr = 0o755 << 16   # rwxr-xr-x
-            zf.writestr(setup_info, MAC_SETUP_SCRIPT)
+            # README at root of the bundle folder — setup script removed, not needed
             zf.writestr(f"{BUNDLE_FOLDER}/README.txt", SETUP_README)
             download_name = f"{BUNDLE_FOLDER}.zip"
         else:
