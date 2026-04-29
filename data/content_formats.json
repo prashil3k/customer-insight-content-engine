@@ -1,0 +1,324 @@
+{
+  "formats": [
+    {
+      "url": "https://www.weskao.com/blog/reverse-engineer-your-marketing-strategy",
+      "label": "unlabelled",
+      "inferred_angle": "thought_leadership",
+      "structural_template": {
+        "hook_type": "counter-intuitive",
+        "hook_description": "The article opens by acknowledging the abundance of available tactics, then immediately undermines the premise that more options is helpful. The key counter-intuitive claim \u2014 'everything works but not everything will work for you' \u2014 lands in the first 100 words and reframes the entire problem the reader thought they had.",
+        "structure_outline": [
+          "Intro: Problem acknowledgment + counter-intuitive reframe (100 words, prose only, no headers yet)",
+          "Core principle stated as paradox: 'no such thing as an objectively good or bad tactic' (~50 words, two bullet points follow to reinforce)",
+          "Pivot to methodology: 'Start by reverse engineering' H2 \u2014 introduces the mental model with a worked example (podcast), poses a question the reader must answer, and insists on a point of view rather than a vague goal (~100 words)",
+          "Framework enumeration: lettered options (A\u2013D) presented as forced-choice, with a joke to humanise the constraint (~60 words)",
+          "Deep-dive sections per scenario: each lettered path gets its own sub-block with three parts \u2014 strategy statement, tactics list (bullets), metrics list (bullets) \u2014 repeated four times (~80\u2013120 words per scenario block)",
+          "Closing synthesis: one short paragraph restating the principle with a forward-looking instruction (~50 words, no CTA link or hard sell)"
+        ],
+        "evidence_pattern": "Claims come first, always. Evidence and examples follow immediately as illustration, never as proof-before-claim. The worked example (podcast) is introduced early and sustained across the entire article as a single coherent thread rather than swapping examples per point. This lets the reader stay in one mental context while absorbing multiple layers of the framework.",
+        "prose_vs_lists": "Roughly 40% prose, 60% lists. Prose is used for framing, principle-setting, and transitions. Lists appear exclusively inside the scenario blocks for tactics and metrics \u2014 never for the conceptual arguments themselves. Lists are earned by specificity: they only appear once the reader knows exactly what context the list belongs to.",
+        "conclusion_pattern": "The conclusion is a two-sentence synthesis that echoes the opening reframe and adds a single actionable instruction ('Start with the end in mind, then reverse engineer'). There is no CTA, no link, no email capture prompt. The ending closes the logical loop rather than pushing the reader anywhere.",
+        "avg_section_length": 90,
+        "total_length_estimate": 850
+      },
+      "mindset": {
+        "reader_goal": "The reader wants to stop second-guessing marketing tactics and have a clear decision-making filter they can apply immediately to their own situation. They are suffering from option paralysis, not a lack of information.",
+        "writer_optimising_for": "Challenging \u2014 the writer wants to change how the reader thinks about a category of decisions, not just add to their list of tactics. The implicit goal is to be remembered as the person who gave the reader a mental model, not a checklist.",
+        "tone_character": "Direct, collegial, and slightly irreverent \u2014 the emoji and the 'you can't choose E, all of the above' joke signal that the writer is smart but not stiff. The tone is the voice of a trusted senior advisor who respects the reader's time enough to be blunt.",
+        "non_obvious_choices": [
+          "Sustaining one example (podcast) across the entire article rather than varying examples: this forces the reader to hold the framework and the concrete case simultaneously, making abstraction concrete without requiring mental context-switching.",
+          "Using a forced-choice lettered list (A/B/C/D) instead of a flowing prose explanation: the structure mimics the actual decision the reader must make, making the article itself a rehearsal of the thinking process.",
+          "Including a joke ('You can't choose E, all of the above \ud83d\ude02') at the moment of maximum constraint: this releases tension right when the reader might resist the framework, lowering defensiveness without sacrificing authority.",
+          "Placing the network-expansion tactic insight ('pick guests first, then topic \u2014 this is the OPPOSITE of what most people do') inside a lettered scenario block rather than as a headline claim: it rewards readers who engage with the full article and feels like a discovery rather than a pitch.",
+          "Using second person ('you') throughout: it removes any distance between advice and reader, making every principle feel personally addressed rather than generically stated."
+        ],
+        "what_this_writer_avoids": [
+          "Abstract strategy advice without a worked example to anchor it",
+          "Multiple different examples that dilute the thread of reasoning",
+          "Hard CTAs or self-promotional closings that break the advisor frame",
+          "Hedging language ('it depends,' 'it could be') without then committing to a specific answer",
+          "Listicles that enumerate tactics without a filtering principle to decide between them",
+          "Long introductions that delay the core reframe",
+          "Academic or passive tone \u2014 every sentence has a subject performing an action"
+        ],
+        "key_insight": "The article works because it doesn't just teach a framework \u2014 it enacts the framework by forcing the reader through the same forced-choice decision structure the article prescribes. Form and content are unified, which makes the advice feel proven rather than merely stated."
+      },
+      "use_when": "Use this format when the reader has too many options and the real problem is a missing decision-making filter, not missing information. Ideal for strategy, prioritisation, and positioning topics where the writer wants to shift mindset rather than add to a to-do list. Works best when a single relatable worked example can be carried across the whole piece, and when the writer has a genuine point of view strong enough to make a forced-choice argument.",
+      "added_at": "2026-04-23T10:45:44Z"
+    },
+    {
+      "url": "https://newsletter.mkt1.co/p/state-of-marketing-report-teams-part-1",
+      "label": "unlabelled",
+      "inferred_angle": "data_led",
+      "structural_template": {
+        "hook_type": "claim",
+        "hook_description": "The article opens with a bold methodological claim \u2014 'I analyzed 100 B2B marketing teams with Claude Code' \u2014 that simultaneously signals rigor, novelty, and personal effort. It immediately quantifies the output (19 graphs, 3-part series) to set expectations and justify the reader's time investment. The hook functions as a proof-of-work statement before any data is shown.",
+        "structure_outline": [
+          "Title + subtitle: Bold claim + specific deliverable count + series framing (1 line each)",
+          "Newsletter identity + paywall nudge: Brief context on what paid access unlocks (50\u201380 words)",
+          "Origin story / genesis paragraph: Personal anecdote explaining how the research started \u2014 an advisee question triggers the whole project (100\u2013150 words). Humanizes the methodology.",
+          "Meta-commentary on the tool (Claude Code): Addresses the 'so what' skeptic \u2014 'how is this different than Claude Chat?' \u2014 before the reader can ask it. Previews Part 3 as the answer (80\u2013100 words).",
+          "Sponsor block: 3 sponsors with clear relevance callouts, each ~40\u201360 words with a promo code",
+          "Series roadmap: Explicit 3-part breakdown with one-line descriptions per part, plus bonus paid-subscriber skills listed as named MCP tools (100\u2013120 words)",
+          "Methodology disclosure section: Bullet-pointed caveats before any data \u2014 sample bias, data sources, categorization limits. Builds credibility through transparency (150\u2013200 words).",
+          "GTM Motion breakdown: First data cut \u2014 defines the 3 GTM motion categories with brief rationale for why this lens matters more than company size alone (150\u2013200 words + diagram reference)",
+          "Marketing team size \u2014 absolute numbers: First graph section. Stat lead (median 13, mean 44), followed by explanation of why median vs. mean matters, with a parenthetical humor beat (150\u2013200 words)",
+          "Marketing team size \u2014 % of headcount: Second graph section. Introduces the 4% benchmark, compares to prior 5% expectation, adds forward-looking AI commentary (150\u2013200 words)",
+          "Marketing team size \u2014 sliced by stage/category/GTM: Third graph section. Most analytical section. Uses bullet-led sub-findings (self-serve vs. sales-led, marketers-selling-to-marketers). Each sub-finding follows claim \u2192 stat \u2192 brief interpretation (250\u2013350 words)",
+          "Sponsor mid-roll: Single sponsor (Granola) with perk stack reference (~40 words)",
+          "Marketing leadership titles: New H2, transitions from team size to leadership composition. Opens with a bolded finding before the graphs appear. Covers CMO vs. VP vs. Head Of distribution by funding stage (150\u2013200 words + graph references)"
+        ],
+        "evidence_pattern": "Claim-first, then stat, then interpretation. Every major finding is stated as a bold arrow-prefixed sentence (\u279c) before the supporting data appears. Evidence is inline \u2014 no footnotes \u2014 and sourced transparently via methodology caveats upfront rather than per-claim. Graphs are referenced but described verbally so the text stands alone even without visuals.",
+        "prose_vs_lists": "Roughly 65% prose, 35% structured elements (bullets, bold callouts, \u279c arrow highlights). Lists are used for methodology caveats, series roadmaps, and sub-findings within a data section. Prose carries analysis and interpretation. The \u279c symbol functions as a visual list marker for key stats without breaking into full bullet format \u2014 a hybrid that keeps analytical flow while aiding scannability.",
+        "conclusion_pattern": "The article ends mid-report (it's Part 1 of 3), so there is no traditional conclusion. Instead, each section ends with a forward-looking interpretation or open question ('Maybe I'll run this skill again in 6 months'). The implicit CTA throughout is subscribe-to-get-Parts-2-and-3, reinforced via the series roadmap near the top. The paid subscriber bonus (MCP skills) is the conversion mechanism.",
+        "avg_section_length": "150\u2013250 words per analytical section; shorter for sponsor blocks and navigation elements",
+        "total_length_estimate": "2,800\u20133,500 words (Part 1 only, excluding sponsor copy and navigation boilerplate)"
+      },
+      "mindset": {
+        "reader_goal": "The reader wants credible benchmarks they can use to justify or pressure-test their own marketing team decisions \u2014 headcount ratios, title structures, GTM-based comparisons \u2014 without having to do the research themselves.",
+        "writer_optimising_for": "Establishing authority through demonstrated effort and transparency, while making the reader feel like an insider getting access to proprietary signal. Secondary goal: convert free readers to paid via the promise of the underlying dataset and tools.",
+        "tone_character": "Conversational but data-authoritative. The writer uses first person freely, admits limitations openly, and drops light humor ('my team made me put this math lesson in') to stay human. But every personal aside is tethered to a data point or structural insight \u2014 informality earns trust, it doesn't replace rigor.",
+        "non_obvious_choices": [
+          "Methodology caveats appear BEFORE the data, not after: This is unusual. Most data articles bury limitations. Putting them upfront signals intellectual honesty and inoculates the reader against obvious objections \u2014 they can't dismiss the data as biased because the writer already said it is, partially.",
+          "The \u279c arrow prefix for key stats: Rather than bold or H3 headers, the arrow creates a custom visual language that feels like a personal annotation. It mimics how a smart colleague would highlight a takeaway in a Slack message \u2014 informal authority.",
+          "Origin story precedes all methodology: The 'advisee asked me a question' opening makes the research feel reactive and real, not manufactured for content. It answers 'why does this exist?' before 'what does this show?' \u2014 which is the right order for skeptical B2B readers.",
+          "Median vs. mean is explicitly explained: Most writers assume audience numeracy. Explaining this (with the parenthetical 'my team made me put this math lesson in') does two things: it doesn't condescend because it's framed as humor, and it signals the writer has thought carefully about which measure to use \u2014 which itself signals rigor.",
+          "Series structure announced upfront with part-by-part descriptions: This isn't standard newsletter practice. It functions as a mini table of contents that increases perceived value and reduces unsubscribe friction \u2014 readers know what's coming and feel committed to the arc.",
+          "Sponsors are editorially framed ('we only include sponsors we'd recommend personally'): The trust transfer is explicit. Each sponsor callout connects the product to a real use case relevant to the article's audience, rather than generic ad copy."
+        ],
+        "what_this_writer_avoids": [
+          "Vague benchmarks without a GTM or stage qualifier \u2014 every stat is sliced by a meaningful variable",
+          "Claiming statistical significance the data doesn't support \u2014 caveats are specific ('sample size of 8 is small')",
+          "Conclusions without interpretation \u2014 every stat is followed by a 'so what' sentence",
+          "Passive voice or institutional tone \u2014 the writer is always present as the analyst making judgment calls",
+          "Long unbroken prose sections \u2014 rhythm is broken every 2\u20133 paragraphs with a stat callout, graph reference, or structural element",
+          "Hiding the tool or method \u2014 Claude Code is named prominently and its role is explained, not obscured",
+          "Generic CTAs \u2014 the subscribe prompt is tied to specific named deliverables (Part 2 content, MCP skills), not just 'don't miss out'"
+        ],
+        "key_insight": "This article works because it combines the credibility of primary research with the accessibility of a practitioner's voice \u2014 the writer is simultaneously the analyst, the skeptic, and the peer. The data doesn't speak for itself; the writer's transparent reasoning about its limits is what makes it trustworthy."
+      },
+      "use_when": "Use this format when you have proprietary or original data (surveys, scrapes, audits, experiments) targeting a practitioner audience that is skeptical of generic benchmarks. Works best for topics where the reader needs defensible numbers to make internal decisions (headcount, tooling, strategy). Ideal when the research method itself is part of the story \u2014 especially if it's a novel tool or process the audience wants to learn from. Best deployed as a series to maximize subscription conversion from each installment.",
+      "added_at": "2026-04-23T10:47:30Z"
+    },
+    {
+      "url": "https://www.lennysnewsletter.com/p/not-all-ai-agents-are-created-equal",
+      "label": "opinion",
+      "inferred_angle": "thought_leadership",
+      "structural_template": {
+        "hook_type": "scenario",
+        "hook_description": "The article opens by naming a familiar, high-energy situation (everyone is building agents, your backlog is full) and immediately deflating it with a contrarian signal: you probably don't need to build one today. This creates productive tension \u2014 the reader feels seen but also slightly challenged, which earns the next section.",
+        "structure_outline": [
+          "Intro: Scene-setting with relatable scenario + contrarian qualifier (~100 words)",
+          "Credibility paragraph: Author's authority established through volume of experience (30+ conversations, 50+ hours, Fortune 500 clients) (~80 words)",
+          "Problem framing: The real failure mode named \u2014 prioritization collapse due to category confusion, with a memorable analogy ('apples, oranges, and jet engines') (~200 words)",
+          "The missing step: One-sentence pivot question that reframes the entire problem, followed by a bulleted list of what categorization actually determines (~150 words)",
+          "Promise section: Bullet list of exactly what the reader will have by end of article \u2014 scoped, specific, time-bounded outcomes (~120 words)",
+          "Framework intro: Three-category overview table/summary with one-line definitions and representative tools per category (~150 words)",
+          "Category 1 deep dive: Definition \u2192 tools \u2192 prioritization criteria \u2192 what fits here \u2192 worked example (flowchart decomposition) \u2192 real examples list \u2192 evaluation metrics (with real benchmark data) \u2192 when to move on (~600 words)",
+          "Category 2 deep dive (implied continuation): Same structure as Category 1 \u2014 definition, tools, prioritization, examples, metrics, limits",
+          "Category 3 deep dive (implied continuation): Same structure, with stronger warnings about when NOT to use",
+          "Conclusion/CTA: Practical triage summary + product/course promotion inline"
+        ],
+        "evidence_pattern": "Claims come first, evidence follows immediately. The pattern is: assertion \u2192 supporting rationale \u2192 concrete example \u2192 real data. Data is never dropped without context \u2014 it always appears inside a narrative arc (e.g., the SaaS company's 52% \u2192 78% \u2192 87% progression). Social proof (Fortune 500 names) appears early to license the framework before it's presented.",
+        "prose_vs_lists": "Roughly 60% prose, 40% lists. Prose carries argumentation and narrative; lists appear for: (1) enumerable criteria with equal weight, (2) tool names, (3) metric definitions, (4) example products. Lists are never used to make a nuanced argument \u2014 those stay in prose. Each list is preceded by a prose sentence that frames why the list exists.",
+        "conclusion_pattern": "The article does not have a traditional conclusion in the excerpt \u2014 it ends mid-framework, which is a deliberate subscription/engagement mechanic. The CTA is embedded early (insider subscription) and mid-article (course links), not held for the end. The implicit conclusion is structural: each category section ends with a 'when you've outgrown this' signal that propels the reader forward.",
+        "avg_section_length": 180,
+        "total_length_estimate": 2800
+      },
+      "mindset": {
+        "reader_goal": "The reader has a backlog of agent ideas and needs a defensible, fast way to prioritize them \u2014 they want to feel like they've gained a professional framework they can use in a meeting this week, not just read an interesting think-piece.",
+        "writer_optimising_for": "Practical authority \u2014 the writer wants the reader to adopt a specific mental model (the three-category framework) and feel that this model was obviously correct once seen. The secondary goal is credibility transfer: by the end, the reader trusts the author enough to consider their courses and tools.",
+        "tone_character": "Conversational but precise \u2014 uses second person ('your backlog', 'your team') constantly to maintain intimacy, but never sacrifices specificity for warmth. Sounds like a smart advisor in a one-on-one, not a lecturer. Confident without being arrogant \u2014 qualifies claims with 'in our experience' rather than stating them as universal law.",
+        "non_obvious_choices": [
+          "The contrarian opener ('you don't actually need to build an agent today') is unusual for a newsletter that sells AI courses \u2014 it builds trust precisely because it delays the sell, making the eventual product mentions feel earned rather than pushy.",
+          "Using 'apples, oranges, and jet engines' instead of just 'apples and oranges' \u2014 the third item (jet engines) signals the severity of the category error in a memorable, slightly funny way that prose alone couldn't achieve.",
+          "The specific progression data (52% \u2192 78% \u2192 87%) for the SaaS email agent is strategically chosen: it shows failure first, which is rare in framework articles, making the success feel credible rather than cherry-picked.",
+          "Credibility is front-loaded with numbers ('30 times', '50 hours', '5 to 10 initiatives') before the framework is introduced \u2014 this licenses the reader to accept the framework without demanding independent proof of its validity.",
+          "The 'promise section' (what you'll have by end of article) appears after the problem framing, not at the very top \u2014 this sequencing means the reader already feels the pain before they're told the cure, making the promise land harder.",
+          "Fortune 500 client names (Jack in the Box, Tripadvisor, Home Depot) are dropped casually in parentheses rather than in a dedicated social proof block \u2014 this mimics how a confident practitioner mentions credentials without performing them."
+        ],
+        "what_this_writer_avoids": [
+          "Abstract definitions without immediate examples \u2014 every concept is grounded within one paragraph",
+          "Hedging language on the framework itself \u2014 the writer commits to the three-category model without offering endless caveats",
+          "Long paragraphs without visual relief \u2014 prose blocks rarely exceed 4-5 sentences before a list or header breaks the page",
+          "Passive voice or impersonal framing \u2014 almost every sentence has an active subject ('you', 'teams', 'the agent')",
+          "Theoretical positioning without operational payoff \u2014 every section ends with something the reader can do or decide",
+          "Vague ROI claims \u2014 numbers are always specific (6 weeks, $18K/month, 3,000 emails/month, 2.5 FTE hours/day)",
+          "A single monolithic conclusion \u2014 the framework's internal momentum replaces a traditional wrap-up"
+        ],
+        "key_insight": "The article works because it reframes a prioritization problem as a categorization problem \u2014 giving readers a diagnostic tool before a decision tool, which is the correct order of operations and the thing most competing content skips."
+      },
+      "use_when": "Use this format when: (1) the reader has a real decision to make in the near term (not just learning for curiosity), (2) the topic involves a category of things that look similar on the surface but require fundamentally different approaches, (3) you have genuine practitioner experience (client examples, real metrics) that can replace academic citation, (4) the angle is 'here's why everyone is doing this wrong and here's the correct mental model.' Ideal for: product strategy, engineering decisions, growth prioritization, org design \u2014 any domain where practitioners are conflating different-complexity problems under one label.",
+      "added_at": "2026-04-27T04:49:10Z"
+    },
+    {
+      "url": "https://ahrefs.com/blog/saas-seo/",
+      "label": "product",
+      "inferred_angle": "how_to",
+      "structural_template": {
+        "hook_type": "claim",
+        "hook_description": "The article opens with a crisp, authoritative definition of SaaS SEO, then immediately justifies why it matters by naming the core strategic benefit (reducing CAC). Within the first 150 words, the writer also establishes personal credibility (5+ years, specific business sizes worked with) to pre-empt skepticism before the guide even begins.",
+        "structure_outline": [
+          "Intro block: Definition + core benefit claim + credibility signal from author experience (150 words)",
+          "Pre-framework digression H2: 'What's really different about SaaS SEO?' \u2014 positions the guide as non-generic by isolating 3 SaaS-specific advantages (product-led content, product integration, free tools as SEO assets), each in 2-3 sentences (200 words)",
+          "H2 numbered step 1: Identify organic competitors \u2014 explains concept, names the tool, gives specific instructions (plug domain, find 15-20 competitors), adds nuance caveat (150 words)",
+          "H2 numbered step 2: Competitor analysis \u2014 breaks into 3 sub-tasks (website sections, best pages, link bait), each with a real-world screenshot example, ends with a specific tactical note (250 words)",
+          "H2 numbered step 3: Keyword research \u2014 defines keyword categories with examples, introduces prioritization metrics (Traffic Potential, KD score), links to beginner guide for newcomers (200 words)",
+          "H2 numbered step 4: Product-led content \u2014 uses the article itself as the primary example, adds a second example (Asana), introduces 'business potential' scoring framework (200 words)",
+          "H2 numbered step 5: Free tools as SEO assets \u2014 uses Ahrefs' own free tools as proof, provides traffic data (1.2M/month), connects back to link bait concept introduced earlier, adds prioritization caveat about developer resources (200 words)",
+          "H2 numbered step 6: Data/insights as authority \u2014 (partially visible in excerpt, continues building the playbook)"
+        ],
+        "evidence_pattern": "Claim first, evidence immediately after. The writer states a principle, then validates it with a named real-world example or a specific metric pulled from Ahrefs tools. Evidence is always inline \u2014 never footnoted or deferred. Screenshots and data points are cited with source attribution ('Data via Ahrefs Batch Analysis') to maintain credibility without sounding academic.",
+        "prose_vs_lists": "Roughly 65% prose, 35% lists/structured elements. Prose carries the reasoning and context; bullet lists are used only when enumerating discrete parallel items (e.g., content categories, three SaaS differentiators). Lists never replace explanation \u2014 they compress it. Sub-headers within numbered steps act as a third formatting layer to break scanning friction.",
+        "conclusion_pattern": "Not visible in excerpt, but the pattern across the visible sections suggests the article ends with a synthesis or next-step CTA consistent with Ahrefs' blog style \u2014 typically a recap of the framework with a soft push toward trying Ahrefs tools or reading related content. No hard sell; the product has already been woven throughout.",
+        "avg_section_length": 180,
+        "total_length_estimate": 3500
+      },
+      "mindset": {
+        "reader_goal": "The reader wants a practical, step-by-step playbook for SaaS SEO they can actually execute \u2014 not theory. They're likely a SaaS marketer or founder who has read generic SEO content before and is looking for the parts that are specific to their business model.",
+        "writer_optimising_for": "Inform and validate simultaneously \u2014 the writer wants the reader to feel equipped AND to feel that Ahrefs is the natural tool for executing each step. Every section moves the reader forward while keeping the product visible without being pushy.",
+        "tone_character": "Direct and practitioner-first. The writer speaks from experience, uses 'you' throughout, avoids hedging language, and treats the reader as an intelligent peer who just needs the right framework \u2014 not hand-holding.",
+        "non_obvious_choices": [
+          "The writer inserts a 'What's really different about SaaS SEO?' section before the numbered steps \u2014 this works because it pre-qualifies the guide as non-generic and reframes the reader's expectations, making them more receptive to the SaaS-specific tactics that follow.",
+          "The article uses itself as a primary example of product-led content ('This whole guide is a great example\u2026') \u2014 this is meta-persuasion: it proves the concept works at the exact moment of explaining it, collapsing the gap between theory and demonstration.",
+          "Credibility is established with specifics ('$100M+ ARR businesses') rather than vague claims \u2014 this mirrors how the target reader thinks about success, making the author's experience feel directly applicable rather than abstractly impressive.",
+          "The 'business potential' score is introduced as a proprietary internal framework \u2014 this gives the reader a novel mental model they can't get elsewhere, increasing perceived value of the content and subtly reinforcing Ahrefs' thought leadership.",
+          "Traffic data for free tools (1.2M/month) is shared openly \u2014 transparency about Ahrefs' own results functions as both social proof and a case study, making the recommendation feel earned rather than self-serving.",
+          "Organic competitors are defined differently from business competitors early on \u2014 this reframes a concept the reader thinks they understand, creating an 'aha' moment that builds trust in the writer's depth of knowledge."
+        ],
+        "what_this_writer_avoids": [
+          "Vague motivational framing ('SEO is important for your business') without immediate specifics",
+          "Listing tactics without showing the tool workflow or real output",
+          "Separating the product mention from the educational content \u2014 the product is woven in, never bolted on",
+          "Overusing bullet lists to simulate thoroughness \u2014 bullets only appear when the content is genuinely list-shaped",
+          "Generic examples from outside the niche \u2014 every example is either from a named SaaS company or from Ahrefs itself",
+          "Hedging or academic qualifiers ('it may be possible that\u2026') \u2014 claims are stated directly and backed with evidence",
+          "A hard CTA or sales pitch \u2014 the product sells itself by being the instrument of every demonstration"
+        ],
+        "key_insight": "This article works because it collapses the distance between advice and proof \u2014 every recommendation is demonstrated using the writer's own product or a named SaaS company's real results, so the reader is learning the framework and seeing it validated simultaneously. The product is never marketed; it's used."
+      },
+      "use_when": "Use this format when writing practitioner-level how-to guides for a product-led SaaS company, where the product can be naturally embedded as the tool for executing each step. Best suited for topics where the reader has intermediate knowledge and is skeptical of generic advice \u2014 they need a framework with real evidence, not inspiration. Works especially well for competitive, high-intent SEO topics where demonstrating depth early is necessary to earn continued reading.",
+      "added_at": "2026-04-27T04:50:01Z"
+    },
+    {
+      "url": "https://ahrefs.com/blog/saas-content-marketing/",
+      "label": "product",
+      "inferred_angle": "how_to",
+      "structural_template": {
+        "hook_type": "counter-intuitive",
+        "hook_description": "The article opens by acknowledging that content marketing is popular and that famous companies have succeeded with it \u2014 then immediately subverts the expected 'here's the best strategy' promise. It explicitly refuses to prescribe a universal framework, instead positioning what follows as a case study from Ahrefs's own experience. This disarms skepticism and builds credibility before a single tactic is shared.",
+        "structure_outline": [
+          "Intro: Counter-intuitive reframe (~100 words) \u2014 names well-known SaaS content marketing successes, then argues there is no single best strategy, pivots to 'here's how we do it at Ahrefs'",
+          "H2: Why SaaS content marketing is different (~150 words) \u2014 4-item bulleted list explaining complexity, churn dynamics, multi-stakeholder buying, and multiple use cases; each bullet is a short labeled paragraph",
+          "H2: Must you do content marketing? (~150 words) \u2014 answers honestly with 'no', uses the hunting metaphor (nets vs. spears, elephants vs. rabbits) to help readers self-qualify before investing further",
+          "H2: How to do SaaS content marketing \u2014 the Ahrefs way (intro ~50 words) \u2014 names the methodology (product-led content), defines it briefly, transitions into numbered steps",
+          "Step 1: Know your product inside out (~200 words) \u2014 prose-led, personal admission of past failure, then specific Ahrefs practice (3-month customer support rotation + academy completion)",
+          "Step 2: Know who can benefit from your product (~100 words) \u2014 short prose + bullet list of audience segments, links to buyer persona resource",
+          "Step 3: Find topics with search traffic potential (~250 words) \u2014 tool-driven walkthrough with specific filter values (KD < 20, TP > 100), includes sub-section on free tools as traffic lever with specific keyword filter examples",
+          "Step 4: Business potential scoring (~100 words) \u2014 introduces proprietary scoring framework (0-3 scale) as a visual/table, explains how topic selection prevents the hard-sell feeling",
+          "Step 5: Create product-led content that ranks (~400 words) \u2014 3 sub-sections: A) match search intent (3 Cs framework: content type, format, angle), B) cover topic in full (Content Gap method walkthrough), C) weave in product naturally (brief, honest, self-referential)",
+          "Step 6: Promote the content (~200 words) \u2014 4 sub-sections: A) share with audience, B) build links (specific replication tactic with tool walkthrough), C) repurpose content (cross-format examples), D) run ads (brief, budget-gated)"
+        ],
+        "evidence_pattern": "Claim-first, evidence-second throughout. The writer states a principle, then immediately grounds it with a specific Ahrefs example, a tool screenshot walkthrough, or a named metric. Evidence is inline and concrete (e.g., specific filter numbers, named reports, real traffic figures) rather than cited externally or footnoted. Personal admissions ('I admit this was the case for me') serve as credibility evidence for the principles being taught.",
+        "prose_vs_lists": "Roughly 60% prose, 40% lists/structured elements. Prose is used for framing, principles, mindset, and transitions. Lists appear for enumerable items (audience segments, subtopics to cover, promotion tactics). Numbered steps handle the main framework. The ratio shifts toward lists inside technical sub-sections and toward prose in philosophical/strategic sections.",
+        "conclusion_pattern": "There is no formal conclusion section. The article ends after the last tactical step (ads), with a brief clarifying note and a linked further-reading resource. The implicit CTA is embedded throughout via natural tool references (Ahrefs features) and explicit links to related guides. There is no 'summary' or 'now go do this' closer \u2014 the article trusts the numbered structure to carry the reader through to action.",
+        "avg_section_length": 150,
+        "total_length_estimate": 2200
+      },
+      "mindset": {
+        "reader_goal": "The reader is a SaaS marketer or founder who has heard 'do content marketing' repeatedly but wants to understand what that actually looks like in practice \u2014 with enough specificity to start making decisions rather than just feeling informed.",
+        "writer_optimising_for": "Trust-building through credibility and specificity. The writer wants the reader to adopt Ahrefs's methodology (product-led content) AND to use Ahrefs's tools as the natural implementation layer \u2014 but achieves this by being honest, self-aware, and tactically useful rather than salesy.",
+        "tone_character": "Conversational but authoritative. The writer speaks in first person and admits personal failures, which lowers the reader's guard. Sentences are short and declarative. There is no hedging language around core claims \u2014 the writer states positions directly and lets the reader opt out gracefully (e.g., 'you don't have to do content marketing').",
+        "non_obvious_choices": [
+          "Opening with 'there is no best strategy' instead of promising one \u2014 this is counterintuitive for a how-to article but immediately differentiates it from generic content marketing guides and signals intellectual honesty, which is the foundation the entire article's credibility rests on.",
+          "Including a 'should you even do this?' section before the how-to \u2014 most guides skip this to avoid losing readers, but including it builds trust with readers who might not be the right fit, making those who stay feel more confident they're in the right place.",
+          "The business potential score as a framework insert \u2014 rather than explaining 'choose topics where your product fits', the writer externalizes this as a named scoring rubric (0-3), which makes an abstract judgment call feel systematic and replicable.",
+          "Self-referential proof ('you're reading it' when discussing how to weave in product naturally) \u2014 this is a rare move that collapses the gap between instruction and demonstration, making the tactic feel lived-in rather than theoretical.",
+          "Ending without a conclusion \u2014 the article stops when the content stops, trusting the numbered structure to provide closure. This respects the reader's time and avoids the generic 'in summary' padding that weakens most long-form posts."
+        ],
+        "what_this_writer_avoids": [
+          "Universal prescriptions or 'best practices' claims without qualifying who they apply to",
+          "Vague advice without a specific tool, filter value, metric, or process to make it actionable",
+          "Formal or corporate tone \u2014 no passive voice, no 'it is important to note that'",
+          "Hard product pitches \u2014 the product is woven in as the natural tool for each step, never foregrounded as the point",
+          "Padding: no recap sections, no 'in this article we will cover', no summary at the end",
+          "Overclaiming results \u2014 traffic numbers and tool capabilities are mentioned with hedging language ('estimated', 'potential') to stay credible"
+        ],
+        "key_insight": "The article works because it solves the meta-problem of content marketing guides \u2014 they're either too generic or too self-promotional \u2014 by committing to radical specificity about one company's real process, which simultaneously teaches the methodology and demonstrates it in action."
+      },
+      "use_when": "Use this format when writing how-to guides for a product-led brand where the product is genuinely the best tool for the job being taught. Works best for topics where the reader is competent but stuck on implementation (not a complete beginner, not an expert), when the goal is to build trust and pipeline simultaneously, and when the brand has real proprietary data, frameworks, or internal processes worth sharing. Ideal for SEO-targeted content where ranking requires depth, but conversion requires product integration that doesn't feel forced.",
+      "added_at": "2026-04-27T04:50:54Z"
+    },
+    {
+      "url": "text://1777369316",
+      "label": "Pasted Framework",
+      "source_type": "text",
+      "inferred_angle": "comparison",
+      "structural_template": {
+        "hook_type": "claim",
+        "hook_description": "Open with a specific, credible claim about the software's positioning or performance (e.g., ranking for a high-intent keyword). This immediately signals relevance to searchers and LLM systems looking for direct comparisons.",
+        "structure_outline": [
+          "Author bio + last updated date (builds trust for LLM recency signals)",
+          "H2: Quick summary / LLM-friendly intro (100-150 words, designed to be pulled into AI comparisons)",
+          "H2: [Software name] positioning section (early prominence with meaningful context, 150-200 words)",
+          "H2: Authority & social proof section (customer testimonials, case metrics, tailored to topic, 200-250 words)",
+          "H3: Info-dense comparison table (key features, pricing, use cases across 3-5 competitors, 250-400 words)",
+          "H2: Why people choose [software name] (customer research insights, 250-300 words)",
+          "H2: Competitor deep-dives (fair, balanced reviews showing where each competitor wins, 300-400 words per competitor)",
+          "H2: How [software name] works / product in action (social proof integrated, 200-250 words)",
+          "H2: Conclusion + demo CTA (fixed sidebar CTA, 100-150 words)"
+        ],
+        "evidence_pattern": "Lead with social proof and customer research early (top half of article). Use sales/CS call insights and customer testimonials to justify positioning. Include competitor wins to maintain credibility. Embed case metrics and outcomes throughout rather than isolating them. Leverage comparison data to show [software name] advantages without dismissing competitors.",
+        "prose_vs_lists": "Use comparison tables early to control narrative and make LLM extraction easy. Use prose for positioning and customer research sections to build authority. Use lists/bullets for feature breakdowns and competitor win conditions. Mix structured data (tables) with narrative (why people choose) to balance skimmability and depth.",
+        "conclusion_pattern": "Summarize positioning and recommend next step (demo/signup). Use a persistent sidebar CTA to capture readers at multiple decision points. End with a soft call-to-action that acknowledges reader choice while making conversion frictionless.",
+        "avg_section_length": "200-300 words per section (excluding tables)",
+        "total_length_estimate": "2,500-3,500 words"
+      },
+      "mindset": {
+        "reader_goal": "Quickly understand how [software] compares to alternatives and make a fast, confident buying decision. They want to see the product in action and validate that real customers succeed with it.",
+        "writer_optimising_for": "LLM visibility (being pulled into AI comparison queries), demo/signup conversion, and ranking for high-intent 'alternatives' keywords. Success = appearing in both Google SERPs and Claude/ChatGPT recommendation lists.",
+        "tone_character": "Confident but fair; authoritative without being promotional. Balanced\u2014willing to acknowledge competitor strengths while making a clear case for [software]. Helpful rather than salesy.",
+        "non_obvious_choices": [
+          "Positioning [software name] early and close to the top\u2014LLMs prioritize early mentions in extraction, so semantic proximity to 'alternatives' comparison language increases recommendation likelihood.",
+          "Including a dedicated 'where competitors win' section\u2014counterintuitive, but this builds credibility with both readers and AI systems; it signals honest comparison rather than marketing fluff, increasing trust signals.",
+          "Comparison table before narrative sections\u2014tables are preferentially parsed by LLMs for structured data, making this the best place to control how your product is compared in AI-generated summaries.",
+          "Embedding sales/CS insights rather than third-party reviews\u2014first-party customer research from internal teams is fresher and more defensible than external reviews, and signals real product knowledge.",
+          "Fixed sidebar CTA instead of single bottom CTA\u2014multiple conversion touchpoints reduce friction for readers at different decision stages; LLMs also tend to parse sidebar elements as persistent value props."
+        ],
+        "what_this_writer_avoids": [
+          "Burying the software name deep in the article\u2014early, prominent mentions with context are critical for LLM extraction.",
+          "One-sided hype or competitor bashing\u2014articles that trash competitors rank lower in both AI and human trust signals; fairness increases authority.",
+          "Generic competitor lists\u2014specificity (naming real alternatives, not categories) improves LLM matching for direct comparison queries.",
+          "Weak or external-only social proof\u2014no customer quotes or outcomes that can't be verified internally.",
+          "Unclear CTAs or hidden signup/demo links\u2014friction kills conversion; make it obvious where to go next.",
+          "Comparison tables at the end\u2014late placement means LLMs may not extract them; tables should be placed early where they control narrative.",
+          "Ignoring SEO intent\u2014this framework is built for 'alternatives' and 'vs.' keywords; generic 'about' or 'features' articles don't fit this structure."
+        ],
+        "key_insight": "Control the narrative early (positioning, proof, comparison tables) so LLMs and readers both see your software as the obvious choice, then remove friction with multiple CTAs and fair competitor reviews to build trust and drive conversions. The article succeeds when it appears in both Google SERPs and AI recommendation queries within weeks."
+      },
+      "use_when": {
+        "article_types": [
+          "'[Software] vs. [Competitor]' comparisons",
+          "'[Software] alternatives' listicles",
+          "'Best [category] tools' roundups with clear winner positioning",
+          "Competitor takedown articles (positioned as fair reviews)",
+          "Category overview articles (e.g., 'Best ABM tools')"
+        ],
+        "goals": [
+          "Rank for high-intent 'alternatives' keywords (demo-driving, money keywords)",
+          "Appear in LLM/AI recommendation queries (ChatGPT, Claude, Perplexity, etc.)",
+          "Drive qualified demo or signup traffic",
+          "Establish category authority while fairly comparing competitors",
+          "Build trust through balanced, customer-research-backed positioning"
+        ],
+        "not_for": [
+          "Thought leadership or opinion-driven content (too prescriptive for that angle)",
+          "How-to or tutorial content (different structure needed)",
+          "Pure educational content without conversion intent",
+          "Articles where your software isn't a clear contender (positioning becomes forced)"
+        ]
+      },
+      "added_at": "2026-04-28T09:42:19Z"
+    }
+  ]
+}

@@ -1,0 +1,672 @@
+{
+  "dump_1776852078_4326a9": {
+    "source_name": "Thought dump by sales_team",
+    "source_type": "thought_dump",
+    "processed_at": "2026-04-22T10:01:46Z"
+  },
+  "grain_602f6858-f3f3-4659-b921-360298892c14": {
+    "source_name": "Storylane Demo <> Rafflebox",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:45:34Z"
+  },
+  "grain_ac880d42-2505-48a6-a2a5-571b09933aeb": {
+    "source_name": "Storylane Demo <> Optima",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:46:21Z"
+  },
+  "grain_cd6d07da-a274-4a33-bef3-22433660727f": {
+    "source_name": "Helen Meaney and Yashwanth Chowdary",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:47:10Z"
+  },
+  "grain_e4c1e820-be53-434a-9dca-17d464255664": {
+    "source_name": "Storylane Working Session <> QGenda",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:48:38Z"
+  },
+  "grain_ea5f753e-8982-44db-98e9-6603e45d0a2b": {
+    "source_name": "Storylane Demo <> Skroot",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:49:13Z"
+  },
+  "grain_e280369a-df48-4bdb-8e2d-130130e413b9": {
+    "source_name": "Storylane Demo <> Novata",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:50:00Z"
+  },
+  "grain_8a9a14a3-fcc0-456f-99d4-aa0c786a0bb3": {
+    "source_name": "Kristin Hallgren and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:50:39Z"
+  },
+  "grain_631fdedb-b118-41ed-b631-98bf8b226d39": {
+    "source_name": "Storylane Demo <> KEEYNS",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:51:13Z"
+  },
+  "grain_ff0abb6a-0d58-40e6-9521-a4cf338c634c": {
+    "source_name": "Storylane Demo <> Fotoware",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:52:44Z"
+  },
+  "grain_0fff1805-cb9d-4365-b195-b399da6e2868": {
+    "source_name": "Anup Vora and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:53:29Z"
+  },
+  "grain_87dd6075-c6ba-4f2a-b659-b1923d841d8a": {
+    "source_name": "Storylane Working Session <> Closinglock",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:54:07Z"
+  },
+  "grain_64ebd3c7-cc07-4612-ba0d-3a7ea8b29d4c": {
+    "source_name": "Ethos - Sales Training",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:54:52Z"
+  },
+  "grain_38945d0b-1894-4ae1-a536-fa41dd48a48d": {
+    "source_name": "James Kirkman and Yashwanth Chowdary",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:55:28Z"
+  },
+  "grain_52a01958-f10e-4393-ac9a-94613de489c4": {
+    "source_name": "Storylane Demo <> 1Now",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:56:12Z"
+  },
+  "grain_0357e6a5-d8a4-450f-85e6-810bc58e51db": {
+    "source_name": "Desktop app - api sync",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:58:22Z"
+  },
+  "grain_d4420d30-db52-494e-a306-05fb326e770d": {
+    "source_name": "Storylane Demo <> moveXM",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T04:59:54Z"
+  },
+  "grain_d9468551-2a5e-48e4-b3d1-15993f39bca9": {
+    "source_name": "Storylane Kick-off <> DVI Asia",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:00:35Z"
+  },
+  "grain_9700ea8f-ff7c-47de-9212-60b79973df9c": {
+    "source_name": "Storylane Working Session <> hivr.ai",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:02:02Z"
+  },
+  "grain_74f6c514-d029-43f1-bda6-69251b4dfe1b": {
+    "source_name": "Storylane Demo <> Chamelio",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:03:30Z"
+  },
+  "grain_08b38eca-2f6c-4e42-8e0d-c807463764d2": {
+    "source_name": "Hannah and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:04:17Z"
+  },
+  "grain_436174c1-7b73-4ef6-a74b-e2ffd30cd7fa": {
+    "source_name": "Nick/Jeff",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:04:54Z"
+  },
+  "grain_7f186556-944a-41d3-a80f-9dd450567472": {
+    "source_name": "Storylane Sync <> Eve",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:05:33Z"
+  },
+  "grain_ad2f6006-b892-47cf-8c2e-2ab7402edbde": {
+    "source_name": "Storylane Working Session <> Ping Identity",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:07:09Z"
+  },
+  "grain_9cb989cf-e455-4b50-9b1f-dd3fbc86a74d": {
+    "source_name": "Storylane <> MIND",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:07:55Z"
+  },
+  "grain_3f4bbfce-9d66-4a4b-b890-47861a8b6d10": {
+    "source_name": "Caroline Enh\u00f6rning and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:10:11Z"
+  },
+  "grain_ef9b02d8-0546-47ed-8cd3-40806f750273": {
+    "source_name": "Frontend Weekly Review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:10:43Z"
+  },
+  "grain_ab845914-e5a9-43e0-8b35-3144e89bf9b0": {
+    "source_name": "Michael Smith and Eliza Borysiuk",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:15:26Z"
+  },
+  "grain_116be307-82ee-45d4-812b-9fa1b93fb34b": {
+    "source_name": "Bruce McKay and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:16:50Z"
+  },
+  "grain_f8ba8ba4-e352-407a-94d0-b37a55de6959": {
+    "source_name": "Storylane Demo <> Conspectus",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:17:35Z"
+  },
+  "grain_c798d3c5-4c9e-4495-8014-5e7b16c622c8": {
+    "source_name": "Storylane Trial Kickoff <> Canva",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:18:19Z"
+  },
+  "grain_51654c5a-f759-4bc2-9f8d-e07605b1a81f": {
+    "source_name": "Follow-up call Storylane <> Gushwork",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:19:02Z"
+  },
+  "grain_d2a0a526-3a96-459e-9a15-ca4c569689a5": {
+    "source_name": "Storylane Demo <> Sentra Inc",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:21:22Z"
+  },
+  "grain_d09ba637-a856-49af-b7b8-9fb43c2ecd0a": {
+    "source_name": "Hannah and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:24:35Z"
+  },
+  "grain_ce837d28-0b3f-499b-9d5e-a4ffca4aae73": {
+    "source_name": "Demo Review w/Storylane",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:26:06Z"
+  },
+  "grain_fdce8547-d9be-4e97-8e91-39fd9dcd088e": {
+    "source_name": "Natasha Khairullah and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:27:33Z"
+  },
+  "grain_dbc127c4-8e29-411c-bf31-d3137c49914b": {
+    "source_name": "Storylane Demo <> VONQ",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T05:28:10Z"
+  },
+  "grain_ec2db2e2-cc39-42c7-aacd-16de1f7953fa": {
+    "source_name": "Storylane Demo <> AQUILA Engineer",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:39:55Z"
+  },
+  "grain_6e8fd4a8-e86c-49c6-b925-0f1c669f2d25": {
+    "source_name": "Desktop app - api sync",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:40:34Z"
+  },
+  "grain_3cf4df74-360e-4fd7-a3e0-068877108d24": {
+    "source_name": "Storylane RepX Sales agent <> Plauti",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:41:21Z"
+  },
+  "grain_39a8e805-fdf9-412e-8766-13067d8db259": {
+    "source_name": "Seda Tosun Koca and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:42:09Z"
+  },
+  "grain_456887ae-7f1b-4436-bdc6-5807f39d58ea": {
+    "source_name": "Storylane Trial Sync <> Wolters Kluwer",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:42:56Z"
+  },
+  "grain_4efcadbf-0279-4cd0-b9a9-c820e50017c6": {
+    "source_name": "Storylane Demo <> Olivia",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:45:34Z"
+  },
+  "grain_14bfbd7f-069e-4bd2-97df-6ed0217d059f": {
+    "source_name": "Karen He and Yashwanth Chowdary",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:46:19Z"
+  },
+  "grain_d3bff93b-3434-423f-b932-2e85ed1ed53b": {
+    "source_name": "Storylane Demo <> Kyan Health",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:47:53Z"
+  },
+  "grain_17a83472-b01b-4db6-aa7f-66bfe41da24d": {
+    "source_name": "Storylane Demos <> Hivr.ai",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:49:29Z"
+  },
+  "grain_e1dbe2fb-35fa-4cfa-83ce-9b1002c2e5d7": {
+    "source_name": "Kodelabs<>Storylane Demo Check In",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:50:06Z"
+  },
+  "grain_a51a4ab4-64d0-4514-a379-3bfe51e376c3": {
+    "source_name": "Storylane <> Assessio : Final review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:50:45Z"
+  },
+  "grain_b8807145-68cb-403c-aad6-936115285430": {
+    "source_name": "Storylane Demo <> ScalePoynt",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:51:30Z"
+  },
+  "grain_4a3c2b27-16f7-470a-94bb-30237b42eefe": {
+    "source_name": "Storylane Demo <> Ez Shop",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:52:18Z"
+  },
+  "grain_4eb7c169-831b-498c-b305-84387333d379": {
+    "source_name": "Storylane RepX <> Superops SE",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:53:01Z"
+  },
+  "grain_9ab52741-680b-4c54-9b50-98be8fa7c3c9": {
+    "source_name": "Frontend Weekly Review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:53:11Z"
+  },
+  "grain_2ee00175-626a-4b17-b106-d9d7f98b53bc": {
+    "source_name": "Storylane Working Session <> Asset Guru",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:53:54Z"
+  },
+  "grain_4be3cdaa-2da0-41ff-8bfd-a752fb1b361b": {
+    "source_name": "Storylane Demo <> Stack Overflow",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:54:47Z"
+  },
+  "grain_939ecbc7-3f9f-4902-8066-0d671639ebc0": {
+    "source_name": "Shayna Rose and Yashwanth Chowdary",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:55:33Z"
+  },
+  "grain_f1e4b04a-31a1-42b0-9345-861d1de793b1": {
+    "source_name": "Storylane Demo <> Pactum",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:56:18Z"
+  },
+  "grain_d5b66ba4-ef97-47e5-9983-6b97008a7790": {
+    "source_name": "Hannah and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:56:52Z"
+  },
+  "grain_faa2ac02-48cb-4d5c-a15d-c5b97b620b2e": {
+    "source_name": "Storylane <> FeverUp : Final review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:58:24Z"
+  },
+  "grain_18c81ef8-969b-4ac2-b254-3f2bd960ce66": {
+    "source_name": "Storylane <> GEP : Trial kickoff",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T06:59:51Z"
+  },
+  "grain_82d6d664-793d-4bd3-95db-c1363f44f87c": {
+    "source_name": "Storylane <> Corpuls : Trial kickoff",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:02:04Z"
+  },
+  "grain_fd6f437f-0cb5-40de-b3cc-1f3b99b71df2": {
+    "source_name": "Dineshkumar Rajamani and Nalin Senthamil",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:02:43Z"
+  },
+  "grain_49988047-3c54-4127-aeb5-34f04f39abca": {
+    "source_name": "Eliza/Magesh Sync on Storylane",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:03:22Z"
+  },
+  "grain_a2669176-2543-451d-8ea2-9a0d4b9c5c06": {
+    "source_name": "Storylane Demo <> Mental Health Connecticut",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:04:57Z"
+  },
+  "grain_562cd1dd-ef2b-41e1-af4f-2294f0786de9": {
+    "source_name": "Storylane Demos <> Uplico",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:05:41Z"
+  },
+  "grain_8aee33b6-8270-4e51-80ea-74987d9da622": {
+    "source_name": "Storylane Demo <> Perfios",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:06:22Z"
+  },
+  "grain_e5d7d15c-b67b-401b-9d0f-2094ed39442e": {
+    "source_name": "Storylane Working Session <> CCN Health",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:07:04Z"
+  },
+  "grain_4b8b6150-1ab3-46de-a769-ab42eaa16524": {
+    "source_name": "Storylane Working Session <> StarRez, Inc.",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:07:45Z"
+  },
+  "grain_c132cddb-0538-4d86-bdf0-beadb5db704c": {
+    "source_name": "Christine Minnium and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:16:17Z"
+  },
+  "grain_9b0eb756-e9a9-4595-947a-1ef8f7ccc0f4": {
+    "source_name": "Claude Implement Review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:16:48Z"
+  },
+  "grain_e1e61ee1-cdad-4920-9cbe-b0683538b154": {
+    "source_name": "Storylane Demo <> Asset.guru",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:17:35Z"
+  },
+  "grain_c2bff4a3-fa1a-4909-a0f9-664ea7208e20": {
+    "source_name": "Storylane Demo <> Spin.ai",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:18:22Z"
+  },
+  "grain_e6cc2b14-6dab-4e85-bee7-450e214e0983": {
+    "source_name": "Hannah and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:19:09Z"
+  },
+  "grain_ffa4da58-539b-4c7e-bb1d-83b544522872": {
+    "source_name": "Storylane & osapiens - Demo Review & Editing",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:19:50Z"
+  },
+  "grain_67296d9f-622c-4511-b4f5-ceaaebc6ecd4": {
+    "source_name": "Storylane Demo <> Anpvet",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:20:25Z"
+  },
+  "grain_baabae27-4f04-4e75-b31c-41fd9da16240": {
+    "source_name": "Desktop app - api sync",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:21:03Z"
+  },
+  "grain_43f53a59-d488-43dd-92cb-d2bb310b8dd9": {
+    "source_name": "Nikki Readman and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:21:52Z"
+  },
+  "grain_121a757e-6b20-4abd-a7ea-f60f04f027a0": {
+    "source_name": "pre-release QA Syncup",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:22:37Z"
+  },
+  "grain_91d82243-58e0-4765-a22e-a6d1603b9ac1": {
+    "source_name": "Danielle Brouwer-Kemp and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:24:09Z"
+  },
+  "grain_e5e02c7d-49b1-41f1-b3a0-20256a59059a": {
+    "source_name": "Storylane Demo <> Nitra",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:24:52Z"
+  },
+  "grain_b5baf63f-fe69-4237-a09f-61bde2a29c92": {
+    "source_name": "Storylane Demo <> Teledyne",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:25:37Z"
+  },
+  "grain_c5533a23-4a23-4b5b-90ba-2d2317de3ad0": {
+    "source_name": "Storylane Demo <> Bectran",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:26:19Z"
+  },
+  "grain_2332577a-6f53-4ae1-8419-ecc8ad5b0be0": {
+    "source_name": "Storylane Trial Sync <> Eve Legal",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:27:53Z"
+  },
+  "grain_05323fb2-e623-4492-971d-8d08252599e1": {
+    "source_name": "Storylane Demo <> GEP Worldwide",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:28:41Z"
+  },
+  "grain_bf0240ca-faae-4ecd-9cfa-b709e9a9b556": {
+    "source_name": "Ariana Ablan and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:30:24Z"
+  },
+  "grain_0bbbbe92-7ce6-4bb2-9b60-a9102b4b078e": {
+    "source_name": "Bhaskar Ravat and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:31:58Z"
+  },
+  "grain_7437b968-30a8-4e16-af21-ae7ef99aff4d": {
+    "source_name": "Storylane <> Assessio : Trial kickoff",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:33:29Z"
+  },
+  "grain_463c638c-da83-4205-a5cb-c9d871db1a95": {
+    "source_name": "Frontend Weekly Review",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:33:49Z"
+  },
+  "grain_d56c52e4-2557-48db-91e8-7c407bb1a502": {
+    "source_name": "Review Session <> Global eTraining",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:35:18Z"
+  },
+  "grain_26c5f952-6877-4b4d-80a3-a27da536451d": {
+    "source_name": "Storylane Demo <> Rightworks",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:36:06Z"
+  },
+  "grain_3d38cb25-6e6a-465a-8c88-b4d3e7fcf668": {
+    "source_name": "Natasha Khairullah and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:39:22Z"
+  },
+  "grain_181e346b-1b70-4ec4-8624-578f3a9b60e6": {
+    "source_name": "Rudy Portillo and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:40:09Z"
+  },
+  "grain_e7e9b4ce-5c45-4e9f-b3b5-4ba258a24e4f": {
+    "source_name": "Storylane Demo <> Collisionrepairinnovations",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:40:50Z"
+  },
+  "grain_71621fa1-64b0-4575-93a8-2e3110325f6a": {
+    "source_name": "RAMYA  and Mark de Jong",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:41:23Z"
+  },
+  "grain_d4c63a79-3ba1-4afa-8b52-bd424ebd8407": {
+    "source_name": "Storylane Demo <> Effica",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:42:09Z"
+  },
+  "grain_c5c9c175-0284-4dfb-8368-26d22862ac3f": {
+    "source_name": "Arturo Romero M\u00e1rquez  and Nalin Senthamil",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:44:22Z"
+  },
+  "grain_ecdaf0c2-e5cd-4803-a6bb-bba036a045e9": {
+    "source_name": "Storylane Working Session <> Wolters Kluwer",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:45:03Z"
+  },
+  "grain_6be98d18-f912-48fb-aac8-f5aebe310ddc": {
+    "source_name": "Storylane Demo <> Locus.Sh",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:45:48Z"
+  },
+  "grain_513d4585-e6a8-4376-9ac0-ba232211ee06": {
+    "source_name": "Storylane Demos <> ContractSafe",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:46:34Z"
+  },
+  "grain_abe7e470-11ad-4d5c-a908-9b607aa158f3": {
+    "source_name": "Arleigh Banner and Nalin Senthamil",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:47:08Z"
+  },
+  "grain_4848116a-8270-4430-a9ad-a873bd402836": {
+    "source_name": "Conga <> Storylane Presenter Training",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:47:59Z"
+  },
+  "grain_8f23d5a6-8bcf-456a-8bac-df6137c41c5e": {
+    "source_name": "Storylane Working Session <> Sakon",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:51:10Z"
+  },
+  "grain_0c848ede-2ce5-458c-b4dd-a1c4a4cf0591": {
+    "source_name": "Storylane Sync <> HiveWatch",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:52:58Z"
+  },
+  "grain_0219e8ea-55f2-453f-965a-65fd10891161": {
+    "source_name": "SUSE - Storylane - \"Sandbox\" Demos",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:53:49Z"
+  },
+  "grain_27b8c2bf-02a4-4cbf-8e6b-160915b6db82": {
+    "source_name": "Storylane Demos <> Keep The Fees",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:54:29Z"
+  },
+  "grain_d0a77b34-8d10-433d-a460-bcc731f4b8f4": {
+    "source_name": "Storylane Working Session <> Redgate",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:55:13Z"
+  },
+  "grain_da6a475c-a687-4f2c-b87a-0b0c72eb4558": {
+    "source_name": "Storylane Demo <> Citiustech",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:56:03Z"
+  },
+  "grain_709749fd-ea6c-4126-b59e-6e8d6fda35d9": {
+    "source_name": "Storylane Demo <> Survey",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T07:57:42Z"
+  },
+  "grain_3baa568c-9e07-446f-8c32-41db1504d950": {
+    "source_name": "Opsapiens - HubSpot Integration",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:00:06Z"
+  },
+  "grain_9044f951-9ae5-4a53-afe0-527e90d21173": {
+    "source_name": "pre-release QA Syncup",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:00:46Z"
+  },
+  "grain_3e006f86-7305-4506-8195-1807c56f00d2": {
+    "source_name": "Storylane <> Magna5 : Trial kickoff",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:01:23Z"
+  },
+  "grain_61349a36-7f9e-4f49-aaea-ee222924408a": {
+    "source_name": "Storylane Demos <> Teamleader",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:01:59Z"
+  },
+  "grain_a23311bc-83b2-4f16-b6f6-0dfab6c87f43": {
+    "source_name": "Storylane Demos <> Timewax",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:02:46Z"
+  },
+  "grain_844c438c-602f-46ed-97d1-32b4de518c1a": {
+    "source_name": "Storylane Demo <> Pricecal",
+    "source_type": "grain",
+    "processed_at": "2026-04-27T08:04:08Z"
+  },
+  "grain_8dbf455f-f462-4cb9-b4ab-d5edfa4daf68": {
+    "source_name": "Roc and Supriya Bavani",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:45:11Z"
+  },
+  "grain_83f588a6-139c-40fc-a612-ac7eb0b4e300": {
+    "source_name": "Review Session <> Global eTraining",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:45:55Z"
+  },
+  "grain_a9d1c147-7281-43dc-96a3-b5456cac2f80": {
+    "source_name": "Storylane Demo <> Immutable",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:48:14Z"
+  },
+  "grain_8f131764-e147-4c4f-9ac1-a63d7926a85d": {
+    "source_name": "Producer Training Prep call",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:50:14Z"
+  },
+  "grain_ff58ecc9-3b67-43f6-b48b-3966da793574": {
+    "source_name": "Storylane Demo <> Splio",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:50:58Z"
+  },
+  "grain_a2ff4850-f984-4e0e-8e60-8597bb902490": {
+    "source_name": "Victoria Niklaus and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:51:38Z"
+  },
+  "grain_44e2da5c-8828-476c-b825-6650bc09e9d3": {
+    "source_name": "Paul Ard and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:52:31Z"
+  },
+  "grain_e52a7412-0670-4041-a7b5-ffdb7964d359": {
+    "source_name": "Alex Leong and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:56:53Z"
+  },
+  "grain_274a08c1-702b-40a7-970a-aea6bc664ce0": {
+    "source_name": "Storylane <> Sophos",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:57:39Z"
+  },
+  "grain_37ae1cb7-c97e-45ab-b43c-859de545ca7f": {
+    "source_name": "Manj Devgon and Ramya Arul",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T04:59:29Z"
+  },
+  "grain_2da7a788-f1fa-43fb-95b0-0b8bd87ad6c1": {
+    "source_name": "Storylane Working Session <> hivr.ai",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:00:11Z"
+  },
+  "grain_a85c34d2-1802-41be-a82d-a7144beb9479": {
+    "source_name": "Storylane Demo <> QGenda",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:01:56Z"
+  },
+  "grain_ceb89a71-56a7-46bb-a151-385657bf1f56": {
+    "source_name": "Storylane Demo <> Closinglock",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:03:15Z"
+  },
+  "grain_3c754ee1-df71-4ef7-95bd-e66ae0b535df": {
+    "source_name": "Storylane <> Scalepoynt : Trial review",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:05:02Z"
+  },
+  "grain_6a2a29ed-3a95-4d2e-8c0d-f82a6db662e5": {
+    "source_name": "Storylane+Continia Check In and feature updates",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:08:23Z"
+  },
+  "grain_585b7567-0f91-42f3-84c2-71553b2834fc": {
+    "source_name": "Storylane <> SiteImprove : Trial kickoff",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:11:29Z"
+  },
+  "grain_5c134dca-1811-492f-bff4-fe49b9930d79": {
+    "source_name": "Storylane Demo <> Memority",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:19:30Z"
+  },
+  "grain_5c18e150-1ee1-45c3-9c59-babdeffa6886": {
+    "source_name": "Storylane Trial Recap <> Sakon",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:22:44Z"
+  },
+  "grain_c7700c17-ae6f-4d36-a1cb-49efe18555d2": {
+    "source_name": "Alex Tang and Efma Rosario",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:23:33Z"
+  },
+  "grain_b34d5627-d69a-4e96-8e70-8fc52c117e49": {
+    "source_name": "Storylane <> Trustmi",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:25:25Z"
+  },
+  "grain_c1bb1ee2-cc6b-483e-9eac-e9f85fdc9001": {
+    "source_name": "Storylane Demo <> VideaHealth",
+    "source_type": "grain",
+    "processed_at": "2026-04-29T05:27:48Z"
+  }
+}

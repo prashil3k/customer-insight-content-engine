@@ -1,0 +1,38 @@
+{
+  "scheduler": {
+    "enabled": true,
+    "insight_scan_hours": 6,
+    "topic_gen_hours": 24
+  },
+  "auto_apply": {
+    "qc": false,
+    "seo": false
+  },
+  "auto_advance": false,
+  "auto_validate": true,
+  "topic_gen_count": 5,
+  "qc_rubric": "",
+  "seo_rubric": "",
+  "keyword_settings": {
+    "country": "us",
+    "max_kd": 70,
+    "min_volume": 0,
+    "skip_ahrefs": false
+  },
+  "api_keys": {
+    "anthropic": "",
+    "grain": "",
+    "ahrefs": "",
+    "sybill": ""
+  },
+  "models": {
+    "haiku": "claude-haiku-4-5-20251001",
+    "sonnet": "claude-sonnet-4-6"
+  },
+  "api_keys_set": {
+    "ahrefs": true,
+    "anthropic": true,
+    "grain": true,
+    "sybill": true
+  }
+}

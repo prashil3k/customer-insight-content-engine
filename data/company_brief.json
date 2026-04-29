@@ -1,0 +1,69 @@
+{
+  "what_we_do": "Storylane lets GTM teams build and share interactive product demos and sandbox environments without code to convert prospects faster.",
+  "icp": "Primary buyers are product marketers, demand gen managers, and sales enablement leaders at B2B SaaS companies scaling their go-to-market motion. They're triggered by long sales cycles, low trial conversion rates, and the inability to show product value early without engineering resources. Company stage is typically Series A through enterprise, with dedicated GTM teams looking to personalize outbound and inbound demo experiences at scale.",
+  "capabilities": [
+    "No-code interactive demo and product tour creation via browser extension or desktop app",
+    "AI-assisted content editing including dynamic token insertion, voiceovers, and on-screen guide generation",
+    "Personalized Buyer Hubs (deal rooms) for late-stage sales acceleration",
+    "AI demo agent (RepX) for prospect qualification and autonomous sales conversations",
+    "CRM, Gmail, and MAP integrations for demo sharing and personalization at scale",
+    "Engagement analytics with high-intent account identification and pipeline influence tracking",
+    "Sandbox environment creation for hands-on product exploration",
+    "Demo capture from live product screens with click-based guide generation"
+  ],
+  "differentiators": [
+    "Fastest time-to-demo \u2014 described as 'shocking how fast' versus competitors",
+    "Highest reliability cited explicitly over named competitors in head-to-head evaluations",
+    "AI-native editing and demo agent capabilities built into core workflow, not bolted on",
+    "No engineering dependency \u2014 single marketer can build and edit without cross-functional support",
+    "Buyer Hub (deal room) feature combines demo delivery with late-stage deal acceleration in one surface",
+    "Intuitive UI consistently rated more user-friendly than alternatives in competitive evaluations"
+  ],
+  "use_cases": [
+    "Replacing or supplementing free trials with guided interactive demos",
+    "Embedding product tours on website to convert anonymous visitors into pipeline",
+    "Personalizing outbound sales demos at scale via CRM integration",
+    "Creating deal rooms (Buyer Hubs) to accelerate late-stage opportunities",
+    "Qualifying inbound prospects via AI demo agents before human sales handoff",
+    "Enabling self-serve product education to shorten sales cycle length",
+    "Influencing enterprise deals by giving buyers at large accounts hands-on product access",
+    "Generating inbound pipeline from marketing-led product tours",
+    "Training and enabling sales reps with repeatable, on-brand demo flows",
+    "Upsell and expansion plays using interactive demos post-close"
+  ],
+  "competitors": [
+    "Navattic",
+    "Walnut",
+    "Reprise",
+    "Demostack",
+    "Tourial"
+  ],
+  "pricing_tiers": "Pricing model is not explicitly detailed in the source content. No tier names, price points, or structure are disclosed publicly on the homepage.",
+  "tone_of_voice": "Storylane communicates with confident, results-oriented language anchored in specific customer outcomes rather than feature descriptions. The tone is professional but approachable \u2014 peer-level rather than enterprise-formal, letting customer voice carry authority through direct quotes with real metrics. They avoid vague benefit language and lean heavily on social proof and concrete numbers to do the persuasive work.",
+  "content_north_star": "Good content for Storylane demonstrates measurable pipeline and revenue impact from interactive demos, positioning the category as essential GTM infrastructure rather than a nice-to-have tool. Authority looks like specific ROI stories, enterprise logo proof, and practitioner-level guidance on demo strategy that only an expert in sales conversion psychology and GTM workflows could produce. Content should convert skeptics who still rely on static decks or gated trials into believers who see demos as a conversion lever.",
+  "eeat_angles": [
+    "Customer proof with named metrics (162% trial click increase, $1.6M pipeline, 5x ROI)",
+    "Enterprise logo validation (eBay, Visa, Netflix influenced by demos)",
+    "Named practitioner testimonials with specific job titles and companies",
+    "Competitive displacement stories from customers who evaluated alternatives",
+    "Category expertise content on demo-led growth and buyer psychology",
+    "Founder or team POV on why interactive demos outperform static content",
+    "Data-backed benchmarks on interactive vs. static content conversion rates"
+  ],
+  "backlinkable_asset_types": [
+    "Interactive demo conversion rate benchmark report",
+    "State of Demo-Led Growth annual study",
+    "ROI calculator for interactive demos vs. free trials",
+    "Competitive comparison matrix (Storylane vs. Navattic vs. Walnut etc.)",
+    "Pipeline influence attribution methodology guide",
+    "Sales cycle length reduction data by demo type",
+    "Buyer enablement content strategy playbook",
+    "Enterprise deal influence case study collection",
+    "Demo creation time-to-value benchmark data",
+    "GTM team demo strategy templates and frameworks"
+  ],
+  "scanned_urls": [
+    "https://www.storylane.io"
+  ],
+  "scanned_at": "2026-04-22T10:00:38Z"
+}

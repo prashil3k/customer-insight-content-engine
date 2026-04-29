@@ -1,0 +1,2537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storylane Customer Insights Content Engine</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f8f8f7;
+    --surface: #ffffff;
+    --border: #e5e5e3;
+    --border-light: #f0f0ee;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --text-faint: #a0a0a0;
+    --accent: #5c4bff;
+    --accent-light: #ede9ff;
+    --accent-hover: #4a38f0;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --yellow: #d97706;
+    --yellow-light: #fef3c7;
+    --orange: #ea580c;
+    --orange-light: #ffedd5;
+    --sidebar-w: 220px;
+    --radius: 8px;
+    --radius-sm: 6px;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+  body { display: flex; height: 100vh; overflow: hidden; }
+
+  /* Sidebar */
+  #sidebar {
+    width: var(--sidebar-w); min-width: var(--sidebar-w);
+    background: var(--surface); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; padding: 20px 0; gap: 4px;
+    overflow-y: auto;
+  }
+  .sidebar-logo {
+    padding: 0 16px 20px; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border-light); margin-bottom: 8px;
+  }
+  .sidebar-logo span { font-size: 20px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 16px;
+    cursor: pointer; border-radius: 0; transition: background 0.1s; color: var(--text-muted);
+    font-weight: 500; font-size: 13px; border: none; background: none; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active { background: var(--accent-light); color: var(--accent); }
+  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+  .sidebar-section { padding: 12px 16px 4px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); }
+  .sidebar-status {
+    margin-top: auto; padding: 16px; border-top: 1px solid var(--border-light);
+    font-size: 12px; color: var(--text-muted);
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+  .status-dot.green { background: var(--green); }
+  .status-dot.grey { background: var(--text-faint); }
+
+  /* Main */
+  #main { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .topbar {
+    height: 52px; border-bottom: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; padding: 0 24px; gap: 16px; flex-shrink: 0;
+  }
+  .topbar-title { font-weight: 600; font-size: 15px; }
+  .topbar-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .content-area { flex: 1; overflow-y: auto; padding: 24px; }
+
+  /* Buttons */
+  .btn {
+    padding: 7px 14px; border-radius: var(--radius-sm); font-size: 13px;
+    font-weight: 500; cursor: pointer; border: 1px solid transparent;
+    transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--bg); }
+  .btn-ghost { background: none; color: var(--text-muted); border-color: transparent; }
+  .btn-ghost:hover { background: var(--bg); color: var(--text); }
+  .btn-danger { background: var(--red-light); color: var(--red); border-color: var(--red-light); }
+  .btn-danger:hover { background: #fca5a5; }
+  .btn-success { background: var(--green-light); color: var(--green); border-color: var(--green-light); }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+  }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .card-title { font-weight: 600; font-size: 14px; line-height: 1.4; }
+  .card-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+  /* Tags / Badges */
+  .badge {
+    display: inline-flex; align-items: center; padding: 2px 8px;
+    border-radius: 100px; font-size: 11px; font-weight: 500;
+  }
+  .badge-accent { background: var(--accent-light); color: var(--accent); }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-yellow { background: var(--yellow-light); color: var(--yellow); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-orange { background: var(--orange-light); color: var(--orange); }
+  .badge-grey { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* Progress toast */
+  #toast {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background: var(--text); color: #fff; padding: 10px 16px; border-radius: var(--radius);
+    font-size: 13px; max-width: 350px; display: none; align-items: center; gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  #toast.show { display: flex; }
+  .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* Stat cards */
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .stat-value { font-size: 28px; font-weight: 700; line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Form */
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 5px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    font-size: 13px; font-family: inherit; background: var(--surface); color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light);
+  }
+  .form-textarea { resize: vertical; min-height: 100px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tab {
+    padding: 10px 16px; font-size: 13px; font-weight: 500; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* Pipeline Kanban */
+  .kanban { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+  .kanban-col { flex: 0 0 240px; }
+  .kanban-col-header {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .kanban-col-count { background: var(--bg); border: 1px solid var(--border);
+    border-radius: 100px; padding: 1px 6px; font-size: 11px; }
+  .kanban-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
+  }
+  .kanban-card:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(92,75,255,0.1); }
+  .kanban-card-title { font-size: 13px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+  .kanban-card-meta { font-size: 11px; color: var(--text-muted); display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Article Editor */
+  #editor-wrap { display: flex; height: calc(100vh - 52px - 48px); gap: 0; overflow: hidden; }
+  #editor-article { flex: 1; overflow-y: auto; padding: 32px; }
+  #editor-sidebar { width: 360px; min-width: 360px; border-left: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow: hidden; }
+  #editor-sidebar-tabs { border-bottom: 1px solid var(--border); display: flex; flex-shrink: 0; }
+  #editor-sidebar-tabs .tab { flex: 1; text-align: center; }
+  #editor-sidebar-content { flex: 1; overflow-y: auto; padding: 16px; }
+
+  /* Pipeline Flow Visualization */
+  .pf-wrap { margin-bottom: 24px; }
+  .pf-row { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 4px 0 8px; }
+  .pf-sources { display: flex; flex-direction: column; gap: 5px; margin-right: 4px; flex-shrink: 0; }
+  .pf-source { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text-muted); white-space: nowrap; font-weight: 500; }
+  .pf-source.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .pf-source.grain { }
+  .pf-arrow { flex-shrink: 0; display: flex; align-items: center; padding: 0 2px; }
+  .pf-arrow svg { display: block; }
+  .pf-node { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 18px; background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: var(--radius); min-width: 84px; transition: border-color 0.2s, background 0.2s;
+    cursor: default; }
+  .pf-node:hover { border-color: var(--accent); }
+  .pf-node.lit { border-color: var(--accent); background: var(--accent-light); }
+  .pf-node.lit-green { border-color: var(--green); background: var(--green-light); }
+  .pf-icon { font-size: 18px; line-height: 1; }
+  .pf-count { font-size: 22px; font-weight: 800; line-height: 1; color: var(--text); }
+  .pf-node.lit .pf-count { color: var(--accent); }
+  .pf-node.lit-green .pf-count { color: var(--green); }
+  .pf-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.05em; text-align: center; white-space: nowrap; }
+  .pf-brain { margin-top: 12px; display: flex; align-items: center; gap: 8px; padding: 8px 14px;
+    background: var(--bg); border: 1px dashed var(--border); border-radius: var(--radius-sm);
+    font-size: 12px; color: var(--text-muted); }
+  .pf-brain-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint); flex-shrink: 0; }
+  .pf-brain-dot.ready { background: var(--green); }
+
+  /* Stage bar */
+  .stage-bar { background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 0 24px; display: flex; align-items: center; gap: 0; height: 48px;
+    overflow-x: auto; flex-shrink: 0; }
+  .stage-step {
+    display: flex; align-items: center; gap: 8px; padding: 0 12px 0 0; flex-shrink: 0;
+    font-size: 12px; font-weight: 500; color: var(--text-faint);
+  }
+  .stage-step.done { color: var(--green); }
+  .stage-step.active { color: var(--accent); font-weight: 700; }
+  .stage-step-num {
+    width: 22px; height: 22px; border-radius: 50%; border: 2px solid currentColor;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
+  }
+  .stage-step.done .stage-step-num { background: var(--green); border-color: var(--green); color: #fff; }
+  .stage-step.active .stage-step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .stage-sep { color: var(--border); margin: 0 4px; }
+
+  /* Draft edit mode */
+  #draft-edit-area { width: 100%; max-width: 700px; margin: 0 auto; display: block;
+    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.65;
+    border: 1.5px solid var(--accent); border-radius: var(--radius); padding: 16px;
+    resize: vertical; background: var(--surface); color: var(--text); min-height: 500px; }
+  #draft-edit-area:focus { outline: none; }
+
+  /* Draft renderer */
+  #article-rendered { max-width: 700px; margin: 0 auto; line-height: 1.7; }
+  #article-rendered h1 { font-size: 26px; font-weight: 800; margin-bottom: 20px; line-height: 1.25; }
+  #article-rendered h2 { font-size: 19px; font-weight: 700; margin: 28px 0 10px; }
+  #article-rendered h3 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; }
+  #article-rendered p { margin-bottom: 14px; color: #2a2a2a; }
+  #article-rendered ul, #article-rendered ol { margin: 8px 0 14px 20px; }
+  #article-rendered li { margin-bottom: 5px; }
+  #article-rendered strong { font-weight: 700; }
+  #article-rendered em { font-style: italic; }
+  #article-rendered blockquote {
+    border-left: 3px solid var(--accent); margin: 14px 0; padding: 8px 16px;
+    background: var(--accent-light); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-style: italic; color: var(--text-muted);
+  }
+  #article-rendered code { background: var(--bg); padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+  /* Placeholder blocks */
+  .ph-image {
+    border: 2px dashed var(--border); border-radius: var(--radius); padding: 20px;
+    margin: 14px 0; text-align: center; color: var(--text-muted); background: var(--bg);
+  }
+  .ph-image-icon { font-size: 24px; margin-bottom: 6px; }
+  .ph-image-desc { font-size: 12px; font-weight: 500; }
+  .ph-image-suggestion { font-size: 11px; color: var(--text-faint); margin-top: 4px; }
+  .ph-demo {
+    border: 2px solid var(--accent-light); border-radius: var(--radius); padding: 16px;
+    margin: 14px 0; background: var(--accent-light); display: flex; align-items: center; gap: 12px;
+  }
+  .ph-demo-icon { font-size: 24px; }
+  .ph-demo-url { font-size: 12px; font-weight: 700; color: var(--accent); }
+  .ph-demo-reason { font-size: 11px; color: var(--text-muted); }
+  .ph-screenshot {
+    border: 1px solid var(--border); border-radius: var(--radius); margin: 14px 0; overflow: hidden;
+  }
+  .ph-screenshot img { width: 100%; display: block; }
+  .ph-screenshot-caption { padding: 8px 12px; font-size: 11px; color: var(--text-muted); background: var(--bg); }
+  .ph-screenshot-missing { padding: 20px; text-align: center; color: var(--text-faint); font-size: 12px; background: var(--bg); }
+
+  /* Suggestion cards */
+  .suggestion-card {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 10px; overflow: hidden;
+  }
+  .suggestion-card.accepted { border-color: var(--green); }
+  .suggestion-card.rejected { opacity: 0.4; }
+  .suggestion-header {
+    padding: 10px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer;
+    background: var(--bg);
+  }
+  .suggestion-header:hover { background: var(--border-light); }
+  .suggestion-body { padding: 10px 12px; border-top: 1px solid var(--border); }
+  .suggestion-issue { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+  .suggestion-fix { font-size: 13px; line-height: 1.5; }
+  .suggestion-example { font-size: 11px; color: var(--text-muted); margin-top: 6px;
+    background: var(--bg); padding: 6px 8px; border-radius: var(--radius-sm); font-style: italic; }
+  .suggestion-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .sev-critical { background: var(--red-light); color: var(--red); }
+  .sev-major { background: var(--yellow-light); color: var(--yellow); }
+  .sev-minor { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* Score bars */
+  .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .score-label { font-size: 12px; color: var(--text-muted); width: 130px; flex-shrink: 0; }
+  .score-bar { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+  .score-val { font-size: 12px; font-weight: 700; width: 24px; text-align: right; flex-shrink: 0; }
+
+  /* Keyword table */
+  .kw-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .kw-table th { text-align: left; font-weight: 600; font-size: 11px; color: var(--text-muted);
+    padding: 6px 10px; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
+  .kw-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-light); }
+  .kw-table tr:last-child td { border-bottom: none; }
+  .kw-table tr.primary td { background: var(--accent-light); font-weight: 600; }
+
+  /* Insight cards */
+  .insight-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
+  .insight-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .insight-source { font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-muted); }
+  .insight-segment { font-size: 12px; font-weight: 500; }
+  .insight-summary { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .insight-pain { font-size: 12px; margin-bottom: 3px; }
+  .insight-pain::before { content: "→ "; color: var(--accent); }
+  .insight-quote { border-left: 2px solid var(--accent); padding-left: 10px;
+    font-size: 12px; font-style: italic; color: var(--text-muted); margin: 6px 0; }
+  .confidence-bar { height: 3px; border-radius: 2px; background: var(--green);
+    display: inline-block; vertical-align: middle; margin-left: 6px; }
+
+  /* Social signals */
+  .social-card { background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 6px; }
+  .social-format { font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--accent); margin-bottom: 4px; }
+  .social-hook { font-size: 13px; line-height: 1.4; }
+  .social-upgrade { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+  /* Format cards (training library) */
+  .format-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+  .format-url { font-size: 11px; color: var(--accent); margin-bottom: 8px; word-break: break-all; }
+  .format-section { margin-top: 10px; }
+  .format-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 4px; }
+  .format-section-content { font-size: 12px; color: var(--text); line-height: 1.5; }
+
+  /* Section headers */
+  .section-header { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; }
+  .section-title { font-size: 16px; font-weight: 700; }
+  .section-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Settings */
+  .settings-section { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+  .settings-section-title { font-size: 14px; font-weight: 700; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-light); }
+  .toggle { display: flex; align-items: center; gap: 10px; }
+  .toggle-switch { width: 36px; height: 20px; background: var(--border); border-radius: 100px;
+    position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+  .toggle-switch.on { background: var(--accent); }
+  .toggle-knob { width: 14px; height: 14px; background: #fff; border-radius: 50%;
+    position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+  .toggle-switch.on .toggle-knob { left: 19px; }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  /* Empty state */
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty-state-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .empty-state-text { font-size: 13px; line-height: 1.6; max-width: 380px; margin: 0 auto 16px; }
+
+  /* URL input row */
+  .url-row { display: flex; gap: 8px; }
+  .url-row .form-input { flex: 1; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+  /* Responsive hide */
+  @media (max-width: 900px) { #editor-sidebar { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="sidebar-logo"><span>⚡</span>Customer Insights Content Engine</div>
+  <button class="nav-item active" onclick="showTab('dashboard')" data-tab="dashboard">
+    <span class="icon">🏠</span> Dashboard
+  </button>
+  <button class="nav-item" onclick="showTab('insights')" data-tab="insights">
+    <span class="icon">💡</span> Insight Feed
+  </button>
+  <button class="nav-item" onclick="showTab('pipeline')" data-tab="pipeline">
+    <span class="icon">📋</span> Topic Pipeline
+  </button>
+  <button class="nav-item" onclick="showTab('editor')" data-tab="editor">
+    <span class="icon">✍️</span> Article Editor
+  </button>
+  <div class="sidebar-section">Learning</div>
+  <button class="nav-item" onclick="showTab('training')" data-tab="training">
+    <span class="icon">📚</span> Training Library
+  </button>
+  <button class="nav-item" onclick="showTab('settings')" data-tab="settings">
+    <span class="icon">⚙️</span> Settings
+  </button>
+  <div class="sidebar-status" id="sidebar-status">
+    <div><span class="status-dot grey" id="sched-dot"></span><span id="sched-status-text">Loading...</span></div>
+    <div style="margin-top:4px;color:var(--text-faint);" id="sched-counts"></div>
+  </div>
+</nav>
+
+<!-- Main content -->
+<div id="main">
+  <!-- DASHBOARD -->
+  <div id="tab-dashboard" class="tab-content" style="display:flex;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm" onclick="refreshStatus()">↻ Refresh</button>
+        <button class="btn btn-primary btn-sm" onclick="showTab('pipeline');generateTopics()">+ Generate Topics</button>
+      </div>
+    </div>
+    <div class="content-area">
+      <div class="grid-3" id="stat-cards" style="margin-bottom:24px;">
+        <div class="stat-card"><div class="stat-value" id="stat-insights">—</div><div class="stat-label">Customer Insights</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-articles">—</div><div class="stat-label">Articles in Pipeline</div></div>
+        <div class="stat-card"><div class="stat-value" id="stat-demos">—</div><div class="stat-label">Classified Demos</div></div>
+      </div>
+      <div class="pf-wrap">
+        <div class="section-header"><div class="section-title">Content Pipeline</div></div>
+        <div class="pf-row" id="pipeline-flow-row">
+          <!-- Sources -->
+          <div class="pf-sources" id="pf-sources">
+            <div class="pf-source" id="pf-src-grain">Grain</div>
+            <div class="pf-source" id="pf-src-sybill">Sybill</div>
+            <div class="pf-source" id="pf-src-dumps">Thought Dumps</div>
+          </div>
+          <!-- Sources → Insights -->
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- Insights node -->
+          <div class="pf-node" id="pfn-insights">
+            <div class="pf-icon">💡</div>
+            <div class="pf-count" id="pfc-insights">0</div>
+            <div class="pf-label">Insights</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- Ideas node -->
+          <div class="pf-node" id="pfn-idea">
+            <div class="pf-icon">🗺️</div>
+            <div class="pf-count" id="pfc-idea">0</div>
+            <div class="pf-label">Ideas</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- Keywords node -->
+          <div class="pf-node" id="pfn-keywords">
+            <div class="pf-icon">🔍</div>
+            <div class="pf-count" id="pfc-keywords">0</div>
+            <div class="pf-label">Keywords</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- Draft node -->
+          <div class="pf-node" id="pfn-draft">
+            <div class="pf-icon">✍️</div>
+            <div class="pf-count" id="pfc-draft">0</div>
+            <div class="pf-label">Draft</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- QC node -->
+          <div class="pf-node" id="pfn-qc">
+            <div class="pf-icon">✅</div>
+            <div class="pf-count" id="pfc-qc">0</div>
+            <div class="pf-label">QC</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- SEO node -->
+          <div class="pf-node" id="pfn-seo">
+            <div class="pf-icon">📈</div>
+            <div class="pf-count" id="pfc-seo">0</div>
+            <div class="pf-label">SEO</div>
+          </div>
+          <div class="pf-arrow"><svg width="28" height="20" viewBox="0 0 28 20"><line x1="0" y1="10" x2="20" y2="10" stroke="var(--border)" stroke-width="1.5"/><polyline points="14,4 22,10 14,16" fill="none" stroke="var(--border)" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <!-- Done node -->
+          <div class="pf-node" id="pfn-done">
+            <div class="pf-icon">🚀</div>
+            <div class="pf-count" id="pfc-done">0</div>
+            <div class="pf-label">Published</div>
+          </div>
+        </div>
+        <!-- Company brain context bar -->
+        <div class="pf-brain">
+          <div class="pf-brain-dot" id="pf-brain-dot"></div>
+          <span id="pf-brain-text">Company intelligence not loaded — run scan in Settings</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-header"><div class="section-title">Scheduler Log</div></div>
+        <div id="scheduler-log-preview" style="font-size:12px;color:var(--text-muted);line-height:1.7;"></div>
+      </div>
+      <!-- Company brain alert -->
+      <div id="no-brief-alert" style="display:none;" class="card" style="border-color:var(--yellow);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-size:24px;">⚠️</span>
+          <div>
+            <div style="font-weight:600;margin-bottom:2px;">Company intelligence not set up</div>
+            <div style="font-size:12px;color:var(--text-muted);">Run the company brain scan in Settings before generating content.</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="margin-left:auto;" onclick="showTab('settings')">Go to Settings →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div id="tab-insights" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Insight Feed</div>
+      <div class="topbar-actions">
+        <button class="btn btn-secondary btn-sm" onclick="openDumpModal()">+ Thought Dump</button>
+        <button class="btn btn-secondary btn-sm" onclick="openUploadModal()">↑ Upload Transcript</button>
+        <button class="btn btn-secondary btn-sm" onclick="processWatch()">⟳ Scan Watch Folders</button>
+      </div>
+    </div>
+    <div class="content-area">
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+        <div style="display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;">
+          <button id="ins-tab-active" onclick="setInsightTab('active')" style="padding:5px 14px;font-size:12px;font-weight:600;background:var(--accent);color:#fff;border:none;cursor:pointer;">Active</button>
+          <button id="ins-tab-processed" onclick="setInsightTab('processed')" style="padding:5px 14px;font-size:12px;font-weight:600;background:transparent;color:var(--text-muted);border:none;cursor:pointer;">Processed</button>
+        </div>
+        <select class="form-select" style="width:150px;" id="filter-type" onchange="loadInsights()">
+          <option value="">All Sources</option>
+          <option value="grain">Grain</option>
+          <option value="sybill">Sybill</option>
+          <option value="manual">Manual</option>
+          <option value="thought_dump">Thought Dumps</option>
+        </select>
+        <select class="form-select" style="width:150px;" id="filter-confidence" onchange="loadInsights()">
+          <option value="">Any Confidence</option>
+          <option value="0.7">High (0.7+)</option>
+          <option value="0.5">Medium (0.5+)</option>
+          <option value="0.3">All (0.3+)</option>
+        </select>
+      </div>
+      <div id="insights-list">
+        <div class="empty-state"><div class="empty-state-icon">💡</div><div class="empty-state-title">No insights yet</div><div class="empty-state-text">Upload transcripts, add thought dumps, or place files in the watch folders to start building your insight repository.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div id="tab-pipeline" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Topic Pipeline</div>
+      <div class="topbar-actions">
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-muted);cursor:pointer;margin-right:4px;">
+          <div class="toggle-switch" id="pipeline-auto-advance" onclick="togglePipelineAutoAdvance()"><div class="toggle-knob"></div></div>
+          Auto-advance
+        </label>
+        <select class="form-select" style="width:80px;padding:5px 8px;" id="gen-count">
+          <option value="3">3</option><option value="5" selected>5</option><option value="10">10</option>
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="generateTopics()" id="gen-topics-btn">⚡ Generate Topics</button>
+        <button class="btn btn-secondary btn-sm" onclick="processAllIdeas()" id="process-all-btn">▶ Process All Ideas</button>
+        <button class="btn btn-secondary btn-sm" onclick="openCreateModal()">+ Create Manually</button>
+      </div>
+    </div>
+    <div class="content-area" style="overflow-x:auto;">
+      <div class="kanban" id="kanban-board"></div>
+    </div>
+  </div>
+
+  <!-- ARTICLE EDITOR -->
+  <div id="tab-editor" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Article Editor</div>
+      <div class="topbar-actions" id="editor-topbar-actions"></div>
+    </div>
+    <!-- Stage bar -->
+    <div class="stage-bar" id="stage-bar"></div>
+    <!-- No article selected state -->
+    <div id="editor-no-article" style="flex:1;display:flex;align-items:center;justify-content:center;">
+      <div class="empty-state">
+        <div class="empty-state-icon">✍️</div>
+        <div class="empty-state-title">No article open</div>
+        <div class="empty-state-text">Select an article from the Topic Pipeline to open it here.</div>
+        <button class="btn btn-secondary" onclick="showTab('pipeline')">← Go to Pipeline</button>
+      </div>
+    </div>
+    <!-- Editor layout -->
+    <div id="editor-wrap" style="display:none;">
+      <div id="editor-article">
+        <div id="article-rendered"></div>
+        <!-- Stage-specific panels below article -->
+        <div id="stage-panel" style="max-width:700px;margin:32px auto 0;"></div>
+      </div>
+      <div id="editor-sidebar">
+        <div id="editor-sidebar-tabs" class="tabs" style="margin:0;">
+          <button class="tab active" onclick="switchSidebarTab('qc')" id="stab-qc">QC Check</button>
+          <button class="tab" onclick="switchSidebarTab('seo')" id="stab-seo">SEO Check</button>
+          <button class="tab" onclick="switchSidebarTab('validation')" id="stab-validation">Validation</button>
+          <button class="tab" onclick="switchSidebarTab('info')" id="stab-info">Info</button>
+        </div>
+        <div id="editor-sidebar-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINING LIBRARY -->
+  <div id="tab-training" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Training Library</div>
+    </div>
+    <div class="content-area">
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title" style="margin-bottom:12px;">Add Reference Articles</div>
+        <div id="train-url-rows" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;">
+          <div class="train-url-row" style="display:flex;gap:8px;align-items:center;">
+            <input class="form-input train-url-input" placeholder="https://example.com/article" type="url" style="flex:1;">
+            <input class="form-input train-label-input" placeholder="Label (optional)" style="width:180px;">
+            <button class="btn btn-ghost btn-sm" onclick="removeTrainRow(this)" style="color:var(--text-faint);" title="Remove">✕</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="btn btn-secondary btn-sm" onclick="addTrainRow()">+ Add URL</button>
+          <button class="btn btn-primary btn-sm" onclick="learnAllUrls()">⚡ Learn All</button>
+          <span id="train-queue-status" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">
+          The system extracts both the structural template and the underlying approach/mindset from each article.
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title" style="margin-bottom:4px;">Paste a Writing Framework</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Found a great framework on LinkedIn or in a guide? Paste it here — Claude will extract the structural rules and save it as a reusable template.</div>
+        <div class="form-group">
+          <textarea class="form-textarea" id="train-text-input" rows="6" placeholder="Paste your framework here — bullet points, notes, raw text, anything..."></textarea>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <input class="form-input" id="train-text-label" placeholder="Label (e.g. LLM SEO Blueprint)" style="width:220px;">
+          <select class="form-input" id="train-text-angle" style="width:160px;">
+            <option value="">Auto-detect angle</option>
+            <option value="comparison">Comparison</option>
+            <option value="listicle">Listicle</option>
+            <option value="how_to">How-to</option>
+            <option value="thought_leadership">Thought Leadership</option>
+            <option value="opinion">Opinion</option>
+            <option value="data_led">Data-led</option>
+            <option value="digital_pr">Digital PR</option>
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="learnFromText()">⚡ Extract & Save</button>
+          <span id="train-text-status" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+      </div>
+
+      <div class="section-header"><div class="section-title">Learned Formats</div></div>
+      <div id="formats-list">
+        <div class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-title">No formats learned yet</div><div class="empty-state-text">Add article URLs above to build your content format library. The draft generator will reference these.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="tab-settings" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Settings</div>
+      <div class="topbar-actions">
+        <button class="btn btn-primary btn-sm" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </div>
+    <div class="content-area">
+      <!-- Company Brain -->
+      <div class="settings-section">
+        <div class="settings-section-title">🧠 Company Intelligence</div>
+        <div id="brief-status" style="margin-bottom:14px;font-size:13px;color:var(--text-muted);"></div>
+        <div class="form-group">
+          <label class="form-label">URLs to Scan (one per line)</label>
+          <textarea class="form-textarea" id="brain-urls" rows="11">http://storylane.io/
+https://www.storylane.io/plans
+https://www.storylane.io/marketing
+https://www.storylane.io/sales
+https://www.storylane.io/interactive-demos
+https://www.storylane.io/buyer-hub
+https://www.storylane.io/repx
+https://docs.storylane.io/
+https://docs.storylane.io/hubs-docs
+https://docs.storylane.io/repx
+https://docs.storylane.io/changelog</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Upload Files <span style="color:var(--text-faint);font-weight:400;">PDF, PPT, XLSX, CSV, TXT — competitor docs, positioning decks, internal notes</span></label>
+          <div id="brain-file-drop" style="border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;transition:border-color 0.15s;"
+               onclick="document.getElementById('brain-file-input').click()"
+               ondragover="event.preventDefault();this.style.borderColor='var(--accent)'"
+               ondragleave="this.style.borderColor='var(--border)'"
+               ondrop="handleFileDrop(event)">
+            <div style="font-size:20px;margin-bottom:4px;">📎</div>
+            <div style="font-size:13px;color:var(--text-muted);">Click to upload or drag files here</div>
+            <div style="font-size:11px;color:var(--text-faint);margin-top:2px;">PDF · PPT · XLSX · CSV · TXT</div>
+          </div>
+          <input type="file" id="brain-file-input" multiple accept=".pdf,.pptx,.ppt,.xlsx,.xls,.csv,.txt,.md" style="display:none" onchange="handleFileSelect(this.files)">
+          <div id="brain-file-list" style="margin-top:8px;"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Additional Text Context <span style="color:var(--text-faint);font-weight:400;">paste anything — competitor analysis, positioning notes</span></label>
+          <textarea class="form-textarea" id="brain-docs" placeholder="Paste raw text here..." rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="runBrainScan()" id="brain-scan-btn">⚡ Run Intelligence Scan</button>
+        <div id="brain-scan-status" style="margin-top:10px;font-size:12px;"></div>
+      </div>
+
+      <!-- Scheduler -->
+      <div class="settings-section">
+        <div class="settings-section-title">⏰ Scheduler</div>
+        <div class="form-group">
+          <label class="form-label">Insight Scan Interval (hours)</label>
+          <input class="form-input" type="number" id="s-insight-hours" value="6" min="1" max="48" style="width:100px;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Topic Generation Interval (hours)</label>
+          <input class="form-input" type="number" id="s-topic-hours" value="24" min="6" max="168" style="width:100px;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Topics to Generate per Run</label>
+          <input class="form-input" type="number" id="s-topic-count" value="5" min="1" max="20" style="width:100px;">
+        </div>
+        <div class="toggle">
+          <div class="toggle-switch on" id="toggle-sched" onclick="toggleSwitch('toggle-sched')"><div class="toggle-knob"></div></div>
+          <span style="font-size:13px;">Scheduler enabled</span>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="triggerJob('insight_scan')">▶ Run Insight Scan Now</button>
+          <button class="btn btn-secondary btn-sm" onclick="triggerJob('topic_gen')">▶ Run Topic Gen Now</button>
+        </div>
+      </div>
+
+      <!-- Auto-Apply / Auto-Advance -->
+      <div class="settings-section">
+        <div class="settings-section-title">🤖 Automation</div>
+        <div class="toggle" style="margin-bottom:10px;">
+          <div class="toggle-switch" id="toggle-auto-advance" onclick="toggleSwitch('toggle-auto-advance')"><div class="toggle-knob"></div></div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">Auto-advance pipeline</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Automatically moves article to the next stage when each step completes. Halts at QC/SEO if auto-apply is off.</div>
+          </div>
+        </div>
+        <div class="toggle" style="margin-bottom:10px;">
+          <div class="toggle-switch" id="toggle-auto-qc" onclick="toggleSwitch('toggle-auto-qc')"><div class="toggle-knob"></div></div>
+          <span style="font-size:13px;">Auto-apply QC suggestions (critical + major only)</span>
+        </div>
+        <div class="toggle" style="margin-bottom:10px;">
+          <div class="toggle-switch" id="toggle-auto-seo" onclick="toggleSwitch('toggle-auto-seo')"><div class="toggle-knob"></div></div>
+          <span style="font-size:13px;">Auto-apply SEO suggestions (critical + major only)</span>
+        </div>
+        <div class="toggle" style="margin-bottom:10px;">
+          <div class="toggle-switch" id="toggle-auto-topics" onclick="toggleSwitch('toggle-auto-topics')"><div class="toggle-knob"></div></div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">Auto-generate topics after insight scan</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Immediately generates topic proposals when new insights arrive — no waiting for the 24h topic generation cycle.</div>
+          </div>
+        </div>
+        <div class="toggle">
+          <div class="toggle-switch" id="toggle-auto-validate" onclick="toggleSwitch('toggle-auto-validate')"><div class="toggle-knob"></div></div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">Run validation after applying suggestions</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Runs an independent check after each apply pass to verify insight fidelity, meaning preservation, and keyword coherence. Results appear in the Validation tab.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keyword Research -->
+      <div class="settings-section">
+        <div class="settings-section-title">🔍 Keyword Research</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Controls how the keyword stage runs. SERP pass runs first (Ahrefs required), then brainstorm, then validation.</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;">
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Target Country</label>
+            <select class="form-select" id="s-kw-country" style="width:120px;">
+              <option value="us">🇺🇸 US</option>
+              <option value="gb">🇬🇧 UK</option>
+              <option value="au">🇦🇺 AU</option>
+              <option value="in">🇮🇳 IN</option>
+              <option value="ca">🇨🇦 CA</option>
+              <option value="de">🇩🇪 DE</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Max KD (filter out harder)</label>
+            <input class="form-input" type="number" id="s-kw-max-kd" value="70" min="0" max="100" style="width:100px;">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Min Volume</label>
+            <input class="form-input" type="number" id="s-kw-min-volume" value="0" min="0" style="width:100px;">
+          </div>
+        </div>
+        <div class="toggle">
+          <div class="toggle-switch" id="toggle-skip-ahrefs" onclick="toggleSwitch('toggle-skip-ahrefs')"><div class="toggle-knob"></div></div>
+          <div>
+            <div style="font-size:13px;font-weight:500;">Brainstorm only (skip Ahrefs)</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Uses Claude brainstorm without Ahrefs validation. No API cost, but no volume/KD data.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Rubrics -->
+      <div class="settings-section">
+        <div class="settings-section-title">📋 Custom QC &amp; SEO Rubrics</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Override or extend the default rubrics. Leave blank to use defaults. These are injected into every QC/SEO pass.</div>
+        <div class="form-group">
+          <label class="form-label">QC Rubric
+            <span style="font-weight:400;color:var(--text-faint);"> — Default checks: preamble, filler, rambling, generic claims, weak hooks, EEAT</span>
+          </label>
+          <textarea class="form-textarea" id="s-qc-rubric" rows="4" placeholder="e.g. Every article must include at least one named customer story. Avoid passive voice. No listicles with more than 7 items..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">SEO Rubric
+            <span style="font-weight:400;color:var(--text-faint);"> — Default checks: keyword density, H1/H2, length, semantic gaps, meta tags</span>
+          </label>
+          <textarea class="form-textarea" id="s-seo-rubric" rows="4" placeholder="e.g. Always check for competitor comparison angle. Ensure FAQ section for question-based keywords. Target featured snippet format for how-to articles..."></textarea>
+        </div>
+      </div>
+
+      <!-- Models -->
+      <div class="settings-section">
+        <div class="settings-section-title">🤖 Models</div>
+        <div id="model-status" style="font-size:13px;margin-bottom:12px;"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="btn btn-secondary btn-sm" onclick="detectModels()" id="detect-models-btn">⟳ Detect Available Models</button>
+          <span style="font-size:11px;color:var(--text-faint);">Queries the Anthropic API to find active models. Auto-runs fallback if a model is deprecated.</span>
+        </div>
+      </div>
+
+      <!-- API Keys -->
+      <div class="settings-section">
+        <div class="settings-section-title">🔑 API Keys</div>
+        <div id="api-key-status" style="font-size:13px;margin-bottom:14px;"></div>
+        <div class="form-group">
+          <label class="form-label">Anthropic API Key</label>
+          <input class="form-input" type="password" id="key-anthropic" placeholder="sk-ant-..." autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ahrefs API Token</label>
+          <input class="form-input" type="password" id="key-ahrefs" placeholder="your-ahrefs-token" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Grain API Token <span style="color:var(--text-faint);font-weight:400;">(optional — pulls call recordings automatically)</span></label>
+          <input class="form-input" type="password" id="key-grain" placeholder="grain_pat_..." autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sybill Webhook Signing Secret <span style="color:var(--text-faint);font-weight:400;">(starts with <code>whsec_</code> — not the CRM/HubSpot key)</span></label>
+          <input class="form-input" type="password" id="key-sybill" placeholder="whsec_..." autocomplete="off">
+          <div style="font-size:11px;color:var(--text-faint);margin-top:5px;">Get this from: app.sybill.ai → Settings → Integrations → Webhooks → Create endpoint → copy the Signing Secret. The webhook URL to register is your ngrok URL + <code>/api/sybill/webhook</code></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button class="btn btn-primary btn-sm" onclick="saveApiKeys()">Save Keys</button>
+          <button class="btn btn-secondary btn-sm" onclick="checkKeyHealth()">Check Keys</button>
+          <span style="font-size:11px;color:var(--text-faint);">Saved locally to data/settings.json · takes effect immediately without restart</span>
+        </div>
+        <div id="key-health-result" style="margin-top:12px;font-size:13px;"></div>
+      </div>
+
+      <!-- Call Ingestion Filters -->
+      <div class="settings-section">
+        <div class="settings-section-title">📞 Call Ingestion Filters (Grain &amp; Sybill)</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Controls which calls get processed. Applies to both Grain REST poller and Sybill webhooks.</div>
+        <div class="form-group">
+          <label class="form-label">Required Keywords</label>
+          <textarea class="form-textarea" id="s-call-keywords" rows="5" placeholder="demo&#10;onboarding&#10;pricing&#10;objection&#10;pain point&#10;competitor"></textarea>
+          <div style="font-size:11px;color:var(--text-faint);margin-top:4px;">At least one keyword must appear in the title or transcript. One per line. Leave blank to process all calls.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label">Min Duration (minutes)</label>
+            <input type="number" class="form-input" id="s-call-min-duration" min="0" placeholder="10">
+            <div style="font-size:11px;color:var(--text-faint);margin-top:4px;">Skip calls shorter than this. Default: 10 min.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min Transcript Words</label>
+            <input type="number" class="form-input" id="s-call-min-words" min="0" placeholder="200">
+            <div style="font-size:11px;color:var(--text-faint);margin-top:4px;">Skip calls with thin transcripts. Default: 200 words.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Internal Link Library -->
+      <div class="settings-section">
+        <div class="settings-section-title">🔗 Internal Link Library</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Index Storylane pages so the draft generator can inject real internal links. Add blog posts, feature pages, docs, and comparison pages. Each URL is scraped and indexed once.</div>
+        <div class="form-group">
+          <label class="form-label">Add URL</label>
+          <div style="display:flex;gap:8px;">
+            <input type="url" class="form-input" id="link-url-input" placeholder="https://www.storylane.io/blog/..." style="flex:1;" onkeydown="if(event.key==='Enter')addInternalLink()">
+            <button class="btn btn-primary" onclick="addInternalLink()">+ Index</button>
+          </div>
+        </div>
+        <div id="link-library-list" style="margin-top:8px;">
+          <div style="color:var(--text-faint);font-size:12px;">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Export / Share Tool -->
+      <div class="settings-section">
+        <div class="settings-section-title">📦 Export &amp; Share Tool</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">
+          Downloads a portable zip with all articles, insights, company brief, and formats. API keys are automatically stripped — safe to share.<br>
+          <span style="color:var(--text-faint);margin-top:6px;display:block;">The bundle option includes both this tool and the Demo Classifier together, plus a one-click Mac security fix so the recipient never has to deal with Gatekeeper warnings.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="exportToolZip(true)">📦 Export Both Tools <span style="font-size:11px;opacity:0.75;">(recommended)</span></button>
+          <button class="btn btn-secondary" onclick="exportToolZip(false)">⬇ Engine Only</button>
+          <span id="export-zip-status" style="font-size:12px;color:var(--text-faint);"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"><div class="spinner"></div><span id="toast-msg"></span></div>
+
+<!-- Modals -->
+<div id="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;">
+  <div id="modal-box" style="background:var(--surface);border-radius:var(--radius);padding:24px;width:500px;max-height:80vh;overflow-y:auto;position:relative;">
+    <button onclick="closeModal()" style="position:absolute;top:12px;right:12px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted);">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+const S = {
+  currentTab: 'dashboard',
+  currentArticle: null,
+  sidebarTab: 'qc',
+  qcSuggestions: [],
+  seoSuggestions: [],
+  taskPollers: {},
+  settings: {},
+  editMode: false,
+};
+
+// ── API helpers ────────────────────────────────────────────────────────────────
+async function api(method, path, body) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch('/api' + path, opts);
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+const GET = (p) => api('GET', p);
+const POST = (p, b) => api('POST', p, b);
+const PUT = (p, b) => api('PUT', p, b);
+
+// ── Toast / progress ──────────────────────────────────────────────────────────
+function showToast(msg) {
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast').classList.add('show');
+}
+function hideToast() { document.getElementById('toast').classList.remove('show'); }
+
+function pollTask(taskId, label, onDone) {
+  showToast(label);
+  if (S.taskPollers[taskId]) clearInterval(S.taskPollers[taskId]);
+  S.taskPollers[taskId] = setInterval(async () => {
+    try {
+      const p = await GET(`/progress/${taskId}`);
+      if (p.msg) {
+        document.getElementById('toast-msg').textContent = p.msg;
+        if (p.msg === 'DONE' || p.msg.startsWith('ERROR')) {
+          clearInterval(S.taskPollers[taskId]);
+          delete S.taskPollers[taskId];
+          hideToast();
+          onDone && onDone(p.msg);
+        }
+      }
+    } catch(e) {}
+  }, 1200);
+}
+
+// ── Navigation ─────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('tab-' + name);
+  if (el) el.style.display = 'flex';
+  const nav = document.querySelector(`.nav-item[data-tab="${name}"]`);
+  if (nav) nav.classList.add('active');
+  S.currentTab = name;
+  if (name === 'dashboard') refreshStatus();
+  if (name === 'insights') loadInsights();
+  if (name === 'pipeline') loadPipeline();
+  if (name === 'training') loadFormats();
+  if (name === 'settings') { loadSettings(); loadModels(); loadLinkLibrary(); }
+}
+
+// ── Dashboard ──────────────────────────────────────────────────────────────────
+async function refreshStatus() {
+  try {
+    const s = await GET('/status');
+    document.getElementById('stat-insights').textContent = s.insights?.total ?? 0;
+    document.getElementById('stat-articles').textContent = s.articles_total ?? 0;
+    document.getElementById('stat-demos').textContent = s.demos?.total ?? 0;
+
+    const dot = document.getElementById('sched-dot');
+    const txt = document.getElementById('sched-status-text');
+    if (s.scheduler?.running) { dot.className = 'status-dot green'; txt.textContent = 'Scheduler active'; }
+    else { dot.className = 'status-dot grey'; txt.textContent = 'Scheduler inactive'; }
+    document.getElementById('sched-counts').textContent =
+      `${s.insights?.total || 0} insights · ${s.articles_total || 0} articles`;
+
+    // Pipeline flow nodes
+    const byStage = s.articles_by_stage || {};
+    const insightsTotal = s.insights?.total ?? 0;
+    const byType = s.insights?.by_type || {};
+
+    // Source badges
+    ['grain','sybill'].forEach(src => {
+      const el = document.getElementById('pf-src-' + src);
+      if (el) { const n = byType[src] || 0; el.classList.toggle('active', n > 0); if (n > 0) el.textContent = src.charAt(0).toUpperCase() + src.slice(1) + ' · ' + n; }
+    });
+    const dumpEl = document.getElementById('pf-src-dumps');
+    if (dumpEl) { const n = byType['thought_dump'] || 0; dumpEl.classList.toggle('active', n > 0); dumpEl.textContent = 'Thought Dumps' + (n > 0 ? ' · ' + n : ''); }
+
+    // Insights node
+    const insEl = document.getElementById('pfn-insights');
+    document.getElementById('pfc-insights').textContent = insightsTotal;
+    insEl.classList.toggle('lit', insightsTotal > 0);
+
+    // Article stage nodes
+    [['idea','pfn-idea','pfc-idea'],['keywords','pfn-keywords','pfc-keywords'],
+     ['draft','pfn-draft','pfc-draft'],['qc','pfn-qc','pfc-qc'],
+     ['seo','pfn-seo','pfc-seo']].forEach(([stage, nodeId, countId]) => {
+      const n = byStage[stage] ?? 0;
+      document.getElementById(countId).textContent = n;
+      document.getElementById(nodeId).classList.toggle('lit', n > 0);
+    });
+    const doneN = byStage['done'] ?? 0;
+    document.getElementById('pfc-done').textContent = doneN;
+    document.getElementById('pfn-done').classList.toggle('lit-green', doneN > 0);
+
+    // Company brain bar
+    const brainDot = document.getElementById('pf-brain-dot');
+    const brainTxt = document.getElementById('pf-brain-text');
+    if (s.company_brief_exists) {
+      brainDot.className = 'pf-brain-dot ready';
+      brainTxt.textContent = 'Company intelligence loaded — context injected into all generation steps';
+    } else {
+      brainDot.className = 'pf-brain-dot';
+      brainTxt.textContent = 'Company intelligence not loaded — run scan in Settings';
+    }
+
+    const logEl = document.getElementById('scheduler-log-preview');
+    const logs = (s.scheduler_log || []).slice(-8).reverse();
+    logEl.innerHTML = logs.length ? logs.map(l => `<div><span style="color:var(--text-faint)">${l.ts}</span> ${l.msg}</div>`).join('') : '<div style="color:var(--text-faint)">No log entries yet.</div>';
+
+    document.getElementById('no-brief-alert').style.display = s.company_brief_exists ? 'none' : 'block';
+  } catch(e) { console.error(e); }
+}
+
+// ── Insights ───────────────────────────────────────────────────────────────────
+S.insightTab = S.insightTab || 'active';
+
+function setInsightTab(tab) {
+  S.insightTab = tab;
+  const activeBtn = document.getElementById('ins-tab-active');
+  const procBtn = document.getElementById('ins-tab-processed');
+  if (activeBtn) { activeBtn.style.background = tab === 'active' ? 'var(--accent)' : 'transparent'; activeBtn.style.color = tab === 'active' ? '#fff' : 'var(--text-muted)'; }
+  if (procBtn) { procBtn.style.background = tab === 'processed' ? 'var(--accent)' : 'transparent'; procBtn.style.color = tab === 'processed' ? '#fff' : 'var(--text-muted)'; }
+  loadInsights();
+}
+
+async function loadInsights() {
+  const type = document.getElementById('filter-type')?.value || '';
+  const conf = document.getElementById('filter-confidence')?.value || '';
+  const params = new URLSearchParams();
+  if (type) params.set('source_type', type);
+  if (conf) params.set('min_confidence', conf);
+  const all = await GET('/insights?' + params.toString());
+
+  // Active = not yet used in any article; Processed = has used_in entries
+  const tab = S.insightTab || 'active';
+  const insights = tab === 'processed'
+    ? all.filter(i => (i.used_in || []).length > 0)
+    : all.filter(i => (i.used_in || []).length === 0);
+
+  const el = document.getElementById('insights-list');
+  if (!insights.length) {
+    const msg = tab === 'processed'
+      ? 'No processed insights yet — insights move here once they\'ve been used to generate topics or drafts.'
+      : 'No active insights — all insights have been processed into the pipeline.';
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">💡</div><div class="empty-state-title">No insights found</div><div class="empty-state-text">${msg}</div></div>`;
+    return;
+  }
+  el.innerHTML = insights.map(ins => renderInsightCard(ins)).join('');
+}
+
+function renderInsightCard(ins) {
+  const confPct = Math.round((ins.confidence || 0) * 100);
+  const confColor = confPct >= 70 ? 'var(--green)' : confPct >= 50 ? 'var(--yellow)' : 'var(--text-faint)';
+  const sourceColors = { grain:'badge-accent', sybill:'badge-green', thought_dump:'badge-orange', manual:'badge-grey' };
+  const badgeCls = sourceColors[ins.source_type] || 'badge-grey';
+  const satScore = ins.saturation_score || 0;
+  const isSaturated = satScore >= 0.3;
+  const satBadge = isSaturated
+    ? `<span title="This pain point cluster is well-covered in your insight DB (${Math.round(satScore*100)}% overlap with other insights). Topics from here may be repetitive." style="font-size:10px;background:rgba(255,170,0,0.15);color:var(--warning);border:1px solid var(--warning);border-radius:3px;padding:1px 6px;cursor:default;">⚠ Saturated</span>`
+    : '';
+  const pains = (ins.pain_points || []).slice(0, 3);
+  const quotes = (ins.quotes || []).slice(0, 1);
+  const tags = (ins.tags || []).slice(0, 4);
+  const quote = quotes[0];
+  const quoteText = quote ? (typeof quote === 'object' ? quote.text : quote) : '';
+  const metrics = (ins.metrics || []).slice(0, 2);
+  const objections = (ins.objections || []).slice(0, 1);
+
+  // Derive source link for Grain recordings
+  let sourceLink = '';
+  if (ins.source_type === 'grain' && ins.source_id) {
+    const recId = ins.source_id.replace(/^grain_/, '');
+    sourceLink = `<a href="https://app.grain.com/recordings/${recId}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none;margin-left:6px;">↗ View in Grain</a>`;
+  }
+
+  // Source type labels
+  const sourceLabels = { grain:'Grain Call', sybill:'Sybill Call', thought_dump:'Thought Dump', manual:'Manual' };
+  const sourceLabel = sourceLabels[ins.source_type] || ins.source_type;
+
+  return `<div class="insight-card">
+    <div class="insight-card-header">
+      <span class="badge ${badgeCls}">${sourceLabel}</span>
+      <span class="insight-segment">${ins.customer_segment || ''}</span>
+      <span style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+        ${satBadge}
+        <span style="font-size:11px;color:${confColor};font-weight:600;">${confPct}% conf</span>
+      </span>
+    </div>
+    <div class="insight-summary">${ins.raw_summary || ''}</div>
+    ${pains.map(p => `<div class="insight-pain">${p}</div>`).join('')}
+    ${objections.map(o => `<div class="insight-pain" style="border-left-color:var(--yellow);"><strong>Objection:</strong> ${typeof o === 'object' ? (o.text||JSON.stringify(o)) : o}</div>`).join('')}
+    ${quoteText ? `<div class="insight-quote">"${quoteText.slice(0,200)}"</div>` : ''}
+    ${metrics.length ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;">📊 ${metrics.map(m => typeof m === 'object' ? (m.metric||m.value||JSON.stringify(m)) : m).join(' · ')}</div>` : ''}
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;">
+      ${tags.map(t => `<span class="badge badge-grey">${t}</span>`).join('')}
+    </div>
+    <div style="font-size:11px;color:var(--text-faint);margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;">
+      <strong style="color:var(--text-muted);">${ins.source_name || '—'}</strong>
+      <span>·</span>
+      <span>${(ins.extracted_at||'').slice(0,10)}</span>
+      ${sourceLink}
+      ${ins.raw_input ? `<button class="btn btn-ghost btn-sm" style="font-size:10px;padding:1px 6px;margin-left:4px;" onclick="toggleRawInput('${ins.id}')">View source</button>` : ''}
+    </div>
+    ${ins.raw_input ? `<div id="raw-${ins.id}" style="display:none;margin-top:10px;background:var(--bg);border-radius:var(--radius-sm);padding:10px;font-size:11px;color:var(--text-muted);white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid var(--border);">${ins.raw_input.replace(/</g,'&lt;').slice(0,4000)}${ins.raw_input.length > 4000 ? '\n\n[truncated]' : ''}</div>` : ''}
+  </div>`;
+}
+
+function toggleRawInput(id) {
+  const el = document.getElementById(`raw-${id}`);
+  if (!el) return;
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+async function relinkInsights(articleId) {
+  const btn = document.getElementById('relink-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Linking…'; }
+  try {
+    const r = await POST(`/articles/${articleId}/relink-insights`, {});
+    if (r.ok) {
+      // Reload the article and re-render the info tab
+      const updated = await GET(`/articles/${articleId}`);
+      S.currentArticle = updated;
+      renderSidebar('info');
+    }
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.textContent = '↻ Auto-link relevant insights'; }
+  }
+}
+
+function openDumpModal() {
+  showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Add Thought Dump</div>
+    <div class="form-group"><label class="form-label">Author</label><input class="form-input" id="dump-author" value="team" style="width:200px;"></div>
+    <div class="form-group"><label class="form-label">Content (idea, insight, observation, founder take...)</label>
+      <textarea class="form-textarea" id="dump-text" rows="8" placeholder="Just write — the system will extract structured insights from whatever you type."></textarea></div>
+    <button class="btn btn-primary" onclick="submitDump()">Extract Insights</button>`);
+}
+
+async function submitDump() {
+  const text = document.getElementById('dump-text')?.value.trim();
+  const author = document.getElementById('dump-author')?.value || 'team';
+  if (!text) return;
+  closeModal();
+  const r = await POST('/insights/dump', { text, author });
+  pollTask(r.task_id, 'Extracting insights...', () => loadInsights());
+}
+
+function openUploadModal() {
+  showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Upload Transcript</div>
+    <div class="form-group"><label class="form-label">Source Name</label><input class="form-input" id="upload-name" placeholder="Q1 Horizon3 Discovery Call" style="width:100%;"></div>
+    <div class="form-group"><label class="form-label">Source Type</label>
+      <select class="form-select" id="upload-type" style="width:100%;">
+        <option value="grain">Grain</option><option value="sybill">Sybill</option><option value="manual">Manual</option>
+      </select></div>
+    <div class="form-group"><label class="form-label">Transcript Text</label>
+      <textarea class="form-textarea" id="upload-text" rows="10" placeholder="Paste transcript here..."></textarea></div>
+    <button class="btn btn-primary" onclick="submitUpload()">Process Transcript</button>`);
+}
+
+async function submitUpload() {
+  const text = document.getElementById('upload-text')?.value.trim();
+  const name = document.getElementById('upload-name')?.value || 'transcript';
+  const type = document.getElementById('upload-type')?.value || 'manual';
+  if (!text) return;
+  closeModal();
+  const r = await POST('/insights/upload', { text, source_name: name, source_type: type });
+  pollTask(r.task_id, 'Processing transcript...', () => loadInsights());
+}
+
+async function processWatch() {
+  const r = await POST('/watch/process');
+  pollTask(r.task_id, 'Scanning watch folders...', () => loadInsights());
+}
+
+// ── Pipeline ───────────────────────────────────────────────────────────────────
+const STAGES = ['idea','keywords','draft','qc','seo','done'];
+const STAGE_LABELS = { idea:'Ideas', keywords:'Keywords', draft:'Draft', qc:'QC Review', seo:'SEO Review', done:'Done ✓' };
+const ANGLE_COLORS = { thought_leadership:'badge-accent', listicle:'badge-green', opinion:'badge-orange', data_led:'badge-yellow', how_to:'badge-grey', comparison:'badge-grey', digital_pr:'badge-accent' };
+
+async function togglePipelineAutoAdvance() {
+  const on = isToggleOn('pipeline-auto-advance');
+  const s = await GET('/settings');
+  s.auto_advance = !on;
+  await PUT('/settings', s);
+  S.settings = s;
+  setToggle('pipeline-auto-advance', !on);
+  // Keep settings tab in sync if open
+  const settingsToggle = document.getElementById('toggle-auto-advance');
+  if (settingsToggle) setToggle('toggle-auto-advance', !on);
+}
+
+async function loadPipeline() {
+  // Sync auto-advance toggle state from settings
+  try {
+    if (!S.settings) S.settings = await GET('/settings');
+    setToggle('pipeline-auto-advance', S.settings.auto_advance || false);
+  } catch(e) {}
+  const articles = await GET('/articles');
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = STAGES.map(stage => {
+    const cols = articles.filter(a => a.stage === stage);
+    return `<div class="kanban-col">
+      <div class="kanban-col-header">${STAGE_LABELS[stage]} <span class="kanban-col-count">${cols.length}</span></div>
+      ${cols.length ? cols.map(a => renderKanbanCard(a)).join('') : `<div style="font-size:12px;color:var(--text-faint);padding:8px 0;">Empty</div>`}
+    </div>`;
+  }).join('');
+}
+
+function renderKanbanCard(a) {
+  const badgeCls = ANGLE_COLORS[a.angle] || 'badge-grey';
+  const intents = (a.strategic_intent || []).slice(0, 2);
+  const overlapWarning = a.overlap_warning
+    ? `<div style="margin-top:6px;font-size:10px;color:var(--warning);display:flex;align-items:flex-start;gap:4px;" title="${a.overlap_warning.reason}">⚠ Similar to: <em>${a.overlap_warning.similar_to?.slice(0,50)}</em></div>`
+    : '';
+  return `<div class="kanban-card" onclick="openArticle('${a.id}')">
+    <div class="kanban-card-title">${a.topic}</div>
+    <div class="kanban-card-meta">
+      <span class="badge ${badgeCls}">${a.angle || 'tl'}</span>
+      ${a.pillar ? `<span class="badge badge-grey" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${a.pillar}</span>` : ''}
+      ${intents.map(i => `<span class="badge badge-grey">${i}</span>`).join('')}
+    </div>
+    ${overlapWarning}
+  </div>`;
+}
+
+async function generateTopics() {
+  const num = parseInt(document.getElementById('gen-count')?.value || '5');
+  const btn = document.getElementById('gen-topics-btn');
+  if (btn) btn.disabled = true;
+  const r = await POST('/topics/generate', { num });
+  pollTask(r.task_id, 'Generating topic proposals...', () => {
+    loadPipeline();
+    if (btn) btn.disabled = false;
+  });
+}
+
+function openCreateModal() {
+  showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Create Article Manually</div>
+    <div class="form-group"><label class="form-label">Topic / Title</label><input class="form-input" id="create-topic" style="width:100%;" placeholder="e.g. Why PreSales Teams Are Burning Out"></div>
+    <div class="form-group"><label class="form-label">Angle</label>
+      <select class="form-select" id="create-angle" style="width:100%;">
+        ${['thought_leadership','listicle','opinion','data_led','how_to','comparison','digital_pr'].map(a => `<option value="${a}">${a}</option>`).join('')}
+      </select></div>
+    <div class="form-group"><label class="form-label">Pillar (optional)</label><input class="form-input" id="create-pillar" style="width:100%;"></div>
+    <button class="btn btn-primary" onclick="submitCreate()">Create Article</button>`);
+}
+
+async function submitCreate() {
+  const topic = document.getElementById('create-topic')?.value.trim();
+  if (!topic) return;
+  closeModal();
+  await POST('/articles', { topic, angle: document.getElementById('create-angle')?.value, pillar: document.getElementById('create-pillar')?.value });
+  loadPipeline();
+}
+
+// ── Article Editor ─────────────────────────────────────────────────────────────
+async function openArticle(articleId) {
+  S.editMode = false;
+  S.currentArticle = await GET(`/articles/${articleId}`);
+  restoreSuggestionsFromArticle(S.currentArticle);
+  showTab('editor');
+  renderEditor();
+}
+
+function restoreSuggestionsFromArticle(a) {
+  // Restore QC/SEO suggestion state from saved article data so going back
+  // a stage (or reopening an article) always shows the previous results.
+  S.qcSuggestions = (a.qc_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
+  S.seoSuggestions = (a.seo_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
+}
+
+function renderEditor() {
+  const a = S.currentArticle;
+  if (!a) return;
+  document.getElementById('editor-no-article').style.display = 'none';
+  document.getElementById('editor-wrap').style.display = 'flex';
+
+  renderStageBar(a.stage);
+  renderTopbarActions(a);
+  renderArticleContent(a);
+  renderSidebarContent(a);
+}
+
+function renderStageBar(current) {
+  const stages = ['idea','keywords','draft','qc','seo','done'];
+  const labels = { idea:'Idea', keywords:'Keywords', draft:'Draft', qc:'QC', seo:'SEO', done:'Done' };
+  const idx = stages.indexOf(current);
+  document.getElementById('stage-bar').innerHTML = stages.map((s, i) => {
+    const cls = i < idx ? 'done' : i === idx ? 'active' : '';
+    const num = i < idx ? '✓' : i + 1;
+    return `<div class="stage-step ${cls}">
+      <div class="stage-step-num">${num}</div>
+      <span>${labels[s]}</span>
+      ${i < stages.length - 1 ? '<span class="stage-sep">›</span>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderTopbarActions(a) {
+  const el = document.getElementById('editor-topbar-actions');
+  const actions = [];
+  const STAGE_ORDER = ['idea','keywords','draft','qc','seo','done'];
+  const stageIdx = STAGE_ORDER.indexOf(a.stage);
+
+  if (a.stage === 'idea') {
+    actions.push(`<button class="btn btn-primary btn-sm" onclick="doResearchKeywords()">⚡ Research Keywords</button>`);
+  } else if (a.stage === 'keywords') {
+    actions.push(`<button class="btn btn-secondary btn-sm" onclick="doResearchKeywords()">↻ Re-research</button>`);
+    actions.push(`<button class="btn btn-primary btn-sm" onclick="doGenerateDraft()">⚡ Generate Draft</button>`);
+  } else if (a.stage === 'draft') {
+    actions.push(`<button class="btn btn-secondary btn-sm" onclick="doGenerateDraft()">↻ Regenerate</button>`);
+    actions.push(`<button class="btn btn-primary btn-sm" onclick="doRunQC()">⚡ Run QC</button>`);
+  } else if (a.stage === 'qc') {
+    const qcPending = (S.qcSuggestions || []).filter(i => i.accepted === true).length;
+    actions.push(`<button class="btn btn-secondary btn-sm" onclick="doRunQC()">↻ Re-run QC</button>`);
+    actions.push(`<button class="btn ${qcPending ? 'btn-primary' : 'btn-secondary'} btn-sm" onclick="doApplyAccepted('qc')" id="apply-qc-btn">Apply Accepted${qcPending ? ` <span style="background:rgba(255,255,255,0.3);border-radius:10px;padding:1px 6px;">${qcPending}</span>` : ''}</button>`);
+    actions.push(`<button class="btn btn-primary btn-sm" onclick="doRunSEO()">⚡ Run SEO</button>`);
+  } else if (a.stage === 'seo') {
+    const seoPending = (S.seoSuggestions || []).filter(i => i.accepted === true).length;
+    actions.push(`<button class="btn btn-secondary btn-sm" onclick="doRunSEO()">↻ Re-run SEO</button>`);
+    actions.push(`<button class="btn ${seoPending ? 'btn-primary' : 'btn-secondary'} btn-sm" onclick="doApplyAccepted('seo')" id="apply-seo-btn">Apply Accepted${seoPending ? ` <span style="background:rgba(255,255,255,0.3);border-radius:10px;padding:1px 6px;">${seoPending}</span>` : ''}</button>`);
+    actions.push(`<button class="btn btn-success btn-sm" onclick="markDone()">✓ Mark Done</button>`);
+  } else if (a.stage === 'done') {
+    actions.push(`<button class="btn btn-secondary btn-sm" onclick="exportWithInsightCheck()">↓ Export .md</button>`);
+  }
+
+  // Edit mode toggle — available any time a draft exists
+  if (a.draft) {
+    if (S.editMode) {
+      actions.push(`<button class="btn btn-success btn-sm" onclick="saveDraftEdit()">✓ Save Edits</button>`);
+      actions.push(`<button class="btn btn-ghost btn-sm" onclick="cancelDraftEdit()">✕ Cancel</button>`);
+    } else {
+      actions.push(`<button class="btn btn-secondary btn-sm" onclick="enterEditMode()">✏️ Edit</button>`);
+    }
+  }
+
+  // Go back a stage (not available at 'idea')
+  if (stageIdx > 0) {
+    const prevStage = STAGE_ORDER[stageIdx - 1];
+    const prevLabel = { idea:'Idea', keywords:'Keywords', draft:'Draft', qc:'QC', seo:'SEO', done:'Done' }[prevStage];
+    actions.push(`<button class="btn btn-ghost btn-sm" onclick="goBackStage('${prevStage}')" title="Move back to ${prevLabel} stage" style="color:var(--text-muted);">← ${prevLabel}</button>`);
+  }
+
+  actions.push(`<button class="btn btn-ghost btn-sm" onclick="showTab('pipeline')">⊞ Pipeline</button>`);
+  el.innerHTML = actions.join('');
+}
+
+async function goBackStage(targetStage) {
+  const a = S.currentArticle;
+  if (!a) return;
+  const label = { idea:'Idea', keywords:'Keywords', draft:'Draft', qc:'QC Review', seo:'SEO Review', done:'Done' }[targetStage];
+  if (!confirm(`Move this article back to the "${label}" stage? You can re-run checks from there.`)) return;
+  await PUT(`/articles/${a.id}`, { stage: targetStage });
+  S.currentArticle = await GET(`/articles/${a.id}`);
+  S.editMode = false;
+  restoreSuggestionsFromArticle(S.currentArticle);
+  renderEditor();
+}
+
+function renderArticleContent(a) {
+  const contentEl = document.getElementById('article-rendered');
+  const panelEl = document.getElementById('stage-panel');
+
+  if (a.stage === 'idea') {
+    const hasBrief = !!(a.structural_brief && a.structural_brief.trim());
+    contentEl.innerHTML = `<div style="color:var(--text-muted);margin-bottom:24px;">
+      <div style="font-size:24px;font-weight:800;margin-bottom:12px;">${a.topic}</div>
+      ${a.ideal_reader ? `<div style="margin-bottom:8px;"><strong>Ideal reader:</strong> ${a.ideal_reader}</div>` : ''}
+      ${a.why_read ? `<div style="margin-bottom:8px;"><strong>Why read:</strong> ${a.why_read}</div>` : ''}
+      ${a.gap_it_fills ? `<div style="margin-bottom:8px;"><strong>Gap it fills:</strong> ${a.gap_it_fills}</div>` : ''}
+      ${(a.strategic_intent||[]).length ? `<div><strong>Strategic intent:</strong> ${a.strategic_intent.join(', ')}</div>` : ''}
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:8px;">
+      <div style="display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;" onclick="toggleStructuralBrief('${a.id}')">
+        <span style="font-size:12px;color:var(--text-faint);" id="brief-toggle-icon-${a.id}">${hasBrief ? '▾' : '▸'}</span>
+        <span style="font-size:12px;font-weight:600;color:var(--text-muted);">Structural Brief</span>
+        ${hasBrief ? '<span style="font-size:11px;color:var(--accent);margin-left:4px;">● set</span>' : '<span style="font-size:11px;color:var(--text-faint);">optional — custom writing instructions for this article only</span>'}
+      </div>
+      <div id="brief-panel-${a.id}" style="display:${hasBrief ? 'block' : 'none'};margin-top:10px;">
+        <textarea id="brief-textarea-${a.id}" class="form-textarea" rows="6" placeholder="Paste any structural instructions here — a framework from LinkedIn, specific section requirements, a structural pattern you want followed. Only applies to this article.">${(a.structural_brief||'').replace(/</g,'&lt;')}</textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+          <button class="btn btn-primary btn-sm" onclick="saveStructuralBrief('${a.id}')">Save Brief</button>
+          ${hasBrief ? `<button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="clearStructuralBrief('${a.id}')">Clear</button>` : ''}
+          <span id="brief-save-status-${a.id}" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+      </div>
+    </div>`;
+
+    if (a.social_signals?.length) {
+      panelEl.innerHTML = `<div style="font-weight:700;font-size:14px;margin-bottom:10px;">📱 Social Signals</div>
+        ${a.social_signals.map(s => `<div class="social-card">
+          <div class="social-format">${s.format}</div>
+          <div class="social-hook">${s.hook}</div>
+          ${s.upgrade_to_article ? '<div class="social-upgrade">⬆ Could be a full article</div>' : ''}
+        </div>`).join('')}`;
+    } else panelEl.innerHTML = '';
+    return;
+  }
+
+  if (a.stage === 'keywords') {
+    contentEl.innerHTML = renderKeywordPanel(a);
+    panelEl.innerHTML = '';
+    return;
+  }
+
+  if (a.draft) {
+    if (S.editMode) {
+      contentEl.innerHTML = `<textarea id="draft-edit-area">${a.draft.replace(/</g,'&lt;')}</textarea>`;
+    } else {
+      contentEl.innerHTML = renderDraftHTML(a.draft);
+    }
+    panelEl.innerHTML = '';
+  }
+}
+
+function renderKeywordPanel(a) {
+  const kw = a.keywords || {};
+  const primary = kw.primary || {};
+  const secondary = kw.secondary || [];
+  if (!primary.keyword) return '<div style="color:var(--text-muted);padding:20px 0;">No keywords researched yet. Click "Research Keywords".</div>';
+
+  const fmtVol = v => (v && v !== 'unknown') ? Number(v).toLocaleString() : '—';
+  const fmtKD = v => (v && v !== 'unknown') ? v : '—';
+  const kdColor = v => !v || v === 'unknown' ? '' : v <= 30 ? 'color:var(--green)' : v <= 60 ? 'color:var(--yellow)' : 'color:var(--red)';
+  const srcBadge = s => s === 'ahrefs' ? '<span class="badge badge-green" style="font-size:10px;">ahrefs</span>' : '<span class="badge badge-grey" style="font-size:10px;">brainstorm</span>';
+
+  // secondary can be objects (new) or strings (old data)
+  const secRows = secondary.map(k => {
+    if (typeof k === 'string') return `<tr><td>${k}</td><td>—</td><td>—</td><td></td></tr>`;
+    return `<tr><td>${k.keyword}</td><td>${fmtVol(k.volume)}</td><td style="${kdColor(k.difficulty)};font-weight:600;">${fmtKD(k.difficulty)}</td><td>${srcBadge(k.source)}</td></tr>`;
+  });
+
+  // SERP summary panel
+  const serp = kw.serp;
+  const serpHtml = serp ? `<div style="background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;margin-bottom:12px;font-size:12px;">
+    <div style="font-weight:700;margin-bottom:4px;">📊 SERP Intelligence</div>
+    ${serp.dominant_format ? `<div><strong>Format:</strong> ${serp.dominant_format}</div>` : ''}
+    ${serp.avg_word_count ? `<div><strong>Avg length:</strong> ${serp.avg_word_count.toLocaleString()} words</div>` : ''}
+    ${serp.featured_snippet !== undefined ? `<div><strong>Featured snippet:</strong> ${serp.featured_snippet ? '✓ Yes' : '✗ No'}</div>` : ''}
+    ${serp.top_results?.length ? `<div style="margin-top:6px;"><strong>Top results:</strong><br>${serp.top_results.slice(0,3).map(r=>`<span style="display:block;color:var(--text-muted);margin-top:2px;">→ ${r.title.slice(0,70)}</span>`).join('')}</div>` : ''}
+    ${kw.settings_used ? `<div style="margin-top:6px;color:var(--text-faint);">Country: ${(kw.settings_used.country||'us').toUpperCase()} · Max KD: ${kw.settings_used.max_kd||70}</div>` : ''}
+  </div>` : '';
+
+  const manualKws = kw.manual || [];
+  const manualRows = manualKws.map(k => `<tr><td>${k}</td><td>—</td><td>—</td><td><span class="badge badge-blue" style="font-size:10px;">manual</span></td></tr>`);
+
+  return `<div>
+    <div style="font-weight:700;font-size:14px;margin-bottom:10px;">🎯 Keywords</div>
+    ${serpHtml}
+    <table class="kw-table">
+      <thead><tr><th>Keyword</th><th>Volume</th><th>KD</th><th></th></tr></thead>
+      <tbody>
+        <tr class="primary">
+          <td><strong>${primary.keyword}</strong></td>
+          <td><strong>${fmtVol(primary.volume)}</strong></td>
+          <td style="${kdColor(primary.difficulty)};font-weight:700;">${fmtKD(primary.difficulty)}</td>
+          <td>${srcBadge(primary.source)}</td>
+        </tr>
+        ${secRows.join('')}
+        ${manualRows.join('')}
+      </tbody>
+    </table>
+    <div style="font-size:11px;color:var(--text-faint);margin-top:6px;">KD: <span style="color:var(--green)">≤30 easy</span> · <span style="color:var(--yellow)">31-60 medium</span> · <span style="color:var(--red)">61+ hard</span></div>
+
+    <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px;">
+      <div style="font-weight:600;font-size:12px;margin-bottom:6px;">➕ Add your own keywords</div>
+      <div style="font-size:11px;color:var(--text-faint);margin-bottom:8px;">Paste keywords you found manually — one per line or comma-separated. These are always kept in the list and injected into the draft, regardless of research scores.</div>
+      <textarea id="manual-kw-input" class="form-textarea" rows="4" placeholder="demo automation software&#10;interactive product demo&#10;sales demo tools, presales software">${manualKws.join('\n')}</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+        <button class="btn btn-primary btn-sm" onclick="saveManualKeywords('${S.currentArticle?.id}')">Save Keywords</button>
+        <span id="manual-kw-status" style="font-size:11px;color:var(--text-faint);"></span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDraftHTML(markdown) {
+  // Render markdown to HTML
+  let html = marked.parse(markdown);
+  // Replace placeholder syntax with rich components
+  html = html.replace(/\[IMAGE:\s*([^|]+)\|([^\]]+)\]/g, (_, desc, suggestion) => `
+    <div class="ph-image">
+      <div class="ph-image-icon">🖼</div>
+      <div class="ph-image-desc">${desc.trim()}</div>
+      <div class="ph-image-suggestion">Suggestion: ${suggestion.trim()}</div>
+    </div>`);
+  html = html.replace(/\[DEMO:\s*(https?:\/\/[^\s|]+)\s*\|([^\]]+)\]/g, (_, url, reason) => `
+    <div class="ph-demo">
+      <span class="ph-demo-icon">▶</span>
+      <div>
+        <div class="ph-demo-url"><a href="${url}" target="_blank">${url}</a></div>
+        <div class="ph-demo-reason">${reason.trim()}</div>
+      </div>
+    </div>`);
+  html = html.replace(/\[SCREENSHOT:\s*([^/]+)\/([^\s|]+)\s*\|?([^\]]*)\]/g, (_, company, step, reason) => {
+    const imgSrc = `/api/demo/screenshot/${company}/${step}`;
+    const caption = reason ? reason.trim() : `${company} — ${step}`;
+    return `<div class="ph-screenshot">
+      <img src="${imgSrc}" onerror="this.parentElement.innerHTML='<div class=ph-screenshot-missing>📷 Screenshot: ${company}/${step}<br><span style=font-size:10px>File not found in classifier screenshots</span></div>'" alt="${caption}">
+      <div class="ph-screenshot-caption">${caption}</div>
+    </div>`;
+  });
+  return html;
+}
+
+function renderSidebarContent(a) {
+  renderSidebarTab(a, S.sidebarTab);
+}
+
+function switchSidebarTab(tab) {
+  S.sidebarTab = tab;
+  ['qc','seo','validation','info'].forEach(t => {
+    const el = document.getElementById('stab-' + t);
+    if (el) el.classList.toggle('active', t === tab);
+  });
+  if (S.currentArticle) renderSidebarTab(S.currentArticle, tab);
+}
+
+function renderSidebarTab(a, tab) {
+  const el = document.getElementById('editor-sidebar-content');
+  if (tab === 'qc') {
+    const result = a.qc_result;
+    if (!result) {
+      el.innerHTML = `<div class="empty-state" style="padding:30px 0;"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No QC run yet</div><div class="empty-state-text">Generate a draft first, then run QC.</div></div>`;
+      return;
+    }
+    const scores = [
+      { label: 'Hook', key: 'hook_score' },
+      { label: 'Zero fluff', key: 'fluff_score' },
+      { label: 'Relevancy', key: 'relevancy_score' },
+      { label: 'Reader value', key: 'reader_value_score' },
+      { label: 'EEAT signal', key: 'eeat_score' },
+      { label: 'Insight authenticity', key: 'insight_authenticity_score' },
+    ];
+    const scoreColor = (v) => v >= 8 ? 'var(--green)' : v >= 6 ? 'var(--yellow)' : 'var(--red)';
+
+    el.innerHTML = `
+      <div style="margin-bottom:14px;">
+        <div style="font-size:24px;font-weight:800;color:${scoreColor(result.overall_score)}">${result.overall_score}/10</div>
+        <div style="font-size:12px;color:var(--text-muted);">Overall QC Score</div>
+      </div>
+      ${scores.map(s => `<div class="score-row">
+        <div class="score-label">${s.label}</div>
+        <div class="score-bar"><div class="score-fill" style="width:${(result[s.key]||0)*10}%;background:${scoreColor(result[s.key]||0)};"></div></div>
+        <div class="score-val">${result[s.key]||0}</div>
+      </div>`).join('')}
+      <div style="font-size:12px;color:var(--text-muted);margin:10px 0 14px;line-height:1.5;">${result.summary||''}</div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-weight:600;font-size:13px;">${S.qcSuggestions.length} suggestions</div>
+        <button class="btn btn-primary btn-sm" onclick="doApplyAccepted('qc')">Apply Accepted</button>
+      </div>
+      ${S.qcSuggestions.map((item, i) => renderSuggestionCard(item, i, 'qc')).join('')}`;
+  } else if (tab === 'seo') {
+    const result = a.seo_result;
+    if (!result) {
+      el.innerHTML = `<div class="empty-state" style="padding:30px 0;"><div class="empty-state-icon">📊</div><div class="empty-state-title">No SEO run yet</div><div class="empty-state-text">Run QC first, then run the SEO check.</div></div>`;
+      return;
+    }
+    el.innerHTML = `
+      <div style="margin-bottom:14px;">
+        <div style="font-size:24px;font-weight:800;">${result.semantic_score||0}/10</div>
+        <div style="font-size:12px;color:var(--text-muted);">Semantic completeness</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">${result.total_suggestions||0} suggestions total</div>
+      </div>
+      ${result.meta_title ? `<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text-muted);margin-bottom:4px;">SUGGESTED META TITLE</div>
+        <div style="font-size:13px;">${result.meta_title}</div>
+        ${result.meta_description ? `<div style="font-size:11px;color:var(--text-muted);margin-top:6px;">${result.meta_description}</div>` : ''}
+      </div>` : ''}
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-weight:600;font-size:13px;">${S.seoSuggestions.length} suggestions</div>
+        <button class="btn btn-primary btn-sm" onclick="doApplyAccepted('seo')">Apply Accepted</button>
+      </div>
+      ${S.seoSuggestions.map((item, i) => renderSuggestionCard(item, i, 'seo')).join('')}`;
+  } else if (tab === 'validation') {
+    const v = a.validation_result;
+    if (!v || v.skipped) {
+      el.innerHTML = `<div class="empty-state" style="padding:30px 0;">
+        <div class="empty-state-icon">🔬</div>
+        <div class="empty-state-title">No validation yet</div>
+        <div class="empty-state-text">Validation runs automatically after you apply QC or SEO suggestions. It checks that revisions didn't compromise the original intent or customer voice.</div>
+      </div>`;
+      return;
+    }
+    const statusColor = s => s === 'pass' ? 'var(--green)' : s === 'warn' ? 'var(--warning)' : 'var(--red)';
+    const statusIcon = s => s === 'pass' ? '✓' : s === 'warn' ? '⚠' : '✕';
+    const verdictColor = statusColor(v.overall_verdict);
+    const checks = [
+      { key: 'insight_fidelity', label: 'Insight Fidelity', desc: 'Customer voice still present?' },
+      { key: 'meaning_preservation', label: 'Meaning Preserved', desc: 'Core thesis unchanged?' },
+      { key: 'keyword_coherence', label: 'Keyword Coherence', desc: 'Keywords still match content?' },
+    ];
+    el.innerHTML = `
+      <div style="background:${verdictColor}18;border:1px solid ${verdictColor};border-radius:8px;padding:10px 14px;margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:${verdictColor};">${statusIcon(v.overall_verdict)} ${v.overall_verdict?.toUpperCase()} — ${v.verdict_note || ''}</div>
+      </div>
+      ${checks.map(c => {
+        const chk = v[c.key] || {};
+        const sc = statusColor(chk.status);
+        return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span style="font-size:13px;font-weight:700;color:${sc};">${statusIcon(chk.status)}</span>
+            <span style="font-size:12px;font-weight:700;flex:1;">${c.label}</span>
+            <span style="font-size:18px;font-weight:800;color:${sc};">${chk.score || '?'}</span>
+            <span style="font-size:11px;color:var(--text-faint);">/10</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:${chk.suggestion ? '6px' : '0'};">${chk.finding || ''}</div>
+          ${chk.suggestion ? `<div style="font-size:11px;color:var(--accent);border-top:1px solid var(--border);padding-top:6px;margin-top:4px;">→ ${chk.suggestion}</div>` : ''}
+        </div>`;
+      }).join('')}`;
+
+  } else if (tab === 'info') {
+    const kw = a.keywords || {};
+    const primary = kw.primary || {};
+    el.innerHTML = `
+      ${a.overlap_warning ? `<div style="background:rgba(255,170,0,0.08);border:1px solid var(--warning);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:12px;">
+        <div style="font-weight:700;color:var(--warning);margin-bottom:4px;">⚠ Potential Overlap Detected</div>
+        <div style="color:var(--text-secondary);">Similar to: <strong>${a.overlap_warning.similar_to}</strong></div>
+        <div style="color:var(--text-muted);margin-top:4px;">${a.overlap_warning.reason}</div>
+        <div style="margin-top:6px;font-size:11px;color:var(--text-faint);">This doesn't mean you shouldn't write it — check if the angles are genuinely different. Delete this article if it's truly redundant.</div>
+      </div>` : ''}
+      <div style="margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Article Details</div>
+        ${a.ideal_reader ? `<div style="margin-bottom:8px;"><div class="form-label">Ideal Reader</div><div style="font-size:13px;">${a.ideal_reader}</div></div>` : ''}
+        ${a.why_read ? `<div style="margin-bottom:8px;"><div class="form-label">Why Read</div><div style="font-size:13px;">${a.why_read}</div></div>` : ''}
+        ${a.pillar ? `<div style="margin-bottom:8px;"><div class="form-label">Content Pillar</div><div style="font-size:13px;">${a.pillar}</div></div>` : ''}
+        ${(a.strategic_intent||[]).length ? `<div style="margin-bottom:8px;"><div class="form-label">Strategic Intent</div><div style="display:flex;gap:4px;flex-wrap:wrap;">${a.strategic_intent.map(i => `<span class="badge badge-accent">${i}</span>`).join('')}</div></div>` : ''}
+        ${primary.keyword ? `<div style="margin-bottom:8px;"><div class="form-label">Primary Keyword</div><div style="font-size:13px;font-weight:600;">${primary.keyword} <span style="color:var(--text-muted);font-weight:400;">(vol: ${primary.volume||'?'}, KD: ${primary.difficulty||'?'})</span></div></div>` : ''}
+      </div>
+      <div class="divider"></div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:10px;">🔗 Source Insights</div>
+      <div id="source-insights-panel">
+        ${(a.insight_ids_used||[]).length
+          ? `<div style="color:var(--text-muted);font-size:12px;">Loading source insights…</div>`
+          : `<div style="color:var(--text-faint);font-size:12px;margin-bottom:8px;">No insights linked — topic was created before insight tracking was added.</div>
+             <button class="btn btn-sm" id="relink-btn" onclick="relinkInsights('${a.id}')">↻ Auto-link relevant insights</button>`
+        }
+      </div>
+      ${(a.social_signals||[]).length ? `<div class="divider"></div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:10px;">📱 Social Signals</div>
+        ${a.social_signals.map(s => `<div class="social-card">
+          <div class="social-format">${s.format}</div>
+          <div class="social-hook">${s.hook}</div>
+          ${s.upgrade_to_article ? '<div class="social-upgrade">⬆ Could be a full article</div>' : ''}
+        </div>`).join('')}` : ''}`;
+
+    // Async-load the linked insights
+    const insightIds = a.insight_ids_used || [];
+    if (insightIds.length) {
+      fetch('/api/insights/by_ids', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ids: insightIds})})
+        .then(r => r.json())
+        .then(insights => {
+          const panel = document.getElementById('source-insights-panel');
+          if (!panel) return;
+          if (!insights.length) {
+            panel.innerHTML = `<div style="color:var(--text-faint);font-size:12px;">Insight records not found (may have been deleted).</div>`;
+            return;
+          }
+          panel.innerHTML = insights.map(ins => {
+            const pains = (ins.pain_points||[]).slice(0,2);
+            const quote = ins.quotes && ins.quotes[0] ? (ins.quotes[0].text || ins.quotes[0]) : null;
+            const confidence = ins.confidence ? Math.round(ins.confidence * 100) : null;
+            const confColor = ins.confidence >= 0.7 ? 'var(--success)' : ins.confidence >= 0.5 ? 'var(--warning)' : 'var(--text-muted)';
+            return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span class="badge badge-grey" style="font-size:10px;">${ins.source_type}</span>
+                <span style="font-size:12px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ins.source_name || ins.source_type}</span>
+                ${confidence !== null ? `<span style="font-size:11px;color:${confColor};font-weight:700;">${confidence}%</span>` : ''}
+              </div>
+              ${ins.customer_segment ? `<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">👤 ${ins.customer_segment}</div>` : ''}
+              ${pains.length ? `<div style="font-size:11px;margin-bottom:4px;color:var(--text-secondary);">⚡ ${pains.join(' · ')}</div>` : ''}
+              ${quote ? `<div style="font-size:11px;color:var(--text-muted);font-style:italic;border-left:2px solid var(--accent);padding-left:8px;">"${typeof quote === 'object' ? quote.text : quote}"</div>` : ''}
+            </div>`;
+          }).join('');
+        })
+        .catch(() => {
+          const panel = document.getElementById('source-insights-panel');
+          if (panel) panel.innerHTML = `<div style="color:var(--text-faint);font-size:12px;">Could not load source insights.</div>`;
+        });
+    }
+  }
+}
+
+function renderSuggestionCard(item, idx, type) {
+  const s = item.suggestion;
+  const sevCls = s.severity === 'critical' ? 'sev-critical' : s.severity === 'major' ? 'sev-major' : 'sev-minor';
+  const cardCls = item.accepted === true ? 'accepted' : item.accepted === false ? 'rejected' : '';
+  return `<div class="suggestion-card ${cardCls}" id="scard-${type}-${idx}">
+    <div class="suggestion-header" onclick="toggleSuggestion('${type}',${idx})">
+      <span class="badge ${sevCls}">${s.severity}</span>
+      <span style="font-size:12px;font-weight:600;flex:1;">${s.location||''}</span>
+      <span style="font-size:11px;color:var(--text-faint);">${s.type||''}</span>
+    </div>
+    <div class="suggestion-body" id="sbody-${type}-${idx}" style="display:${item.expanded?'block':'none'};">
+      <div class="suggestion-issue">${s.issue||''}</div>
+      <div class="suggestion-fix">${s.suggestion||''}</div>
+      ${s.example_fix ? `<div class="suggestion-example">"${s.example_fix}"</div>` : ''}
+      <div class="suggestion-actions">
+        <button class="btn btn-success btn-sm" onclick="acceptSuggestion('${type}',${idx})">✓ Accept</button>
+        <button class="btn btn-danger btn-sm" onclick="rejectSuggestion('${type}',${idx})">✕ Reject</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleSuggestion(type, idx) {
+  const arr = type === 'qc' ? S.qcSuggestions : S.seoSuggestions;
+  arr[idx].expanded = !arr[idx].expanded;
+  const body = document.getElementById(`sbody-${type}-${idx}`);
+  if (body) body.style.display = arr[idx].expanded ? 'block' : 'none';
+}
+
+function acceptSuggestion(type, idx) {
+  const arr = type === 'qc' ? S.qcSuggestions : S.seoSuggestions;
+  arr[idx].accepted = true;
+  arr[idx].expanded = false;
+  const card = document.getElementById(`scard-${type}-${idx}`);
+  if (card) { card.className = 'suggestion-card accepted'; card.querySelector('.suggestion-body').style.display = 'none'; }
+  _refreshApplyBtn(type);
+}
+
+function rejectSuggestion(type, idx) {
+  const arr = type === 'qc' ? S.qcSuggestions : S.seoSuggestions;
+  arr[idx].accepted = false;
+  arr[idx].expanded = false;
+  const card = document.getElementById(`scard-${type}-${idx}`);
+  if (card) { card.className = 'suggestion-card rejected'; card.querySelector('.suggestion-body').style.display = 'none'; }
+  _refreshApplyBtn(type);
+}
+
+function _refreshApplyBtn(type) {
+  const arr = type === 'qc' ? S.qcSuggestions : S.seoSuggestions;
+  const count = arr.filter(i => i.accepted === true).length;
+  const btn = document.getElementById(`apply-${type}-btn`);
+  if (!btn) return;
+  btn.className = `btn ${count ? 'btn-primary' : 'btn-secondary'} btn-sm`;
+  btn.innerHTML = `Apply Accepted${count ? ` <span style="background:rgba(255,255,255,0.3);border-radius:10px;padding:1px 6px;">${count}</span>` : ''}`;
+}
+
+// ── Editor actions ─────────────────────────────────────────────────────────────
+async function doResearchKeywords() {
+  const a = S.currentArticle;
+  const r = await POST(`/articles/${a.id}/keywords`);
+  pollTask(r.task_id, 'Researching keywords...', async () => {
+    S.currentArticle = await GET(`/articles/${a.id}`);
+    renderEditor();
+    _autoAdvance();
+  });
+}
+
+async function doGenerateDraft() {
+  const a = S.currentArticle;
+  const r = await POST(`/articles/${a.id}/draft`);
+  pollTask(r.task_id, 'Generating draft (this takes ~30s)...', async () => {
+    S.currentArticle = await GET(`/articles/${a.id}`);
+    renderEditor();
+    _autoAdvance();
+  });
+}
+
+async function doRunQC() {
+  const a = S.currentArticle;
+  const r = await POST(`/articles/${a.id}/qc`);
+  pollTask(r.task_id, 'Running QC check...', async () => {
+    S.currentArticle = await GET(`/articles/${a.id}`);
+    S.qcSuggestions = (S.currentArticle.qc_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
+    switchSidebarTab('qc');
+    renderEditor();
+    _autoAdvance();
+  });
+}
+
+async function doRunSEO() {
+  const qcPending = (S.qcSuggestions || []).filter(i => i.accepted === true).length;
+  if (qcPending > 0) {
+    if (!confirm(`You have ${qcPending} accepted QC suggestion(s) that haven't been applied yet. Apply them first, or proceed without applying?`)) return;
+  }
+  const a = S.currentArticle;
+  const r = await POST(`/articles/${a.id}/seo`);
+  pollTask(r.task_id, 'Running SEO check...', async () => {
+    S.currentArticle = await GET(`/articles/${a.id}`);
+    S.seoSuggestions = (S.currentArticle.seo_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
+    switchSidebarTab('seo');
+    renderEditor();
+    _autoAdvance();
+  });
+}
+
+async function doApplyAccepted(type) {
+  const arr = type === 'qc' ? S.qcSuggestions : S.seoSuggestions;
+  const accepted = arr.filter(i => i.accepted === true).map(i => i.suggestion);
+  if (!accepted.length) { showToast('No accepted suggestions to apply.'); setTimeout(hideToast, 2000); return; }
+  const a = S.currentArticle;
+  const r = await POST(`/articles/${a.id}/apply`, { type, suggestions: accepted });
+  pollTask(r.task_id, `Applying ${accepted.length} suggestion(s)...`, async () => {
+    S.currentArticle = await GET(`/articles/${a.id}`);
+    if (type === 'qc') S.qcSuggestions = S.qcSuggestions.filter(i => i.accepted !== true);
+    else S.seoSuggestions = S.seoSuggestions.filter(i => i.accepted !== true);
+    renderEditor();
+  });
+}
+
+async function markDone() {
+  const seoPending = (S.seoSuggestions || []).filter(i => i.accepted === true).length;
+  if (seoPending > 0) {
+    if (!confirm(`You have ${seoPending} accepted SEO suggestion(s) that haven't been applied yet. Apply them first, or mark done anyway?`)) return;
+  }
+  const a = S.currentArticle;
+  a.stage = 'done';
+  await PUT(`/articles/${a.id}`, { stage: 'done' });
+  S.currentArticle.stage = 'done';
+  renderEditor();
+}
+
+function exportArticle() {
+  window.location.href = `/api/articles/${S.currentArticle.id}/export`;
+}
+
+async function exportWithInsightCheck() {
+  const id = S.currentArticle?.id;
+  if (!id) return;
+  showToast('Checking insight preservation…');
+  try {
+    const result = await POST(`/articles/${id}/insight-check`, {});
+    hideToast();
+    if (result.skipped || result.ok) {
+      // All good or check not applicable — export directly
+      exportArticle();
+    } else {
+      // Issues found — show modal with option to proceed anyway
+      const issueRows = result.issues.map(i =>
+        `<div style="margin-bottom:10px;padding:10px;background:var(--surface-2);border-radius:6px;border-left:3px solid ${i.status==='missing'?'var(--red)':'var(--yellow)'};">
+          <div style="font-size:11px;font-weight:700;color:${i.status==='missing'?'var(--red)':'var(--yellow)'};text-transform:uppercase;margin-bottom:4px;">${i.status} ${i.type}</div>
+          <div style="font-size:12px;font-style:italic;margin-bottom:4px;">"${i.text.slice(0,120)}${i.text.length>120?'…':''}"</div>
+          <div style="font-size:11px;color:var(--text-muted);">${i.note}</div>
+        </div>`
+      ).join('');
+      showModal(`
+        <div style="font-weight:700;font-size:16px;margin-bottom:6px;">⚠ Insight Preservation Check</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">${result.issues.length} source insight element${result.issues.length>1?'s are':' is'} missing or paraphrased in the final draft. These are the quotes and metrics from the customer calls that informed this topic — they're your moat.</div>
+        ${issueRows}
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button class="btn btn-secondary" onclick="closeModal()">Go back and fix</button>
+          <button class="btn btn-primary" onclick="closeModal();exportArticle();">Export anyway</button>
+        </div>`);
+    }
+  } catch(e) {
+    hideToast();
+    exportArticle(); // Check failed — don't block export
+  }
+}
+
+function toggleStructuralBrief(articleId) {
+  const panel = document.getElementById(`brief-panel-${articleId}`);
+  const icon = document.getElementById(`brief-toggle-icon-${articleId}`);
+  const visible = panel.style.display !== 'none';
+  panel.style.display = visible ? 'none' : 'block';
+  icon.textContent = visible ? '▸' : '▾';
+}
+
+async function saveStructuralBrief(articleId) {
+  const val = document.getElementById(`brief-textarea-${articleId}`)?.value || '';
+  const statusEl = document.getElementById(`brief-save-status-${articleId}`);
+  statusEl.textContent = 'Saving...';
+  await PUT(`/articles/${articleId}`, { structural_brief: val });
+  S.currentArticle = await GET(`/articles/${articleId}`);
+  statusEl.textContent = '✅ Saved';
+  renderEditor();
+  setTimeout(() => { statusEl.textContent = ''; }, 2500);
+}
+
+async function clearStructuralBrief(articleId) {
+  if (!confirm('Remove the structural brief from this article?')) return;
+  await PUT(`/articles/${articleId}`, { structural_brief: '' });
+  S.currentArticle = await GET(`/articles/${articleId}`);
+  renderEditor();
+}
+
+async function saveManualKeywords(articleId) {
+  const raw = document.getElementById('manual-kw-input')?.value || '';
+  const status = document.getElementById('manual-kw-status');
+  try {
+    const r = await fetch(`/api/articles/${articleId}/keywords/manual`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({keywords: raw})
+    });
+    const d = await r.json();
+    status.textContent = `✅ ${d.count} keyword${d.count!==1?'s':''} saved`;
+    // Refresh the editor so the keyword panel reflects the saved list
+    const updated = await GET(`/articles/${articleId}`);
+    S.currentArticle = updated;
+    renderEditor();
+    setTimeout(() => { status.textContent = ''; }, 3000);
+  } catch(e) {
+    status.textContent = '⚠ Save failed';
+  }
+}
+
+async function processAllIdeas() {
+  const btn = document.getElementById('process-all-btn');
+  const ideas = (await GET('/articles')).filter(a => a.stage === 'idea');
+  if (!ideas.length) { showToast('No ideas in pipeline.'); setTimeout(hideToast, 2000); return; }
+
+  const s = S.settings || {};
+  const autoAdv = s.auto_advance || false;
+  const autoQC = s.auto_apply?.qc || false;
+  const autoSEO = s.auto_apply?.seo || false;
+  const skipAhrefs = s.keyword_settings?.skip_ahrefs || false;
+  const n = ideas.length;
+
+  // Cost estimate
+  const ahrefsCredits = skipAhrefs ? 0 : n * 20; // ~1 SERP + ~18 kw lookups per article
+  const claudeCost = autoAdv
+    ? `~$${(n * 0.12).toFixed(2)}–$${(n * 0.25).toFixed(2)}` // keywords + draft + QC + SEO
+    : `~$${(n * 0.001).toFixed(3)}`; // Haiku brainstorm only
+
+  const ahrefsNote = skipAhrefs
+    ? 'Ahrefs: skipped (no key / skip enabled)'
+    : `Ahrefs: ~${ahrefsCredits} credits`;
+
+  const chainNote = autoAdv
+    ? `Auto-advance is ON → each article will run:\nKeywords → Draft → QC${autoQC ? ' + auto-apply' : ''} → SEO${autoSEO ? ' + auto-apply' : ''} → Done\n\nThis will run fully unattended. Drafts won't be reviewed before advancing.`
+    : `Auto-advance is OFF → articles will stop at Keywords stage.\nTurn on Auto-Advance in Settings to chain the full pipeline automatically.`;
+
+  const msg = `Process all ${n} idea-stage articles?\n\n${chainNote}\n\nEstimated cost:\n• ${ahrefsNote}\n• Claude: ${claudeCost}\n\nThis runs sequentially and may take ${autoAdv ? `${n * 3}–${n * 5} minutes` : `${n}–${n * 2} minutes`}.`;
+
+  if (!confirm(msg)) return;
+  if (btn) btn.disabled = true;
+
+  const label = autoAdv
+    ? `Running full pipeline on ${n} ideas…`
+    : `Researching keywords for ${n} ideas…`;
+
+  const r = await POST('/pipeline/process-all', { stage: 'idea' });
+  pollTask(r.task_id, label, () => {
+    loadPipeline();
+    if (btn) btn.disabled = false;
+    showToast(`Batch complete — ${n} articles processed.`);
+    setTimeout(hideToast, 3000);
+  });
+}
+
+// ── Edit mode ──────────────────────────────────────────────────────────────────
+function enterEditMode() {
+  S.editMode = true;
+  renderEditor();
+}
+function cancelDraftEdit() {
+  S.editMode = false;
+  renderEditor();
+}
+async function saveDraftEdit() {
+  const ta = document.getElementById('draft-edit-area');
+  if (!ta) return;
+  const draft = ta.value;
+  S.currentArticle.draft = draft;
+  await fetch(`/api/articles/${S.currentArticle.id}/draft`, {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ draft }),
+  });
+  S.editMode = false;
+  renderEditor();
+  showToast('Draft saved.'); setTimeout(hideToast, 1800);
+}
+
+// ── Auto-advance pipeline ──────────────────────────────────────────────────────
+async function _autoAdvance() {
+  const s = S.settings || {};
+  if (!s.auto_advance) return;
+  const a = S.currentArticle;
+  const autoQC = s.auto_apply?.qc;
+  const autoSEO = s.auto_apply?.seo;
+
+  if (a.stage === 'keywords') { doGenerateDraft(); }
+  else if (a.stage === 'draft') { doRunQC(); }
+  else if (a.stage === 'qc') {
+    if (autoQC) {
+      // apply all critical+major then advance
+      const sug = (a.qc_result?.suggestions || []).filter(s => s.severity === 'critical' || s.severity === 'major');
+      if (sug.length) {
+        const r = await POST(`/articles/${a.id}/apply`, { type: 'qc', suggestions: sug });
+        pollTask(r.task_id, `Auto-applying ${sug.length} QC suggestion(s)...`, async () => {
+          S.currentArticle = await GET(`/articles/${a.id}`);
+          renderEditor();
+          doRunSEO();
+        });
+      } else { doRunSEO(); }
+    }
+    // if autoQC is off, halt here — user reviews suggestions manually
+  } else if (a.stage === 'seo') {
+    if (autoSEO) {
+      const sug = (a.seo_result?.suggestions || []).filter(s => s.severity === 'critical' || s.severity === 'major');
+      if (sug.length) {
+        const r = await POST(`/articles/${a.id}/apply`, { type: 'seo', suggestions: sug });
+        pollTask(r.task_id, `Auto-applying ${sug.length} SEO suggestion(s)...`, async () => {
+          S.currentArticle = await GET(`/articles/${a.id}`);
+          renderEditor();
+          markDone();
+        });
+      } else { markDone(); }
+    }
+    // if autoSEO is off, halt — user reviews
+  }
+}
+
+// ── Training Library ───────────────────────────────────────────────────────────
+function addTrainRow() {
+  const container = document.getElementById('train-url-rows');
+  const row = document.createElement('div');
+  row.className = 'train-url-row';
+  row.style.cssText = 'display:flex;gap:8px;align-items:center;';
+  row.innerHTML = `<input class="form-input train-url-input" placeholder="https://example.com/article" type="url" style="flex:1;">
+    <input class="form-input train-label-input" placeholder="Label (optional)" style="width:180px;">
+    <button class="btn btn-ghost btn-sm" onclick="removeTrainRow(this)" style="color:var(--text-faint);" title="Remove">✕</button>`;
+  container.appendChild(row);
+}
+
+function removeTrainRow(btn) {
+  const rows = document.querySelectorAll('.train-url-row');
+  if (rows.length <= 1) { btn.closest('.train-url-row').querySelector('.train-url-input').value = ''; return; }
+  btn.closest('.train-url-row').remove();
+}
+
+async function learnAllUrls() {
+  const rows = document.querySelectorAll('.train-url-row');
+  const items = [];
+  rows.forEach(row => {
+    const url = row.querySelector('.train-url-input')?.value.trim();
+    const label = row.querySelector('.train-label-input')?.value.trim();
+    if (url) items.push({ url, label });
+  });
+  if (!items.length) return;
+  const statusEl = document.getElementById('train-queue-status');
+  statusEl.textContent = `Processing 0 / ${items.length}...`;
+  let saved = 0, failed = [];
+  for (let i = 0; i < items.length; i++) {
+    statusEl.textContent = `Processing ${i + 1} / ${items.length}: ${items[i].url.slice(0, 50)}...`;
+    const r = await POST('/training/add', items[i]);
+    let lastMsg = '';
+    await new Promise(resolve => pollTask(r.task_id, `Learning format ${i+1}/${items.length}...`, (msg) => { lastMsg = msg || ''; resolve(); }));
+    if (lastMsg.startsWith('ERROR') || lastMsg.includes('error')) {
+      failed.push(items[i].url);
+    } else {
+      saved++;
+    }
+  }
+  if (failed.length) {
+    statusEl.innerHTML = `<span style="color:var(--green);">✅ ${saved} saved</span> &nbsp; <span style="color:var(--red);">❌ ${failed.length} failed (site blocked scraping):</span> ${failed.map(u => `<div style="font-size:11px;color:var(--text-faint);margin-top:2px;">${u}</div>`).join('')}`;
+  } else {
+    statusEl.textContent = `✅ ${saved} of ${items.length} saved.`;
+  }
+  document.querySelectorAll('.train-url-input').forEach(el => el.value = '');
+  document.querySelectorAll('.train-label-input').forEach(el => el.value = '');
+  loadFormats();
+}
+
+async function learnFromText() {
+  const text = document.getElementById('train-text-input').value.trim();
+  const label = document.getElementById('train-text-label').value.trim();
+  const angle_hint = document.getElementById('train-text-angle').value;
+  if (!text) { showToast('Paste a framework first.'); return; }
+  const statusEl = document.getElementById('train-text-status');
+  statusEl.textContent = 'Extracting...';
+  const r = await POST('/training/add-text', { text, label, angle_hint });
+  await new Promise(resolve => pollTask(r.task_id, 'Extracting framework...', resolve));
+  statusEl.textContent = 'Saved.';
+  document.getElementById('train-text-input').value = '';
+  document.getElementById('train-text-label').value = '';
+  document.getElementById('train-text-angle').value = '';
+  loadFormats();
+  setTimeout(() => { statusEl.textContent = ''; }, 3000);
+}
+
+async function deleteFormat(url) {
+  if (!confirm('Remove this learned format?')) return;
+  await POST('/training/formats/delete', { url });
+  loadFormats();
+}
+
+async function loadFormats() {
+  const formats = await GET('/training/formats');
+  const el = document.getElementById('formats-list');
+  if (!formats.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-title">No formats learned yet</div><div class="empty-state-text">Add article URLs above to build your content format library.</div></div>`;
+    return;
+  }
+  el.innerHTML = formats.map(f => {
+    const tmpl = f.structural_template || {};
+    const mind = f.mindset || {};
+    const escapedUrl = f.url.replace(/'/g, "\\'");
+    const isText = f.source_type === 'text';
+    return `<div class="format-card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span class="badge badge-accent">${f.inferred_angle||'unknown'}</span>
+        ${isText ? '<span class="badge" style="background:var(--surface-2);color:var(--text-muted);font-size:10px;">📝 pasted</span>' : ''}
+        <span style="font-size:13px;font-weight:600;">${f.label||'Unlabelled'}</span>
+        <span style="font-size:11px;color:var(--text-faint);margin-left:auto;">${(f.added_at||'').slice(0,10)}</span>
+        <button class="btn btn-danger btn-sm" onclick="deleteFormat('${escapedUrl}')" style="padding:2px 8px;font-size:11px;">✕ Remove</button>
+      </div>
+      ${isText ? '' : `<div class="format-url">${f.url}</div>`}
+      <div class="format-section">
+        <div class="format-section-label">Structural Template</div>
+        <div class="format-section-content">
+          <strong>Hook:</strong> ${tmpl.hook_type||''} — ${tmpl.hook_description||''}<br>
+          <strong>Structure:</strong> ${(tmpl.structure_outline||[]).slice(0,3).join(' → ')}<br>
+          <strong>Evidence:</strong> ${tmpl.evidence_pattern||''} · ${tmpl.prose_vs_lists||''}
+        </div>
+      </div>
+      <div class="format-section">
+        <div class="format-section-label">Approach & Mindset</div>
+        <div class="format-section-content">
+          ${mind.key_insight||''}<br>
+          <strong>Optimising for:</strong> ${mind.writer_optimising_for||''} · Tone: ${mind.tone_character||''}<br>
+          ${(mind.non_obvious_choices||[]).length ? `<strong>Non-obvious:</strong> ${mind.non_obvious_choices[0]}` : ''}
+        </div>
+      </div>
+      ${f.use_when ? `<div class="format-section"><div class="format-section-label">Use When</div><div class="format-section-content">${f.use_when}</div></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── Settings ───────────────────────────────────────────────────────────────────
+async function loadSettings() {
+  try {
+    const s = await GET('/settings');
+    S.settings = s;
+    const sched = s.scheduler || {};
+    document.getElementById('s-insight-hours').value = sched.insight_scan_hours || 6;
+    document.getElementById('s-topic-hours').value = sched.topic_gen_hours || 24;
+    document.getElementById('s-topic-count').value = s.topic_gen_count || 5;
+    setToggle('toggle-sched', sched.enabled !== false);
+    setToggle('toggle-auto-qc', s.auto_apply?.qc || false);
+    setToggle('toggle-auto-seo', s.auto_apply?.seo || false);
+    setToggle('toggle-auto-advance', s.auto_advance || false);
+    setToggle('toggle-auto-topics', s.scheduler?.auto_topics_after_scan || false);
+    setToggle('toggle-auto-validate', s.auto_validate !== false);
+    document.getElementById('s-qc-rubric').value = s.qc_rubric || '';
+    document.getElementById('s-seo-rubric').value = s.seo_rubric || '';
+    const kwCfg = s.keyword_settings || {};
+    const countryEl = document.getElementById('s-kw-country');
+    if (countryEl) countryEl.value = kwCfg.country || 'us';
+    const maxKdEl = document.getElementById('s-kw-max-kd');
+    if (maxKdEl) maxKdEl.value = kwCfg.max_kd ?? 70;
+    const minVolEl = document.getElementById('s-kw-min-volume');
+    if (minVolEl) minVolEl.value = kwCfg.min_volume ?? 0;
+    setToggle('toggle-skip-ahrefs', kwCfg.skip_ahrefs || false);
+    const callKwEl = document.getElementById('s-call-keywords');
+    if (callKwEl) {
+      const defaultKws = ['demo','onboarding','pricing','objection','competitor','pain point','use case','buyer','trial','evaluation'];
+      const grainKws = (s.grain_filter?.require_keywords) || defaultKws;
+      callKwEl.value = grainKws.join('\n');
+    }
+    const minDurEl = document.getElementById('s-call-min-duration');
+    if (minDurEl) minDurEl.value = s.grain_filter?.min_duration_minutes ?? 10;
+    const minWordsEl = document.getElementById('s-call-min-words');
+    if (minWordsEl) minWordsEl.value = s.grain_filter?.min_transcript_words ?? 200;
+
+    const apiEl = document.getElementById('api-key-status');
+    const keys = s.api_keys_set || {};
+    const labels = { anthropic: 'Anthropic API Key', ahrefs: 'Ahrefs API Token', grain: 'Grain API Token', sybill: 'Sybill API Token' };
+    apiEl.innerHTML = Object.entries(labels).map(([k, label]) => {
+      const set = keys[k];
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <span class="badge ${set ? 'badge-green' : 'badge-grey'}">${set ? '✓ Saved' : '— Not set'}</span>
+        <span style="font-size:13px;">${label}</span>
+      </div>`;
+    }).join('');
+
+    const brief = await GET('/company-brief');
+    const briefEl = document.getElementById('brief-status');
+    if (brief.what_we_do) {
+      briefEl.innerHTML = `<span class="badge badge-green">✓ Intelligence loaded</span> <span style="color:var(--text-muted);margin-left:6px;">Last scan: ${(brief.scanned_at||'').slice(0,10)}</span>`;
+    } else {
+      briefEl.innerHTML = `<span class="badge badge-red">⚠ Not set up</span> <span style="color:var(--text-muted);margin-left:6px;">Run the scan below to get started.</span>`;
+    }
+  } catch(e) {}
+}
+
+async function saveSettings() {
+  const settings = {
+    scheduler: {
+      insight_scan_hours: parseInt(document.getElementById('s-insight-hours').value) || 6,
+      topic_gen_hours: parseInt(document.getElementById('s-topic-hours').value) || 24,
+      enabled: isToggleOn('toggle-sched'),
+      auto_topics_after_scan: isToggleOn('toggle-auto-topics'),
+    },
+    topic_gen_count: parseInt(document.getElementById('s-topic-count').value) || 5,
+    auto_apply: {
+      qc: isToggleOn('toggle-auto-qc'),
+      seo: isToggleOn('toggle-auto-seo'),
+    },
+    auto_advance: isToggleOn('toggle-auto-advance'),
+    auto_validate: isToggleOn('toggle-auto-validate'),
+    qc_rubric: document.getElementById('s-qc-rubric').value.trim(),
+    seo_rubric: document.getElementById('s-seo-rubric').value.trim(),
+    keyword_settings: {
+      country: document.getElementById('s-kw-country')?.value || 'us',
+      max_kd: parseInt(document.getElementById('s-kw-max-kd')?.value) || 70,
+      min_volume: parseInt(document.getElementById('s-kw-min-volume')?.value) || 0,
+      skip_ahrefs: isToggleOn('toggle-skip-ahrefs'),
+    },
+  };
+  // Sync call filters to both grain_filter and sybill_filter
+  const callKwRaw = document.getElementById('s-call-keywords')?.value || '';
+  const callKws = callKwRaw.split('\n').map(k => k.trim()).filter(Boolean);
+  const minDur = parseInt(document.getElementById('s-call-min-duration')?.value) || 10;
+  const minWords = parseInt(document.getElementById('s-call-min-words')?.value) || 200;
+  const callFilterPatch = {
+    ...(callKws.length ? { require_keywords: callKws } : {}),
+    min_duration_minutes: minDur,
+    min_transcript_words: minWords,
+  };
+  settings.grain_filter = { ...(S.settings?.grain_filter || {}), ...callFilterPatch };
+  settings.sybill_filter = { ...(S.settings?.sybill_filter || {}), ...callFilterPatch };
+  await PUT('/settings', settings);
+  showToast('Settings saved.');
+  setTimeout(hideToast, 2000);
+}
+
+// ── Internal Link Library ──────────────────────────────────────────────────────
+async function loadLinkLibrary() {
+  const el = document.getElementById('link-library-list');
+  if (!el) return;
+  try {
+    const links = await GET('/links');
+    if (!links.length) {
+      el.innerHTML = `<div style="color:var(--text-faint);font-size:12px;">No links indexed yet. Add Storylane blog posts, feature pages, and docs above.</div>`;
+      return;
+    }
+    const typeColors = { blog: 'badge-accent', docs: 'badge-grey', feature: 'badge-primary', pricing: 'badge-grey', comparison: 'badge-grey', other: 'badge-grey' };
+    el.innerHTML = links.map(l => `
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:flex-start;gap:10px;">
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+            <span class="badge ${typeColors[l.type]||'badge-grey'}" style="font-size:10px;">${l.type}</span>
+            <span style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${l.title}</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:3px;">${l.summary}</div>
+          <div style="font-size:10px;color:var(--text-faint);">${l.url}</div>
+          ${l.keywords?.length ? `<div style="margin-top:4px;display:flex;gap:3px;flex-wrap:wrap;">${l.keywords.slice(0,5).map(k => `<span style="background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:10px;">${k}</span>`).join('')}</div>` : ''}
+        </div>
+        <button class="btn btn-sm" style="color:var(--danger);padding:4px 8px;font-size:11px;" onclick="deleteInternalLink('${encodeURIComponent(l.url)}')">✕</button>
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = `<div style="color:var(--danger);font-size:12px;">Could not load link library.</div>`;
+  }
+}
+
+async function addInternalLink() {
+  const input = document.getElementById('link-url-input');
+  const url = input?.value?.trim();
+  if (!url) return;
+  input.value = '';
+  showToast('Indexing URL...');
+  try {
+    const { task_id } = await POST('/links/add', { url });
+    pollTask(task_id, `Indexing ${url.split('/').pop() || url}`, async () => {
+      hideToast();
+      await loadLinkLibrary();
+    });
+  } catch(e) {
+    showToast('Failed to add link.');
+    setTimeout(hideToast, 3000);
+  }
+}
+
+async function deleteInternalLink(encodedUrl) {
+  const url = decodeURIComponent(encodedUrl);
+  if (!confirm(`Remove "${url}" from the link library?`)) return;
+  await POST('/links/delete', { url });
+  await loadLinkLibrary();
+}
+
+// ── Brain file uploads ─────────────────────────────────────────────────────────
+const _brainFiles = []; // { filename, text }
+
+async function handleFileSelect(files) {
+  for (const file of files) await _uploadBrainFile(file);
+}
+async function handleFileDrop(e) {
+  e.preventDefault();
+  document.getElementById('brain-file-drop').style.borderColor = 'var(--border)';
+  for (const file of e.dataTransfer.files) await _uploadBrainFile(file);
+}
+async function _uploadBrainFile(file) {
+  const statusEl = document.getElementById('brain-scan-status');
+  statusEl.style.color = 'var(--text-muted)';
+  statusEl.textContent = `Extracting text from ${file.name}…`;
+  const fd = new FormData();
+  fd.append('file', file);
+  const r = await fetch('/api/company-brain/upload', { method: 'POST', body: fd });
+  const data = await r.json();
+  if (data.error) { statusEl.style.color = 'var(--red)'; statusEl.textContent = data.error; return; }
+  _brainFiles.push({ filename: data.filename, text: data.text });
+  renderBrainFileList();
+  statusEl.textContent = '';
+}
+function renderBrainFileList() {
+  document.getElementById('brain-file-list').innerHTML = _brainFiles.map((f, i) =>
+    `<div style="display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:4px;font-size:12px;">
+      <span>📄</span><span style="flex:1;">${f.filename}</span>
+      <span style="color:var(--text-faint);">${Math.round(f.text.length/1000)}k chars</span>
+      <button onclick="_brainFiles.splice(${i},1);renderBrainFileList()" style="background:none;border:none;cursor:pointer;color:var(--text-faint);font-size:14px;">✕</button>
+    </div>`
+  ).join('');
+}
+
+async function runBrainScan() {
+  const urlsRaw = document.getElementById('brain-urls')?.value || '';
+  const docsRaw = document.getElementById('brain-docs')?.value || '';
+  const urls = urlsRaw.split('\n').map(u => u.trim()).filter(Boolean);
+  const raw_docs = [
+    ..._brainFiles.map(f => `--- FILE: ${f.filename} ---\n${f.text}`),
+    ...(docsRaw.trim() ? [docsRaw] : []),
+  ];
+  const statusEl = document.getElementById('brain-scan-status');
+  if (!urls.length && !raw_docs.length) {
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = 'Add at least one URL or file.';
+    return;
+  }
+  statusEl.textContent = '';
+  const btn = document.getElementById('brain-scan-btn');
+  btn.disabled = true;
+  let resp;
+  try {
+    resp = await POST('/company-brain/scan', { urls, raw_docs });
+  } catch(e) {
+    btn.disabled = false;
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = e.message.includes('API key') ? '⚠ Anthropic API key not set — go to API Keys section below and save it first.' : `Error: ${e.message}`;
+    return;
+  }
+  pollTask(resp.task_id, 'Scanning company intelligence…', (msg) => {
+    btn.disabled = false;
+    if (msg.startsWith('ERROR')) {
+      statusEl.style.color = 'var(--red)';
+      statusEl.textContent = `⚠ ${msg}`;
+    } else {
+      statusEl.style.color = 'var(--green)';
+      statusEl.textContent = '✓ Intelligence scan complete.';
+      loadSettings();
+    }
+  });
+}
+
+async function loadModels() {
+  try {
+    const s = await GET('/models/status');
+    const detected = s.detected || {};
+    const known = s.known || {};
+    const el = document.getElementById('model-status');
+    if (!detected.sonnet && !detected.haiku) {
+      el.innerHTML = `<span class="badge badge-yellow">⚠ Not detected yet</span> <span style="color:var(--text-muted);margin-left:6px;">Click "Detect Available Models" after saving your API key.</span>`;
+      return;
+    }
+    const rows = Object.entries({ sonnet: 'Sonnet (drafts, QC, SEO)', haiku: 'Haiku (keywords, topics)' }).map(([tier, label]) => {
+      const id = detected[tier];
+      const badge = id ? `<span class="badge badge-green">✓ ${id}</span>` : `<span class="badge badge-red">✗ Not found</span>`;
+      return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:13px;width:220px;">${label}</span>${badge}</div>`;
+    });
+    el.innerHTML = rows.join('');
+  } catch(e) {}
+}
+
+async function detectModels() {
+  const btn = document.getElementById('detect-models-btn');
+  btn.disabled = true;
+  const el = document.getElementById('model-status');
+  el.innerHTML = `<span style="color:var(--text-muted);">Detecting…</span>`;
+  try {
+    const r = await POST('/models/detect');
+    pollTask(r.task_id, 'Detecting models...', (msg) => {
+      btn.disabled = false;
+      if (msg.startsWith('ERROR')) {
+        el.innerHTML = `<span class="badge badge-red">⚠ ${msg}</span>`;
+      } else {
+        loadModels();
+      }
+    });
+  } catch(e) {
+    btn.disabled = false;
+    el.innerHTML = `<span class="badge badge-red">⚠ ${e.message}</span>`;
+  }
+}
+
+async function checkKeyHealth() {
+  const el = document.getElementById('key-health-result');
+  el.innerHTML = '<span style="color:var(--text-muted);">Checking keys…</span>';
+  try {
+    const res = await GET('/api/settings/key-health');
+    const labels = { anthropic: 'Anthropic', ahrefs: 'Ahrefs', grain: 'Grain', sybill: 'Sybill' };
+    const icon = { ok:'✅', invalid:'❌', not_set:'⚪', set:'✅', error:'⚠️' };
+    const note = { ok:'', invalid:' — key rejected by API', not_set:' — not configured', set:' — configured (webhook, cannot ping)', error:' — could not reach API' };
+    el.innerHTML = Object.entries(res).map(([k, v]) =>
+      `<div style="margin-bottom:4px;">${icon[v] || '⚠️'} <strong>${labels[k]}</strong>${note[v] || ''}</div>`
+    ).join('');
+  } catch(e) {
+    el.innerHTML = '<span style="color:var(--red);">Failed to check keys.</span>';
+  }
+}
+
+async function saveApiKeys() {
+  const keys = {
+    anthropic: document.getElementById('key-anthropic').value,
+    ahrefs: document.getElementById('key-ahrefs').value,
+    grain: document.getElementById('key-grain').value,
+    sybill: document.getElementById('key-sybill').value,
+  };
+  await fetch('/api/settings/keys', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(keys) });
+  document.getElementById('key-anthropic').value = '';
+  document.getElementById('key-ahrefs').value = '';
+  document.getElementById('key-grain').value = '';
+  document.getElementById('key-sybill').value = '';
+  showToast('API keys saved.');
+  setTimeout(() => { hideToast(); loadSettings(); }, 1500);
+}
+
+async function exportToolZip(bundle) {
+  const status = document.getElementById('export-zip-status');
+  status.textContent = bundle ? 'Building bundle (may take a moment)…' : 'Building zip…';
+  try {
+    const url = '/api/export-zip' + (bundle ? '?bundle=1' : '');
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('Server error');
+    const blob = await resp.blob();
+    const filename = bundle ? 'Storylane Customer Insights Content Engine - Complete.zip' : 'Storylane Customer Insights Content Engine - Engine Only.zip';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    status.textContent = bundle
+      ? '✅ Downloaded — includes Mac setup script. Recipient right-clicks ▶ Start Here first.'
+      : '✅ Downloaded — API keys stripped.';
+    setTimeout(() => { status.textContent = ''; }, 7000);
+  } catch(e) {
+    status.textContent = '⚠ Export failed: ' + e.message;
+  }
+}
+
+async function triggerJob(job) {
+  await POST('/scheduler/trigger', { job });
+  showToast(`Triggered ${job}...`);
+  setTimeout(hideToast, 2000);
+}
+
+// ── Toggle helpers ─────────────────────────────────────────────────────────────
+function toggleSwitch(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('on');
+}
+function setToggle(id, val) {
+  const el = document.getElementById(id);
+  if (el) { el.classList.toggle('on', val); }
+}
+function isToggleOn(id) {
+  return document.getElementById(id)?.classList.contains('on') || false;
+}
+
+// ── Modals ─────────────────────────────────────────────────────────────────────
+function showModal(html) {
+  document.getElementById('modal-content').innerHTML = html;
+  document.getElementById('modal-backdrop').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('modal-backdrop').style.display = 'none';
+}
+document.getElementById('modal-backdrop').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal-backdrop')) closeModal();
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+refreshStatus();
+setInterval(refreshStatus, 30000);
+</script>
+</body>
+</html>

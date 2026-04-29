@@ -1,0 +1,23 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# API keys — never commit this
+data/settings.json
+
+# Regeneratable caches
+data/kw_cache.json
+data/demo_query_cache.json
+
+# Local exports
+output/articles/*.md
+
+# macOS
+.DS_Store
+
+# Logs
+/tmp/content-engine.log
