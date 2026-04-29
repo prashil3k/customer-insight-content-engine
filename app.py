@@ -1051,30 +1051,42 @@ ENGINE_FOLDER  = "Storylane Customer Insights Content Engine"
 
 MAC_SETUP_SCRIPT = """\
 #!/bin/bash
-# RIGHT-CLICK this file → Open → Open (just this once).
-# After this runs, all other launchers can be double-clicked normally.
+# This script unlocks all the files so you can double-click the launchers normally.
+# If double-clicking this file gives you a security warning, right-click it → Open → Open.
 
 cd "$(dirname "$0")"
 
-# Strip quarantine from self first so future double-clicks work without warnings
-xattr -d com.apple.quarantine "$0" 2>/dev/null
-
 echo ""
-echo "🔓 Clearing macOS security flags..."
-xattr -dr com.apple.quarantine "Storylane Customer Insights Content Engine" storylane-demo-classifier 2>/dev/null
-xattr -dr com.apple.quarantine . 2>/dev/null
+echo "========================================"
+echo "  Storylane Content Engine — Mac Setup"
+echo "========================================"
+echo ""
+echo "Step 1/2: Removing macOS security flags on all files..."
+xattr -rd com.apple.quarantine . 2>/dev/null
+echo "         Done."
+echo ""
+echo "Step 2/2: Making launcher files executable..."
 chmod +x "Storylane Customer Insights Content Engine/Content Engine.command" 2>/dev/null
-chmod +x storylane-demo-classifier/"Start Classifier.command" 2>/dev/null
-
+chmod +x "storylane-demo-classifier/Start Classifier.command" 2>/dev/null
+echo "         Done."
 echo ""
-echo "✅ Done! You can now double-click the launchers normally:"
-echo "   • storylane-demo-classifier/Start Classifier.command"
-echo "   • Storylane Customer Insights Content Engine/Content Engine.command"
+echo "========================================"
+echo "  Setup complete! Here's what to do now:"
+echo "========================================"
 echo ""
-echo "Start the Demo Classifier first, then the Content Engine."
-echo "Both need to be running at the same time."
+echo "  1. Double-click:  storylane-demo-classifier/Start Classifier.command"
+echo "     Wait until a browser tab opens at localhost:8000."
+echo "     Keep that Terminal window open (just minimise it)."
 echo ""
-echo "Press any key to close..."
+echo "  2. Double-click:  Storylane Customer Insights Content Engine/Content Engine.command"
+echo "     Wait until a browser tab opens at localhost:8001."
+echo "     Keep that Terminal window open too."
+echo ""
+echo "  3. In the browser at localhost:8001 → Settings → API Keys → paste your key."
+echo ""
+echo "  Next time: just double-click both launchers. No setup needed again."
+echo ""
+echo "Press any key to close this window..."
 read -n 1
 """
 
@@ -1082,25 +1094,94 @@ SETUP_README = """\
 STORYLANE CONTENT ENGINE — HOW TO OPEN
 =======================================
 
-FIRST TIME ONLY
-----------------
-
-1. Open Terminal (press Cmd+Space, type Terminal, hit Enter).
-
-2. Paste this command and hit Enter:
-
-   xattr -rd com.apple.quarantine ~/Downloads/"Storylane Customer Insights Content Engine - Complete"
-
-3. Double-click:  storylane-demo-classifier/Start Classifier.command
-   Wait for it to open in your browser (localhost:8000). Keep it running.
-
-4. Double-click:  Storylane Customer Insights Content Engine/Content Engine.command
-   It will open at localhost:8001. Go to Settings → API Keys and paste your key.
+READ THIS FIRST — macOS blocks downloaded files by default.
+You must do the two steps below before anything will work.
 
 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FIRST TIME ONLY  (takes about 2 minutes)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1 — Unlock the folder in Terminal
+──────────────────────────────────────
+  This tells macOS "I trust everything in this folder."
+
+  a) Open Terminal
+     (Press Cmd+Space, type "Terminal", press Enter)
+
+  b) In Terminal, type the following — then add a SPACE at the end
+     (do NOT press Enter yet):
+
+        xattr -rd com.apple.quarantine
+
+  c) Now open Finder and find the folder named:
+        "Storylane Customer Insights Content Engine - Complete"
+     Drag that folder into the Terminal window and drop it.
+     The full path will appear next to your command automatically.
+
+  d) Now press Enter.
+
+  Nothing will appear to happen — that is correct. You just unlocked every file.
+
+
+STEP 2 — Run the setup script (handles everything else)
+────────────────────────────────────────────────────────
+  Double-click the file:  ▶ Start Here — Mac Setup.command
+
+  A black Terminal window opens and runs automatically.
+  It will tell you when it's done and what to do next.
+
+  (If macOS still shows a security warning: right-click the file → Open → Open)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STARTING THE TOOLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Always start in this order:
+
+  1. Double-click:  storylane-demo-classifier/Start Classifier.command
+     A black window opens and installs things the first time (~1 min).
+     Your browser opens to http://localhost:8000 when it's ready.
+     ⚠️  Keep this window open (minimise it — do NOT close it).
+
+  2. Double-click:  Storylane Customer Insights Content Engine/Content Engine.command
+     Same process. Your browser opens to http://localhost:8001.
+     ⚠️  Keep this window open too.
+
+  3. In the Content Engine (localhost:8001):
+     Go to Settings → API Keys → paste your Anthropic API key → Save.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EVERY TIME AFTER THAT
-----------------------
-Just double-click both launcher files (Classifier first, then Engine). That's it.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Just double-click both launchers. No Terminal needed.
+  Classifier first → Engine second. That's it.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "Operation not permitted"
+      → You skipped Step 1. Run the xattr command again.
+
+  "Permission denied" or nothing happens on double-click
+      → You skipped Step 2. Double-click the setup script.
+
+  Browser shows "This site can't be reached"
+      → The launcher window was closed. Re-open it and wait for it to start.
+
+  Port already in use
+      → Open Activity Monitor (Cmd+Space → Activity Monitor),
+        search for "python", and quit any running Python processes.
+        Then try launching again.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Questions? Contact Prashil.
 """
 
 

@@ -53,6 +53,20 @@ def run_insight_scan():
     except Exception as e:
         log(f"Scheduler: Grain poll error — {e}")
 
+    # Sybill REST poller
+    try:
+        import config as _cfg
+        if _cfg.SYBILL_API_TOKEN:
+            from modules.sybill_connector import poll_sybill
+            processed = poll_sybill(progress_cb=log)
+            new_insights += len(processed)
+            if processed:
+                log(f"Scheduler: Sybill poll done — {len(processed)} new calls processed.")
+        else:
+            log("Scheduler: Sybill token not set — skipping.")
+    except Exception as e:
+        log(f"Scheduler: Sybill poll error — {e}")
+
     # Auto-generate topics if setting is on and new insights arrived
     try:
         settings = _get_settings()
@@ -124,6 +138,15 @@ def trigger(job_id: str):
             except Exception as e:
                 log(f"Grain manual poll error — {e}")
         threading.Thread(target=_grain, daemon=True).start()
+        return True
+    elif job_id == "sybill_poll":
+        def _sybill():
+            try:
+                from modules.sybill_connector import poll_sybill
+                poll_sybill(progress_cb=log)
+            except Exception as e:
+                log(f"Sybill manual poll error — {e}")
+        threading.Thread(target=_sybill, daemon=True).start()
         return True
     return False
 

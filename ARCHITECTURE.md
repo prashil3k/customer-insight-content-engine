@@ -78,7 +78,7 @@ storylane-content-engine/
 │   ├── company_brain.py          # URL scraping + file upload (PDF/PPTX/XLSX/CSV) → company_brief.json
 │   ├── insight_extractor.py      # Transcripts/dumps → structured insights → insights.db (SQLite)
 │   ├── grain_connector.py        # Grain REST API v2 poller — cursor-paginated, keyword+length filtered
-│   ├── sybill_connector.py       # Sybill webhook receiver — Svix HMAC-SHA256 verification
+│   ├── sybill_connector.py       # Sybill REST API poller — mirrors grain_connector.py pattern
 │   ├── pillar_map.py             # Content pillar coverage map — tracks published/in-pipeline/missing
 │   ├── topic_planner.py          # Insights + pillar gaps → topic proposals with insight lineage
 │   ├── keyword_researcher.py     # SERP pass → parent-category brainstorm → Ahrefs validate + manual keywords
@@ -123,7 +123,7 @@ storylane-content-engine/
 | POST | `/api/insights/by_ids` | Fetch specific insights by UUID array |
 | POST | `/api/insights/dump` | Text dump → extract_insights_from_text() |
 | POST | `/api/insights/upload` | Uploaded transcript → extract_insights_from_text() |
-| POST | `/api/sybill/webhook` | Sybill push events — verifies Svix signature |
+| POST | `/api/scheduler/trigger` | `{ "job": "sybill_poll" }` manually kicks off Sybill poll |
 | POST | `/api/watch/process` | Scans watch/grain/ and watch/sybill/ for new files |
 | GET | `/api/watch/files` | Files currently in watch folders |
 | GET | `/api/pillars` | Returns `{ map, gaps }` |
@@ -249,7 +249,7 @@ SQLite schema per insight: `id, source_id, source_type, source_name, author, cus
 Grain REST API v2 poller. Filters: external participants required; excludes scrum/1:1/all-hands patterns; keyword inclusion filter; `min_duration_minutes` and `min_transcript_words` thresholds. Fetches full transcript via `/recordings/:id/transcript?format=txt`, falls back to `ai_summary`. Saves cursor + processed IDs to `sources.json["grain"]`. Runs after watch-folder scan on every scheduler cycle.
 
 **`sybill_connector.py`**
-Push-only: receives `meeting.new_recording.v1` webhook events at `POST /api/sybill/webhook`. Verifies Svix HMAC-SHA256 signature. Same keyword + length filters as Grain. Builds transcript from `data.transcript[].sentenceBody`, falls back to `data.summary`. **Setup:** register the webhook URL in Sybill dashboard → Integrations → Webhooks. For local dev, use `ngrok http 8001`.
+REST API poller — identical pattern to `grain_connector.py`. Calls `GET /v1/conversations?meeting_type=EXTERNAL` with Bearer `sk_live_...` auth. Paginates through all external conversations since `last_run` (default: 90-day lookback on first run). For each new conversation, fetches `GET /v1/conversations/{id}` for full transcript + AI summary. Filters: EXTERNAL type only, title exclusion patterns (scrum/standup/1:1/all-hands/interview), `min_duration_minutes`, `min_transcript_words`, keyword presence in transcript. Builds text block from `transcript[].{speaker, text}` entries; appends `summary.{Outcome, Key Takeaways, Pain Points}` as extra signal. Saves `{ last_run, processed_ids }` to `sources.json["sybill"]`. No ngrok or webhook required — pure pull integration. Rate limit: adds 0.3s delay between list pages, 0.5s between transcript fetches.
 
 **`topic_planner.py`**
 Fetches top 20 insights (min confidence 0.4), tags each `INS_00`…`INS_19` in the prompt. Claude returns which short keys it used; resolved to real UUIDs → stored in `article.insight_ids_used`. Marks contributing insights as used (`mark_insight_used`) at generation time. Post-generation Haiku pass checks new proposals against existing pipeline topics for semantic overlap → stores `overlap_warning` on overlapping articles. Insights with `saturation_score ≥ 0.3` get a `[SATURATED]` note in the prompt to deprioritise them.
@@ -339,7 +339,7 @@ Runs after suggestions are applied. Zero context of previous QC/SEO results — 
 **Scheduler jobs** (both log to Dashboard):
 - `insight_scan` — watch folder + Grain poll → optional auto-topic generation
 - `topic_gen` — standalone topic generation run
-- Manual trigger: `POST /api/scheduler/trigger { "job": "insight_scan|topic_gen|grain_poll" }`
+- Manual trigger: `POST /api/scheduler/trigger { "job": "insight_scan|topic_gen|grain_poll|sybill_poll" }`
 
 ---
 
@@ -351,34 +351,22 @@ Runs after suggestions are applied. Zero context of previous QC/SEO results — 
 | Ahrefs v3 REST | ✅ | Keywords Explorer + SERP overview; results cached in `kw_cache.json` |
 | Demo Classifier | ✅ | `/query-engine` with local index fallback; classifier API key optional |
 | Grain | ✅ | REST API v2 poller + watch folder; wired to scheduler. 112+ calls processed. |
-| Sybill | ⚠️ blocked | Webhook receiver is built and correct. Blocked by two operational issues — see below. |
+| Sybill | ✅ | REST API poller. `sk_live_` key works. Found 650+ historical calls on first run. Wired to scheduler + manual poll button. |
 | Webflow CMS | ⏳ Deferred | Push final article via REST API v2; needs collection ID + field mapping |
 
 ---
 
-### Sybill — Current Blockers
+### Sybill — Integration Notes
 
-The `sybill_connector.py` webhook receiver is correctly built. Two things are blocking it from working:
+Sybill uses a **pure REST pull** approach — no webhook, no ngrok, no public URL required.
 
-**1. Wrong credential in settings**
-The `sk_live_...` key currently stored is Sybill's CRM integration key (for HubSpot/Salesforce). The webhook receiver needs the **webhook signing secret** — a completely separate credential. To get it: `app.sybill.ai → Settings → Integrations → Webhooks → Create endpoint → copy the Signing Secret`. It starts with `whsec_`. Paste it into Settings → API Keys → Sybill Webhook Signing Secret.
+**Authentication:** Bearer `sk_live_...` master key. Confirmed working — returns `{"status":"ok","org_id":"...","scopes":["read"]}` from `GET /v1/health`.
 
-**2. localhost is unreachable by Sybill**
-Sybill has no pull API — it only pushes call data via webhook when a meeting finishes. Running on `localhost:8001` means Sybill can't reach the receiver.
+**First run:** defaults to 90-day lookback. On first successful poll, found 650+ external conversations. Subsequent runs pick up only new conversations since `last_run`.
 
-**Immediate fix — ngrok tunnel (free):**
-```bash
-brew install ngrok/ngrok/ngrok          # install once
-ngrok config add-authtoken YOUR_TOKEN   # from ngrok.com after signing up
-ngrok http 8001                         # run this alongside the Content Engine
-```
-Copy the HTTPS URL ngrok gives (e.g. `https://abc123.ngrok-free.app`). Register it in Sybill: Settings → Integrations → Webhooks → Add endpoint → `https://abc123.ngrok-free.app/api/sybill/webhook`. On the free ngrok plan the URL changes every restart; the $8/mo static domain plan gives a fixed URL.
+**Rate limits:** Sybill allows ~50 req/min. Connector adds delays (0.3s between list pages, 0.5s between transcript fetches) to stay within limits.
 
-**Backfilling historical calls:**
-Webhooks don't backfill past calls. Export transcripts manually from `app.sybill.ai` (individual call → Download transcript as .txt) and drop them into `watch/sybill/`. The Content Engine picks them up on the next insight scan.
-
-**Permanent fix — Railway deploy:**
-Once deployed to Railway with a fixed public URL, point Sybill's webhook at `https://your-app.railway.app/api/sybill/webhook`. No ngrok needed. The app has no local-only dependencies blocking this.
+**Manual poll:** Settings → Scheduler section → "▶ Poll Sybill Now" button. Also triggered automatically on every scheduler insight scan cycle.
 
 ---
 
@@ -386,7 +374,6 @@ Once deployed to Railway with a fixed public URL, point Sybill's webhook at `htt
 
 | Item | Notes |
 |---|---|
-| **Sybill activation** | Get `whsec_` signing secret from Sybill dashboard. Set up ngrok or deploy to Railway for a public URL. |
 | **Structural brief UX** | Training Library: two paste modes — "article text" (analyze) vs "direct instructions" (store raw). Currently only analyze mode exists. |
 | **Webflow publish** | Push done articles to Webflow CMS via REST API v2. Needs collection ID + field mapping per pillar. |
 | **Hosted deployment** | Railway. See Hosting section. Unblocks Sybill permanently and adds team access. |

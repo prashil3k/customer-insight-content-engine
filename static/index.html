@@ -742,6 +742,7 @@ https://docs.storylane.io/changelog</textarea>
         <div style="margin-top:12px;display:flex;gap:8px;">
           <button class="btn btn-secondary btn-sm" onclick="triggerJob('insight_scan')">▶ Run Insight Scan Now</button>
           <button class="btn btn-secondary btn-sm" onclick="triggerJob('topic_gen')">▶ Run Topic Gen Now</button>
+          <button class="btn btn-secondary btn-sm" onclick="triggerJob('sybill_poll')">▶ Poll Sybill Now</button>
         </div>
       </div>
 
@@ -858,9 +859,8 @@ https://docs.storylane.io/changelog</textarea>
           <input class="form-input" type="password" id="key-grain" placeholder="grain_pat_..." autocomplete="off">
         </div>
         <div class="form-group">
-          <label class="form-label">Sybill Webhook Signing Secret <span style="color:var(--text-faint);font-weight:400;">(starts with <code>whsec_</code> — not the CRM/HubSpot key)</span></label>
-          <input class="form-input" type="password" id="key-sybill" placeholder="whsec_..." autocomplete="off">
-          <div style="font-size:11px;color:var(--text-faint);margin-top:5px;">Get this from: app.sybill.ai → Settings → Integrations → Webhooks → Create endpoint → copy the Signing Secret. The webhook URL to register is your ngrok URL + <code>/api/sybill/webhook</code></div>
+          <label class="form-label">Sybill API Key <span style="color:var(--text-faint);font-weight:400;">(starts with <code>sk_live_</code> — from app.sybill.ai → Settings → Integrations → API Keys)</span></label>
+          <input class="form-input" type="password" id="key-sybill" placeholder="sk_live_..." autocomplete="off">
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
           <button class="btn btn-primary btn-sm" onclick="saveApiKeys()">Save Keys</button>
