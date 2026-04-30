@@ -1232,6 +1232,30 @@ Questions? Contact Prashil.
 """
 
 
+def _sqlite_to_bytes(db_path: Path) -> bytes:
+    """
+    Safe SQLite export using the backup API.
+    Produces a consistent snapshot even while the DB is actively in use —
+    unlike a raw file copy which can capture a torn write mid-transaction.
+    """
+    import sqlite3, io as _io
+    src = sqlite3.connect(str(db_path))
+    dst_buf = _io.BytesIO()
+    # sqlite3 can only backup to a file, not a buffer — use a temp file
+    import tempfile, os
+    with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as tmp:
+        tmp_path = tmp.name
+    try:
+        dst = sqlite3.connect(tmp_path)
+        src.backup(dst)
+        dst.close()
+        src.close()
+        with open(tmp_path, "rb") as f:
+            return f.read()
+    finally:
+        os.unlink(tmp_path)
+
+
 def _add_dir_to_zip(zf: zipfile.ZipFile, source_dir: Path, zip_prefix: str,
                     exclude_dirs: set, settings_arcname: str = None):
     """Add all files from source_dir into zip under zip_prefix/."""
@@ -1252,6 +1276,13 @@ def _add_dir_to_zip(zf: zipfile.ZipFile, source_dir: Path, zip_prefix: str,
                 d = json.loads(item.read_text())
                 d["api_keys"] = {k: "" for k in d.get("api_keys", {})}
                 zf.writestr(arcname, json.dumps(d, indent=2))
+            except Exception:
+                zf.write(item, arcname)
+        elif item.suffix == ".db":
+            # Use SQLite backup API for a guaranteed-consistent snapshot —
+            # raw file copy while the server is running can capture a torn write.
+            try:
+                zf.writestr(arcname, _sqlite_to_bytes(item))
             except Exception:
                 zf.write(item, arcname)
         elif item.suffix == ".command":
