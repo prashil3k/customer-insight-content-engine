@@ -4,9 +4,10 @@ import config
 from modules.company_brain import brief_as_prompt_context
 from modules.insight_extractor import get_insights, get_insights_by_ids, mark_insight_used
 from modules.demo_connector import find_best_demos
-from modules.template_learner import get_format_context_for_angle
+from modules.template_learner import get_format_context_for_angle, get_formats
 from modules.link_library import get_relevant_links, format_links_for_prompt
 from modules.model_manager import create_message
+from modules.skills_manager import build_skills_block
 
 
 def _select_relevant_insights(topic: str, tags: list, limit: int = 8) -> list:
@@ -132,6 +133,23 @@ The editor has provided specific structural instructions for this article. Follo
     else:
         brief_block = ""
 
+    # Reusable writing instructions from Training Library (source_type = "instructions")
+    raw_instructions = [f for f in get_formats() if f.get("source_type") == "instructions"]
+    if raw_instructions:
+        instr_lines = ["=== STANDING WRITING INSTRUCTIONS ===",
+                       "These are always-on writing rules set by the editor. Apply them throughout the article.\n"]
+        for instr in raw_instructions:
+            instr_lines.append(f"— {instr.get('label', 'Instructions')} —")
+            instr_lines.append(instr.get("content", ""))
+            instr_lines.append("")
+        instr_lines.append("=== END STANDING INSTRUCTIONS ===")
+        instructions_block = "\n".join(instr_lines)
+    else:
+        instructions_block = ""
+
+    # Draft skills from skills library
+    draft_skills_block = build_skills_block("draft")
+
     company_ctx = brief_as_prompt_context()
 
     # Include manual keywords in the keyword instruction
@@ -161,7 +179,7 @@ SECONDARY KEYWORDS: {', '.join(f'"{k}"' for k in sec_kw_strings)} — weave in n
 
 {format_ctx}
 
-{brief_block + chr(10) if brief_block else ""}You are an expert content writer for Storylane. Write a full, publication-quality article on the topic below.
+{instructions_block + chr(10) if instructions_block else ""}{brief_block + chr(10) if brief_block else ""}{draft_skills_block + chr(10) if draft_skills_block else ""}You are an expert content writer for Storylane. Write a full, publication-quality article on the topic below.
 
 TOPIC: {topic}
 ANGLE: {angle}

@@ -3,6 +3,7 @@ import re
 import config
 from modules.model_manager import create_message
 from modules.link_library import get_relevant_links
+from modules.skills_manager import build_skills_block
 
 
 def _count_keyword_occurrences(text: str, keyword: str) -> int:
@@ -137,6 +138,10 @@ Return ONLY the JSON object."""
     custom = config.load_settings().get("seo_rubric", "").strip()
     if custom:
         prompt += f"\n\nADDITIONAL SEO FOCUS:\n{custom}"
+
+    skills_block = build_skills_block("seo")
+    if skills_block:
+        prompt += skills_block
 
     response = create_message("sonnet", max_tokens=4000, messages=[{"role": "user", "content": prompt}])
 

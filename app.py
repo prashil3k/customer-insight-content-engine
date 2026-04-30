@@ -836,21 +836,74 @@ def api_add_training_text():
     text = body.get("text", "").strip()
     label = body.get("label", "")
     angle_hint = body.get("angle_hint", "")
+    mode = body.get("mode", "analyze")   # "analyze" | "instructions"
     if not text:
         return jsonify({"error": "text required"}), 400
     task_id = f"train_text_{int(time.time())}"
 
     def _run():
-        from modules.template_learner import learn_from_text
         try:
-            _set_progress(task_id, "Extracting framework structure with Claude...")
-            result = learn_from_text(text, label, angle_hint, progress_cb=lambda m: _set_progress(task_id, m))
-            _set_progress(task_id, "DONE" if result and not result.get("error") else f"ERROR: {result}")
+            if mode == "instructions":
+                from modules.template_learner import save_raw_instructions
+                _set_progress(task_id, "Saving writing instructions...")
+                result = save_raw_instructions(text, label)
+                _set_progress(task_id, "DONE" if result else "ERROR: Failed to save")
+            else:
+                from modules.template_learner import learn_from_text
+                _set_progress(task_id, "Extracting framework structure with Claude...")
+                result = learn_from_text(text, label, angle_hint, progress_cb=lambda m: _set_progress(task_id, m))
+                _set_progress(task_id, "DONE" if result and not result.get("error") else f"ERROR: {result}")
         except Exception as e:
             _set_progress(task_id, f"ERROR: {e}")
 
     threading.Thread(target=_run, daemon=True).start()
     return jsonify({"task_id": task_id})
+
+
+# ── Skills Library ─────────────────────────────────────────────────────────────
+
+@app.route("/api/skills")
+def api_get_skills():
+    from modules.skills_manager import get_skills
+    return jsonify(get_skills())
+
+
+@app.route("/api/skills/upload", methods=["POST"])
+def api_upload_skill():
+    f = request.files.get("file")
+    if not f:
+        return jsonify({"error": "no file"}), 400
+    filename = f.filename or "skill"
+    raw_text = f.read().decode("utf-8", errors="ignore")
+    if not raw_text.strip():
+        return jsonify({"error": "empty file"}), 400
+    task_id = f"skill_upload_{int(time.time())}"
+
+    def _run():
+        from modules.skills_manager import upload_skill
+        try:
+            result = upload_skill(filename, raw_text, progress_cb=lambda m: _set_progress(task_id, m))
+            _set_progress(task_id, f"DONE:{result['id']}")
+        except Exception as e:
+            _set_progress(task_id, f"ERROR: {e}")
+
+    threading.Thread(target=_run, daemon=True).start()
+    return jsonify({"task_id": task_id})
+
+
+@app.route("/api/skills/<skill_id>", methods=["PUT"])
+def api_update_skill(skill_id):
+    body = request.json or {}
+    from modules.skills_manager import update_skill
+    ok = update_skill(skill_id, body)
+    return jsonify({"ok": ok})
+
+
+@app.route("/api/skills/<skill_id>", methods=["DELETE"])
+def api_delete_skill(skill_id):
+    from modules.skills_manager import delete_skill
+    ok = delete_skill(skill_id)
+    return jsonify({"ok": ok})
 
 
 @app.route("/api/training/formats/delete", methods=["POST"])

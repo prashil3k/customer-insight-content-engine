@@ -412,6 +412,9 @@
   <button class="nav-item" onclick="showTab('training')" data-tab="training">
     <span class="icon">📚</span> Training Library
   </button>
+  <button class="nav-item" onclick="showTab('skills')" data-tab="skills">
+    <span class="icon">🎯</span> Skills
+  </button>
   <button class="nav-item" onclick="showTab('settings')" data-tab="settings">
     <span class="icon">⚙️</span> Settings
   </button>
@@ -644,6 +647,17 @@
       <div class="card" style="margin-bottom:24px;">
         <div class="card-title" style="margin-bottom:4px;">Paste a Writing Framework</div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Found a great framework on LinkedIn or in a guide? Paste it here — Claude will extract the structural rules and save it as a reusable template.</div>
+        <div style="display:flex;gap:0;margin-bottom:12px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;width:fit-content;">
+          <label style="display:flex;align-items:center;gap:6px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:500;transition:background 0.15s;"
+            id="train-mode-article-label"
+            style="background:var(--accent-light);color:var(--accent);">
+            <input type="radio" name="train-mode" id="train-mode-article" value="analyze" checked onchange="updateTrainMode()" style="accent-color:var(--accent);"> Article to learn from
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:500;border-left:1px solid var(--border);transition:background 0.15s;"
+            id="train-mode-instructions-label">
+            <input type="radio" name="train-mode" id="train-mode-instructions" value="instructions" onchange="updateTrainMode()" style="accent-color:var(--accent);"> Writing instructions
+          </label>
+        </div>
         <div class="form-group">
           <textarea class="form-textarea" id="train-text-input" rows="6" placeholder="Paste your framework here — bullet points, notes, raw text, anything..."></textarea>
         </div>
@@ -659,7 +673,7 @@
             <option value="data_led">Data-led</option>
             <option value="digital_pr">Digital PR</option>
           </select>
-          <button class="btn btn-primary btn-sm" onclick="learnFromText()">⚡ Extract & Save</button>
+          <button class="btn btn-primary btn-sm" id="train-text-btn" onclick="learnFromText()">⚡ Extract & Save</button>
           <span id="train-text-status" style="font-size:12px;color:var(--text-muted);"></span>
         </div>
       </div>
@@ -667,6 +681,31 @@
       <div class="section-header"><div class="section-title">Learned Formats</div></div>
       <div id="formats-list">
         <div class="empty-state"><div class="empty-state-icon">📚</div><div class="empty-state-title">No formats learned yet</div><div class="empty-state-text">Add article URLs above to build your content format library. The draft generator will reference these.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div id="tab-skills" class="tab-content" style="display:none;flex-direction:column;height:100%;">
+    <div class="topbar">
+      <div class="topbar-title">Skills Library</div>
+    </div>
+    <div class="content-area">
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-title" style="margin-bottom:4px;">Upload Skills File</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Skills are rubric files that sharpen QC, SEO, and draft quality checks. Upload any .txt or .md file — Claude extracts the useful bits automatically.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <label class="btn btn-secondary btn-sm" style="cursor:pointer;">
+            📎 Upload Skills File (.txt or .md)
+            <input type="file" id="skill-file-input" accept=".txt,.md" style="display:none;" onchange="uploadSkillFile(this)">
+          </label>
+          <span id="skill-upload-status" style="font-size:12px;color:var(--text-muted);"></span>
+        </div>
+      </div>
+
+      <div class="section-header"><div class="section-title">Uploaded Skills</div></div>
+      <div id="skills-list">
+        <div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-title">No skills uploaded yet</div><div class="empty-state-text">Upload a .txt or .md file to get started.</div></div>
       </div>
     </div>
   </div>
@@ -1001,6 +1040,7 @@ function showTab(name) {
   if (name === 'insights') loadInsights();
   if (name === 'pipeline') loadPipeline();
   if (name === 'training') loadFormats();
+  if (name === 'skills') loadSkills();
   if (name === 'settings') { loadSettings(); loadModels(); loadLinkLibrary(); }
 }
 
@@ -2113,19 +2153,45 @@ async function learnAllUrls() {
   loadFormats();
 }
 
+function updateTrainMode() {
+  const isInstructions = document.getElementById('train-mode-instructions').checked;
+  const angleEl = document.getElementById('train-text-angle');
+  const btnEl = document.getElementById('train-text-btn');
+  const articleLabel = document.getElementById('train-mode-article-label');
+  const instructionsLabel = document.getElementById('train-mode-instructions-label');
+  if (isInstructions) {
+    angleEl.style.display = 'none';
+    btnEl.textContent = '💾 Save Instructions';
+    articleLabel.style.background = '';
+    articleLabel.style.color = '';
+    instructionsLabel.style.background = 'var(--accent-light)';
+    instructionsLabel.style.color = 'var(--accent)';
+  } else {
+    angleEl.style.display = '';
+    btnEl.textContent = '⚡ Extract & Save';
+    instructionsLabel.style.background = '';
+    instructionsLabel.style.color = '';
+    articleLabel.style.background = 'var(--accent-light)';
+    articleLabel.style.color = 'var(--accent)';
+  }
+}
+
 async function learnFromText() {
   const text = document.getElementById('train-text-input').value.trim();
   const label = document.getElementById('train-text-label').value.trim();
   const angle_hint = document.getElementById('train-text-angle').value;
+  const mode = document.querySelector('input[name="train-mode"]:checked')?.value || 'analyze';
   if (!text) { showToast('Paste a framework first.'); return; }
   const statusEl = document.getElementById('train-text-status');
-  statusEl.textContent = 'Extracting...';
-  const r = await POST('/training/add-text', { text, label, angle_hint });
-  await new Promise(resolve => pollTask(r.task_id, 'Extracting framework...', resolve));
+  statusEl.textContent = mode === 'instructions' ? 'Saving instructions...' : 'Extracting...';
+  const r = await POST('/training/add-text', { text, label, angle_hint, mode });
+  await new Promise(resolve => pollTask(r.task_id, mode === 'instructions' ? 'Saving writing instructions...' : 'Extracting framework...', resolve));
   statusEl.textContent = 'Saved.';
   document.getElementById('train-text-input').value = '';
   document.getElementById('train-text-label').value = '';
   document.getElementById('train-text-angle').value = '';
+  document.getElementById('train-mode-article').checked = true;
+  updateTrainMode();
   loadFormats();
   setTimeout(() => { statusEl.textContent = ''; }, 3000);
 }
@@ -2148,10 +2214,26 @@ async function loadFormats() {
     const mind = f.mindset || {};
     const escapedUrl = f.url.replace(/'/g, "\\'");
     const isText = f.source_type === 'text';
+    const isInstructions = f.source_type === 'instructions';
+    if (isInstructions) {
+      const preview = (f.content || '').slice(0, 150).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `<div class="format-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span class="badge badge-grey" style="font-size:10px;">📋 instructions</span>
+          <span style="font-size:13px;font-weight:600;">${f.label||'Unlabelled'}</span>
+          <span style="font-size:11px;color:var(--text-faint);margin-left:auto;">${(f.added_at||'').slice(0,10)}</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteFormat('${escapedUrl}')" style="padding:2px 8px;font-size:11px;">✕ Remove</button>
+        </div>
+        <div class="format-section">
+          <div class="format-section-label">Preview</div>
+          <div class="format-section-content" style="color:var(--text-muted);font-style:italic;">${preview}${(f.content||'').length > 150 ? '…' : ''}</div>
+        </div>
+      </div>`;
+    }
     return `<div class="format-card">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
         <span class="badge badge-accent">${f.inferred_angle||'unknown'}</span>
-        ${isText ? '<span class="badge" style="background:var(--surface-2);color:var(--text-muted);font-size:10px;">📝 pasted</span>' : ''}
+        ${isText ? '<span class="badge" style="background:var(--bg);color:var(--text-muted);border:1px solid var(--border);font-size:10px;">📝 pasted</span>' : ''}
         <span style="font-size:13px;font-weight:600;">${f.label||'Unlabelled'}</span>
         <span style="font-size:11px;color:var(--text-faint);margin-left:auto;">${(f.added_at||'').slice(0,10)}</span>
         <button class="btn btn-danger btn-sm" onclick="deleteFormat('${escapedUrl}')" style="padding:2px 8px;font-size:11px;">✕ Remove</button>
@@ -2176,6 +2258,97 @@ async function loadFormats() {
       ${f.use_when ? `<div class="format-section"><div class="format-section-label">Use When</div><div class="format-section-content">${f.use_when}</div></div>` : ''}
     </div>`;
   }).join('');
+}
+
+// ── Skills Library ─────────────────────────────────────────────────────────────
+async function loadSkills() {
+  const el = document.getElementById('skills-list');
+  try {
+    const skills = await GET('/api/skills');
+    if (!skills.length) {
+      el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎯</div><div class="empty-state-title">No skills uploaded yet</div><div class="empty-state-text">Upload a .txt or .md file to get started.</div></div>`;
+      return;
+    }
+    el.innerHTML = skills.map(s => {
+      const id = s.id;
+      return `<div class="card" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:600;font-size:14px;margin-bottom:4px;">${s.name || 'Untitled Skill'}</div>
+            ${s.description ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;line-height:1.5;">${s.description}</div>` : ''}
+            ${s.source_filename ? `<div style="font-size:11px;color:var(--text-faint);">${s.source_filename}</div>` : ''}
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteSkill(${id})" style="padding:4px 8px;flex-shrink:0;" title="Delete skill">🗑</button>
+        </div>
+        <div style="display:flex;gap:20px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border-light);flex-wrap:wrap;">
+          <div class="toggle">
+            <div class="toggle-switch ${s.active_qc ? 'on' : ''}" id="skill-qc-${id}" onclick="toggleSkill(${id}, 'active_qc', !this.classList.contains('on'))"><div class="toggle-knob"></div></div>
+            <span style="font-size:12px;font-weight:500;">QC</span>
+          </div>
+          <div class="toggle">
+            <div class="toggle-switch ${s.active_seo ? 'on' : ''}" id="skill-seo-${id}" onclick="toggleSkill(${id}, 'active_seo', !this.classList.contains('on'))"><div class="toggle-knob"></div></div>
+            <span style="font-size:12px;font-weight:500;">SEO</span>
+          </div>
+          <div class="toggle">
+            <div class="toggle-switch ${s.active_draft ? 'on' : ''}" id="skill-draft-${id}" onclick="toggleSkill(${id}, 'active_draft', !this.classList.contains('on'))"><div class="toggle-knob"></div></div>
+            <span style="font-size:12px;font-weight:500;">Draft</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><div class="empty-state-title">Failed to load skills</div><div class="empty-state-text">${e.message}</div></div>`;
+  }
+}
+
+async function uploadSkillFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('skill-upload-status');
+  statusEl.textContent = 'Uploading...';
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    const resp = await fetch('/api/skills/upload', { method: 'POST', body: formData });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Upload failed');
+    if (data.task_id) {
+      statusEl.textContent = 'Processing...';
+      await new Promise(resolve => pollTask(data.task_id, 'Extracting skill...', resolve));
+    }
+    statusEl.textContent = '✅ Skill saved.';
+    input.value = '';
+    loadSkills();
+    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+  } catch(e) {
+    statusEl.textContent = '⚠ ' + e.message;
+  }
+}
+
+async function toggleSkill(id, field, value) {
+  const toggleEl = document.getElementById(`skill-${field.replace('active_', '')}-${id}`);
+  if (toggleEl) toggleEl.classList.toggle('on', value);
+  try {
+    await fetch(`/api/skills/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [field]: value })
+    });
+  } catch(e) {
+    if (toggleEl) toggleEl.classList.toggle('on', !value);
+    showToast('Failed to update skill: ' + e.message);
+  }
+}
+
+async function deleteSkill(id) {
+  if (!confirm('Delete this skill?')) return;
+  try {
+    const resp = await fetch(`/api/skills/${id}`, { method: 'DELETE' });
+    if (!resp.ok) throw new Error('Delete failed');
+    loadSkills();
+  } catch(e) {
+    showToast('Failed to delete skill: ' + e.message);
+  }
 }
 
 // ── Settings ───────────────────────────────────────────────────────────────────

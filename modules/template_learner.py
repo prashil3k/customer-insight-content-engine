@@ -181,6 +181,31 @@ Return ONLY the JSON object."""
     return fmt
 
 
+def save_raw_instructions(text: str, label: str = "") -> dict | None:
+    """
+    Store raw writing instructions directly — no analysis, no Claude call.
+    These travel with the training library and get injected into draft prompts
+    as direct writing rules (not structural templates to learn from).
+    """
+    import uuid
+    entry = {
+        "url": f"instructions://{int(time.time())}",
+        "label": label or "Writing Instructions",
+        "source_type": "instructions",
+        "inferred_angle": "all",
+        "content": text.strip(),
+        "structural_template": {},
+        "mindset": {},
+        "use_when": "Always — these are direct writing rules, not a structural template.",
+        "added_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+    with _formats_lock:
+        data = _load_formats()
+        data["formats"].append(entry)
+        _save_formats(data)
+    return entry
+
+
 def get_formats() -> list:
     return _load_formats().get("formats", [])
 

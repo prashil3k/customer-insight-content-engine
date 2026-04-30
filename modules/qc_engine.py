@@ -1,6 +1,7 @@
 import json
 import config
 from modules.model_manager import create_message
+from modules.skills_manager import build_skills_block
 
 
 QC_PROMPT = """You are a ruthless content editor. Your job is to make this article publication-quality — the kind of thing that would run in a serious B2B publication or Substack. You have zero tolerance for:
@@ -87,6 +88,10 @@ def run_qc(article_content: str, topic: str = "", ideal_reader: str = "", direct
     )
     if custom:
         prompt += f"\n\nADDITIONAL RUBRIC (apply these on top of the above):\n{custom}"
+
+    skills_block = build_skills_block("qc")
+    if skills_block:
+        prompt += skills_block
 
     response = create_message("sonnet", max_tokens=5000, messages=[{"role": "user", "content": prompt}])
 
