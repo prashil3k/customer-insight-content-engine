@@ -1,0 +1,21 @@
+I appreciate you wanting to create an evaluation rubric, but the framework document you've provided is quite brief and doesn't contain enough detail to build a comprehensive rubric. 
+
+The document mentions three elements:
+- Interactive demos
+- Social proof 
+- Visuals that "show don't tell"
+
+However, it lacks the structure needed for a rubric, such as:
+- What constitutes quality in each category?
+- How should demos be scored or classified?
+- What specific criteria should evaluators look for?
+- What are the different types or levels of demos?
+
+To create an effective rubric, I would need a more detailed framework document that includes:
+
+1. **Classification criteria** - What makes one demo different from another?
+2. **Quality indicators** - What separates excellent demos from poor ones?
+3. **Scoring philosophy** - How should evaluators think about rating demos?
+4. **Specific examples** - What does good vs. bad look like in practice?
+
+Could you provide a more comprehensive framework document, or would you like me to help you develop one based on best practices for evaluating interactive product demos?

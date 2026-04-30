@@ -21,3 +21,10 @@ output/articles/*.md
 
 # Logs
 /tmp/content-engine.log
+
+# Classifier — runtime/generated files
+storylane-demo-classifier/venv/
+storylane-demo-classifier/__pycache__/
+storylane-demo-classifier/screenshots/
+storylane-demo-classifier/.api_key
+storylane-demo-classifier/output/

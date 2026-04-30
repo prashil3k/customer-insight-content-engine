@@ -1221,7 +1221,7 @@ def api_export_zip():
     Query params:
       bundle=1  — also include the sibling storylane-demo-classifier/ folder
     """
-    EXCLUDE_DIRS = {"venv", "__pycache__", "output", ".git", ".claude"}
+    EXCLUDE_DIRS = {"venv", "__pycache__", "output", ".git", ".claude", "storylane-demo-classifier"}
     bundle = request.args.get("bundle") == "1"
     classifier_dir = config.DEMO_CLASSIFIER_DIR
 

@@ -1,0 +1,106 @@
+{
+  "queries": [
+    {
+      "q": "which demos use social proof effectively?",
+      "ts": "2026-04-22T14:46:38.989388",
+      "themes": [
+        "social-proof",
+        "persuasion-technique"
+      ],
+      "matched_keys": [
+        "demo.sproutsocial.com/demo/smsq7u6lqvvl",
+        "app.storylane.io/demo/fwctvr2v7o0r",
+        "tour.auvik.com/demo/wxdlkl6ywtrp"
+      ],
+      "finding": "# Social Proof in Demos: Analysis & Recommendations\n\n## Direct Answer\n\n**Only 2 demos effectively use social proof**, and both do so minimally. Most demos in your library are **missing this critical credibility-building element entirely**."
+    },
+    {
+      "q": "Why Your Interactive Demo Took 3 Months to Build (And How to Fix That in 3 Days)",
+      "ts": "2026-04-22T15:33:58.385191",
+      "themes": [
+        "demo-efficiency",
+        "time-to-build",
+        "process-optimization"
+      ],
+      "matched_keys": [
+        "app.storylane.io/demo/fwa3jg16xql3",
+        "tufin.storylane.io/demo/lj2sxon2byms",
+        "app.storylane.io/demo/a1fqkoqp69nk",
+        "tour.auvik.com/demo/wxdlkl6ywtrp",
+        "app.storylane.io/demo/gbabwfqdviun",
+        "app.storylane.io/demo/x5n3m0pk2zi2",
+        "app.storylane.io/demo/fwctvr2v7o0r"
+      ],
+      "finding": "# Why Your Interactive Demo Took 3 Months to Build (And How to Fix That in 3 Days)\n\n## Direct Answer\n\nThe demos in your library reveal the core reason most demos take 3 months: **teams build feature-first instead of story-first**. 12 of your 20 demos are \"Feature Dump\" or \"Minimal Guidance\" types\u2014th"
+    },
+    {
+      "q": "Why Enterprise Deals Stall After the Demo (And How Buyer Hubs Fix the Approval Black Hole)",
+      "ts": "2026-04-22T19:49:10.014580",
+      "themes": [
+        "deal-closure",
+        "enterprise-buying",
+        "stakeholder-alignment"
+      ],
+      "matched_keys": [
+        "app.storylane.io/demo/x5n3m0pk2zi2",
+        "app.storylane.io/demo/fwa3jg16xql3",
+        "tour.auvik.com/demo/wxdlkl6ywtrp"
+      ],
+      "finding": "# Enterprise Deal Stalls: Why Demos Fail at the Approval Black Hole\n\nYour question highlights a critical gap in B2B SaaS demos: **they're optimized for individual contributors, not buying committees**. Enterprise deals stall after demos because the buying group never sees a unified narrative that ad"
+    }
+  ],
+  "theme_index": {
+    "social-proof": [
+      "demo.sproutsocial.com/demo/smsq7u6lqvvl",
+      "app.storylane.io/demo/fwctvr2v7o0r",
+      "tour.auvik.com/demo/wxdlkl6ywtrp"
+    ],
+    "persuasion-technique": [
+      "demo.sproutsocial.com/demo/smsq7u6lqvvl",
+      "app.storylane.io/demo/fwctvr2v7o0r",
+      "tour.auvik.com/demo/wxdlkl6ywtrp"
+    ],
+    "demo-efficiency": [
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tufin.storylane.io/demo/lj2sxon2byms",
+      "app.storylane.io/demo/a1fqkoqp69nk",
+      "tour.auvik.com/demo/wxdlkl6ywtrp",
+      "app.storylane.io/demo/gbabwfqdviun",
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwctvr2v7o0r"
+    ],
+    "time-to-build": [
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tufin.storylane.io/demo/lj2sxon2byms",
+      "app.storylane.io/demo/a1fqkoqp69nk",
+      "tour.auvik.com/demo/wxdlkl6ywtrp",
+      "app.storylane.io/demo/gbabwfqdviun",
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwctvr2v7o0r"
+    ],
+    "process-optimization": [
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tufin.storylane.io/demo/lj2sxon2byms",
+      "app.storylane.io/demo/a1fqkoqp69nk",
+      "tour.auvik.com/demo/wxdlkl6ywtrp",
+      "app.storylane.io/demo/gbabwfqdviun",
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwctvr2v7o0r"
+    ],
+    "deal-closure": [
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tour.auvik.com/demo/wxdlkl6ywtrp"
+    ],
+    "enterprise-buying": [
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tour.auvik.com/demo/wxdlkl6ywtrp"
+    ],
+    "stakeholder-alignment": [
+      "app.storylane.io/demo/x5n3m0pk2zi2",
+      "app.storylane.io/demo/fwa3jg16xql3",
+      "tour.auvik.com/demo/wxdlkl6ywtrp"
+    ]
+  }
+}

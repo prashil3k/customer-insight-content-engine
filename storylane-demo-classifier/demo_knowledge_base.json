@@ -1,0 +1,550 @@
+{
+  "version": 1,
+  "source": "Demo Tips & Tricks.xlsx",
+  "tips_count": 47,
+  "suggestions_count": 12,
+  "tips": [
+    {
+      "tip": "include common resources such as pricing page embed, customer case studies, and product playbooks in Buyer Hub",
+      "category": "demo structure and UX",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/hub/hfscokhmw89q",
+      "reference": "",
+      "reasoning": "provide relevant resources in one place so prospects don't need to leave for complete evaluation",
+      "outcome": "improve user experience and reduce friction",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "organize Buyer Hubs by audience roles as well rather than just product features",
+      "category": "demo structure and UX",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/hub/hfscokhmw89q",
+      "reference": "https://tinyurl.com/2xqdslc3",
+      "reasoning": "Role-based organization increases relevance compared to generic feature categorization",
+      "outcome": "improve targeting and user relevance",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "title your demo chapters based on use cases or outcomes, not just features",
+      "category": "demo structure and UX",
+      "company": "Nitrogen Wealth",
+      "demo_link": "https://app.storylane.io/demo/a1fqkoqp69nk",
+      "reference": "https://tinyurl.com/2d6qa475",
+      "reasoning": "capability or use-focused naming provide a more compelling demo experience than technical feature descriptions",
+      "outcome": "improve user understanding and click-through rates",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "use brand colors in demo elements such as button, spotlight, beacons and text modals",
+      "category": "demo structure and UX",
+      "company": "Sprout Social",
+      "demo_link": "https://demo.sproutsocial.com/demo/smsq7u6lqvvl?embed=inline",
+      "reference": "https://tinyurl.com/2a98rfzg",
+      "reasoning": "Consistent brand colors throughout demo guides create professional cohesion and reinforces visual identity during the evaluation experience",
+      "outcome": "improve brand consistency",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "end demos with a celebratory step and clear next steps",
+      "category": "demo structure and UX",
+      "company": "Collibra",
+      "demo_link": "https://app.storylane.io/demo/ycgek3m5z1m5?embed=inline",
+      "reference": "https://tinyurl.com/239kdg55",
+      "reasoning": "Achievement language triggers satisfaction and motivates prospects to take action",
+      "outcome": "improve completion rates and user satisfaction",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "include step counters within your guides for ease of navigation",
+      "category": "demo structure and UX",
+      "company": "Storylane",
+      "demo_link": ":https://app.storylane.io/demo/kzumpbxtym5x",
+      "reference": "https://tinyurl.com/2dzz9ssl",
+      "reasoning": "Visible step counters help users understand their position and time remaining",
+      "outcome": "improve completion rates and user orientation",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "enable 'setup navigation' for users to track demo progress",
+      "category": "demo structure and UX",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/share/z6bmnazdl0eo",
+      "reference": "https://tinyurl.com/23as8rtu",
+      "reasoning": "Progress indicators and navigation controls help users understand their position in the demo and provide confidence about time investment remaining.",
+      "outcome": "improve user convenience and re-engagement",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "avoid autoplay for marketing demos on websites",
+      "category": "demo structure and UX",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/demo/fjl2ueb5fn61",
+      "reference": "https://www.awesomescreenshot.com/video/43216891?key=61468e7d3e023608035be1fb9956789a",
+      "reasoning": "user-controlled pacing improves active engagement and helps track steps your prospects spend more time on to guage interest points within the demos",
+      "outcome": "improve completion rates and user orientation",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "deploy 2-in-1 sandbox + guided demos",
+      "category": "demo structure and UX",
+      "company": "Cascade",
+      "demo_link": "https://demo.cascade.app/share/vvufvbi6ondv",
+      "reference": "",
+      "reasoning": "wondering if you should share a guided demo or sandbox environment? use Storylane's \"exit guide\" option on HTML demos to support both in a single demo \u2014 better flexibilty for users",
+      "outcome": "improve user experience",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "use text triggers to personalize environments and simulate hands on product experience",
+      "category": "demo structure and UX",
+      "company": "Collibra",
+      "demo_link": "https://app.storylane.io/demo/rc6pvnxlboxt?embed=inline",
+      "reference": "https://www.awesomescreenshot.com/video/43773104?key=beca421b3d84ed871db8967b58d93df6",
+      "reasoning": "Having users input text or data creates active participation and gives prospects a realistic feel of actually using the product.",
+      "outcome": "improve engagement and product understanding",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "use emojis in demo copy for visual appeal and engagement",
+      "category": "guides and storytelling",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/zaysybew34va",
+      "reference": "https://tinyurl.com/2xv6t6kb",
+      "reasoning": "Strategic emoji use for tools or celebration icons breaks up text-heavy content and adds personality to otherwise sterile product demos.",
+      "outcome": "improve visual appeal and user engagement",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "highlight your latest releases with \"New!\" tags in guide copy",
+      "category": "guides and storytelling",
+      "company": "Storylane",
+      "demo_link": "https://www.storylane.io/#:~:text=%F0%9F%91%89%20Take%20a%20tour%20of%20product",
+      "reference": "https://drive.google.com/file/d/1hf8SMrZDjcLdY7iYANxKWvB7AoULzTbQ/view?usp=drive_link",
+      "reasoning": "highlighting \"New!\" with distinct formatting in your guide modals is a low-hanging way to excite prospects and convey your latest features",
+      "outcome": "improve demo completion",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "endorse your demo with case studies and social proof",
+      "category": "guides and storytelling",
+      "company": "Dreamdata",
+      "demo_link": "https://dreamdata.io/use-cases/optimize-ad-spend/#embedded-demos",
+      "reference": "https://drive.google.com/file/d/16NpxY0kPJK-cG2ycoFOUvmQzFsYRXuy2/view?usp=drive_link",
+      "reasoning": "pepper in case studies, testimonials, and ROI data in your guides to help prospects validate your product's value",
+      "outcome": "improve demo completion, improve conversion rates, accelerate buy-in",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "use a mascot or theme to give your demos character",
+      "category": "guides and storytelling",
+      "company": "Auvik",
+      "demo_link": "https://tour.auvik.com/share/h1qcu8ic2op7",
+      "reference": "https://drive.google.com/file/d/1IthROfaGHz64WjpZdLPD38DTZM_zMYpY/view?usp=drive_link",
+      "reasoning": "Consistent mascots or themes make demos memorable and differentiate your experience from generic product walkthroughs.",
+      "outcome": "improve demo completion and brand differentiation",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "link to help documentation for complex features",
+      "category": "guides and storytelling",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/nr1iirre2feb",
+      "reference": "https://tinyurl.com/2a7dvl6f",
+      "reasoning": "Optional deep-dive links provide context without overwhelming the main demo flow",
+      "outcome": "improve user support and reduce confusion",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "format in-guide copy to highlight value props, selling points, and outcomes",
+      "category": "guides and storytelling",
+      "company": "Adthena",
+      "demo_link": "https://adthena.storylane.io/share/d7cl9hyseanz",
+      "reference": "",
+      "reasoning": "Bold text and formatted copy makes demo steps more scannable and helps prospects quickly identify key information and benefits.",
+      "outcome": "improve readability and information retention",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "highlight your upcoming features with \"Coming Soon!\" tags in guide copy",
+      "category": "guides and storytelling",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/zaysybew34va",
+      "reference": "https://tinyurl.com/22qxn7xd",
+      "reasoning": "Showing roadmap features with \"Coming Soon\" tags addresses prospect objections about missing functionality during the evaluation process.",
+      "outcome": "improve demand and set expectations",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "get creative with PII masking by using a theme",
+      "category": "guides and storytelling",
+      "company": "Auvik",
+      "demo_link": "https://tour.auvik.com/share/h1qcu8ic2op8",
+      "reference": "https://drive.google.com/file/d/1lqsEmwCO2pS_031A_gNdtfP7QWyk16oC/view?usp=drive_link",
+      "reasoning": "Themed data (like pirate names, adventure scenarios) makes demos more engaging while protecting real customer information",
+      "outcome": "improve engagement while maintaining data privacy",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "include expected results within demo steps",
+      "category": "guides and storytelling",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/ole2dtnkvlyb",
+      "reference": "https://tinyurl.com/2yjqxkbq",
+      "reasoning": "Expected results and outcomes grab attention during demo and provide concrete value validation instead of just showing features.",
+      "outcome": "improve credibility and engagement",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "deploy persistent convert CTA buttons for easy access at any point during the demo",
+      "category": "lead gen and conversions",
+      "company": "Sprout Social",
+      "demo_link": "https://app.storylane.io/demo/afld059x2hh1",
+      "reference": "https://tinyurl.com/232owccz",
+      "reasoning": "Floating \"book demo\" buttons allow conversion at peak interest without relying on demo completion.",
+      "outcome": "improve conversion rates and user flexibility",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "when using multiple CTAs, have a \"small\" ask and a \"big\" ask",
+      "category": "lead gen and conversions",
+      "company": "Lodgelink",
+      "demo_link": "https://app.storylane.io/share/hfie2ehyg109",
+      "reference": "",
+      "reasoning": "our demo experiments reveal that when using multiple CTAs on the same step, a combination of a \"small ask\" (Eg: check out pricing) and a \"big ask\" (Eg: book a demo) performs significantly better than two big asks (Eg: \"Start free\" and \"Book a demo\"",
+      "outcome": "improve conversions",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "communicate value/fomo in gated demo form copy",
+      "category": "lead gen and conversions",
+      "company": "Instawork",
+      "demo_link": "https://click.convertkit-mail2.com/8kuxn4p8vncoh2g3kddbkhklpq399a3hoolqm/25h2hoh3e93q99s3/aHR0cHM6Ly9pbnN0YXdvcmsubmF2YXR0aWMuY29tL2RlbW8=",
+      "reference": "https://drive.google.com/file/d/1xkfb5seXRDLHBeBiVsuKQRtdt66bYMRy/view?usp=drive_link",
+      "reasoning": "If you choose to gate your demo, use copy along the lines of \"we're preparing a demo for you...\" to convey a sense of personalization, not friction. This ensures that your form feel like a part of the experience, not a barrier to it.",
+      "outcome": "improve lead generation, improve conversion rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "soft gate your demo at a cliffhanger",
+      "category": "lead gen and conversions",
+      "company": "CodeSignal",
+      "demo_link": "https://codesignal.storylane.io/share/u8rzcf3h79zi",
+      "reference": "https://drive.google.com/file/d/1h7zjBdOYQCJmDvLsX1X06Qd0k36g8d6Q/view?usp=drive_link",
+      "reasoning": "tease out the first few steps of your demo and drop a gate an \"aha moment\" or \"cliffhanger\" to maximize engagement AND lead generation",
+      "outcome": "improve lead generation, improve conversion rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "specify the pricing tier in the demo step, where the showcased feature can be found",
+      "category": "lead gen and conversions",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/nr1iirre2feb",
+      "reference": "https://tinyurl.com/25jrkjkp",
+      "reasoning": "Transparent pricing during feature demonstration prevents sticker shock and builds trust.",
+      "outcome": "reduce sales cycle friction and improve lead quality",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "deploy multiple conversion CTAs for PLG + SLG companies",
+      "category": "lead gen and conversions",
+      "company": "Cascade",
+      "demo_link": "https://demo.cascade.app/share/vvufvbi6ondv",
+      "reference": "",
+      "reasoning": "by default, Storylane supports one convert CTA button but you can additional CTAs with custom code, giving users the choice to pick between sign-ups, demo calls, and more",
+      "outcome": "improve conversion rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "auto-populate form fields using visitor data enrichment",
+      "category": "lead gen and conversions",
+      "company": "",
+      "demo_link": "",
+      "reference": "",
+      "reasoning": "Reduce form friction by pre-filling known company and contact information",
+      "outcome": "improve conversion rates and reduce abandonment",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "use voiceovers strategically to break the monotony of text",
+      "category": "pattern interrupts",
+      "company": "CodeSignal",
+      "demo_link": "https://codesignal.storylane.io/share/1d7q5gawuium",
+      "reference": "https://drive.google.com/file/d/1ChUykvBC5cc3R4ujialr4D1hfGBqPxBw/view?usp=drive_link",
+      "reasoning": "use voiceovers strategically to improve accessibility and retain attention through the length of the demo",
+      "outcome": "improve demo completion,",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "screen recording for workflow sequences and transitions",
+      "category": "pattern interrupts",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/demo/ie9jadfjhdku",
+      "reference": "",
+      "reasoning": "screen recording show process flow better than static screenshots for complex workflows",
+      "outcome": "improve understanding of dynamic processes",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "add a face to your demo with presetner recordings or AI generated video avatars for a human touch",
+      "category": "personalization",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/demo/qtpzwun3jn6c",
+      "reference": "https://tinyurl.com/263jfn6v",
+      "reasoning": "Human faces create trust and connection compared to faceless voiceovers or impersonal experiences",
+      "outcome": "improve engagement rates and trust",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "use a leadgen form + dynamic tokens to personalise your demos on the spot",
+      "category": "personalization",
+      "company": "Lodgelink",
+      "demo_link": "https://app.storylane.io/share/hfie2ehyg109",
+      "reference": "",
+      "reasoning": "If you're gating your demos, consider using text tokens to personalize the demo and demo guides based on collected lead gen information to add a personal touch to the demo experience",
+      "outcome": "improve user experience",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "place your demos on high-intent pages (eg: pricing)",
+      "category": "placement and visibility",
+      "company": "CallTrackingMetrics",
+      "demo_link": "https://www.calltrackingmetrics.com/plans-pricing/",
+      "reference": "https://drive.google.com/file/d/1imY0nfA9FCDJxqNwyPt9VuzUNfab_CfV/view?usp=drive_link",
+      "reasoning": "your pricing page is a great example of a high-traffic, high-intent touchpoint where prospects pause and evaluate \u2014 prime real estate to educate buyers with a demo",
+      "outcome": "improve demo engagement",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "use interactive demos as exit-intent popups to re-engage abandoning visitors",
+      "category": "placement and visibility",
+      "company": "CloudBolt",
+      "demo_link": "https://www.cloudbolt.io/free-trial/",
+      "reference": "https://www.awesomescreenshot.com/video/43983535?key=4ce987b3290d36319e7692682ea24e2d",
+      "reasoning": "Exit-intent demos capture visitors about to leave by offering immediate product value instead of traditional email signup forms.",
+      "outcome": "improve visitor retention and conversion rates",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "in case your product uses desktop and mobile applications, incorporate screens from both devices for a complete demo experience",
+      "category": "demo structure and UX",
+      "company": "Tracktable",
+      "demo_link": "https://app.storylane.io/share/6exycnmk6mlk",
+      "reference": "",
+      "reasoning": "if your product supports both desktop and mobile apps, combine screens from both int oa single demo for a complete product experience",
+      "outcome": "improve user experience",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "include customer testimonials within guided demo steps",
+      "category": "guides and storytelling",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/demo/ie9jadfjhdku",
+      "reference": "https://www.awesomescreenshot.com/video/43217316?key=bfe700666e70e483f872981077dfc669",
+      "reasoning": "Mid-demo social proof builds credibility during evaluation vs end-loaded testimonials",
+      "outcome": "improve trust and conversion rates",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "keep your guide copy short but expand your demo narrative through presenter videos and voiceovers",
+      "category": "guides and storytelling",
+      "company": "Rocketlane",
+      "demo_link": "https://app.storylane.io/share/pcunixzy0aso",
+      "reference": "",
+      "reasoning": "we recommend limiting the copy on your guide widgets to under 15 words, but make sure to expand on key steps with videos and voiceovers to get the message across",
+      "outcome": "improve completion rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "use consistent themes and visual narratives",
+      "category": "guides and storytelling",
+      "company": "Auvik",
+      "demo_link": "https://tour.auvik.com/share/h1qcu8ic2op7",
+      "reference": "",
+      "reasoning": "thematic consistency makes demos memorable compared to generic product presentations",
+      "outcome": "improve memorability and differentiation",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "avoid capturing demos on large screens or external monitors for consistent UX across devices",
+      "category": "technical tips",
+      "company": "Storylane",
+      "demo_link": "",
+      "reference": "https://tinyurl.com/2ckdj8n8\nvs\nhttps://tinyurl.com/2cy99yjk",
+      "reasoning": "Large monitors make the product interface appear. Standard laptops capture screens and ensure UI elements remain readable across different devices.",
+      "outcome": "improve visual clarity and accessibility",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "hook prospects with relevant pain points in your welcome screen",
+      "category": "welcome screen",
+      "company": "Channable",
+      "demo_link": "https://democenter.channable.com/share/9whfzxc8jmzg",
+      "reference": "https://drive.google.com/file/d/1GLWHFBDCpeFZLoaflYIaCC8MHTyX11tS/view?usp=drive_link",
+      "reasoning": "surfacing relevant pain points (especially in a humourous way) in your welcome screen is a great hook to your target audiences in \u2014 and instant way to convey: \"hey, we get it!\"",
+      "outcome": "improve demo engagement",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "encourage mobile friendly demo experiences. lead with rotate screen or \"add cue's to improve mobile experience\"",
+      "category": "welcome screen",
+      "company": "Ignition",
+      "demo_link": "https://www.ignitionapp.com/watch-the-demo-today",
+      "reference": "https://drive.google.com/file/d/1pXVdIAMIZkRv-XDscIDULb6bTj15F0Uh/view?usp=drive_link",
+      "reasoning": "if your demos recieve considerable mobile traffic, share a quick note about rotating the device (horizontally) for a better experience",
+      "outcome": "improve demo experience",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "hook prosepcts with relavant data points in your welcome screen",
+      "category": "welcome screen",
+      "company": "Dreamdata",
+      "demo_link": "https://dreamdata.io/use-cases/optimize-ad-spend/#embedded-demos",
+      "reference": "https://drive.google.com/file/d/1b9L1IFsmVDkPa8P79GxhTWxrHFEvbc4H/view?usp=drive_link",
+      "reasoning": "data points on your product's results/ROI is a compelling way to reel users into your demo",
+      "outcome": "improve demo engagement",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "walk users through how your demo environment works with an intro video",
+      "category": "welcome screen",
+      "company": "Cascade",
+      "demo_link": "https://demo.cascade.app/share/vvufvbi6ondv",
+      "reference": "",
+      "reasoning": "for users that may not be familiar with guided and sandbox demos, a quick explainer video atop your demo can be extremely helpful to provide context and drive engagement",
+      "outcome": "improve engagement, completion rate",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "split your demo into distinct flows using multiple CTAs",
+      "category": "welcome screen",
+      "company": "MessageGears",
+      "demo_link": "https://messagegears.storylane.io/share/qadg83etbjcu",
+      "reference": "",
+      "reasoning": "if you have a couple of key productlines, use cases, or personas, use the primary and secondary CTA in your opening guide to let users pick what they'd like to explore \u2014 an alternative to full fledged chapters!",
+      "outcome": "improve user experience",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "hook prospects with an engaging, humorous welcome screen",
+      "category": "welcome screen",
+      "company": "MNTN",
+      "demo_link": "https://mountain.com/self-guided-demo/",
+      "reference": "",
+      "reasoning": "a humorous welcome screen is a great scroll-stopper, especially if the bit is relevant to your target audience. Consider using a meme, a video, or even a celebrity cameo!",
+      "outcome": "improve engagement rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "hook prospects with a pointed, relevant question + CTA",
+      "category": "welcome screen",
+      "company": "Adthena",
+      "demo_link": "https://adthena.storylane.io/share/d7cl9hyseanz",
+      "reference": "",
+      "reasoning": "opening with targeted questions immediately engages prospects and creates curiosity that motivates them to continue through the demo experience.",
+      "outcome": "improve initial engagement and click-through rates",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "include time commitment in demo CTAs to set clear expectations",
+      "category": "welcome screen",
+      "company": "Storylane",
+      "demo_link": "https://app.storylane.io/demo/ie9jadfjhdku",
+      "reference": "https://tinyurl.com/2724lfac",
+      "reasoning": "Adding time estimates like \"Storylane in 5 minutes\" helps prospects commit appropriate time and reduces abandonment from unknown time investment",
+      "outcome": "improve completion rates and user commitment",
+      "added_by": "Prashil"
+    },
+    {
+      "tip": "keep your demos short",
+      "category": "demo structure and UX",
+      "company": "",
+      "demo_link": "",
+      "reference": "",
+      "reasoning": "We recommend limited your demos to between 8-12 steps. If you need to more, consider splitting your demo into chapters.",
+      "outcome": "improve demo completion",
+      "added_by": "Ranga"
+    },
+    {
+      "tip": "craft a story, not a \"how to\"",
+      "category": "guides and storytelling",
+      "company": "",
+      "demo_link": "",
+      "reference": "",
+      "reasoning": "To create engaging demos, avoid dry \"how to\" style product walkthrough content. Instead, create compelling narratives that address relevant pain points and use cases.",
+      "outcome": "improve demo engagement",
+      "added_by": ""
+    }
+  ],
+  "suggestions": [
+    {
+      "category": "Demo length",
+      "logic": "Too few steps: <6 steps",
+      "suggestion": "This demo has fewer than 6 steps. Add a couple of more steps to tell a complete story."
+    },
+    {
+      "category": "Demo length",
+      "logic": "Too many steps: >15 steps",
+      "suggestion": "With 15+ steps, this demo is getting a little long. Try cutting down to 12 steps to keep viewers from losing steam."
+    },
+    {
+      "category": "Demo length",
+      "logic": "Too many steps: >20 steps",
+      "suggestion": "This demo has more than 20 steps. Consider breaking longer demos it into chapters or Buyer Hubs."
+    },
+    {
+      "category": "Guide content",
+      "logic": "Character count >200",
+      "suggestion": "Your guides seem to be running long. Aim for under 200 characters so viewers actually read through them."
+    },
+    {
+      "category": "In-demo CTA",
+      "logic": "Missing Convert CTA button",
+      "suggestion": "This demo has no call to action. Consider adding a convert CTA button (\"Book a demo\", \"Start for free\", \"View pricing\") to encourage next steps."
+    },
+    {
+      "category": "Lead generation",
+      "logic": "Missing lead gen form",
+      "suggestion": "No lead form yet! Add one (perhaps at a cliffhanger) to capture leads and turn interest into conversions."
+    },
+    {
+      "category": "Demo experience",
+      "logic": "Missing videos or voiceovers",
+      "suggestion": "Consider adding videos and voiceover to guide viewers through \u2014 it's way more engaging than clicking solo."
+    },
+    {
+      "category": "Demo design",
+      "logic": "Inconsistent brand colors",
+      "suggestion": "Some colors look off-brand. Clean them up to keep everything looking sharp and professional."
+    },
+    {
+      "category": "Demo experience",
+      "logic": "Missing navigation",
+      "suggestion": "Add navigation controls so viewers can jump around and explore at their own pace."
+    },
+    {
+      "category": "Demo experience",
+      "logic": "Missing track and zoom",
+      "suggestion": "Track and zoom helps viewers focus on what matters. Add it to guide their eyes where you want them."
+    },
+    {
+      "category": "Demo design",
+      "logic": "Inconsistent screen dimensions",
+      "suggestion": "Screen sizes are jumping around. Standardize dimensions for a cleaner, more polished experience."
+    },
+    {
+      "category": "Welcome screen",
+      "logic": "Missing media modal in step 1",
+      "suggestion": "Start strong! Add a welcome screen with a video, GIF, or image to set the stage for what's coming."
+    }
+  ],
+  "tip_categories": [
+    "demo structure and UX",
+    "guides and storytelling",
+    "lead gen and conversions",
+    "pattern interrupts",
+    "personalization",
+    "placement and visibility",
+    "technical tips",
+    "welcome screen"
+  ]
+}

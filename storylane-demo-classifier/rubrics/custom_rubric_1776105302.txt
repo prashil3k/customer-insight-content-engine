@@ -1,0 +1,71 @@
+# Product Demo Evaluation Rubric: Social Proof Showcase
+
+This rubric evaluates interactive product demos based on how effectively they demonstrate social proof and use "show don't tell" principles to build credibility and trust with potential users.
+
+## Classification Buckets
+
+### **Social Proof Champion**
+Demos that masterfully integrate multiple forms of social proof throughout the experience
+- Real customer testimonials, reviews, or case studies prominently featured
+- Live usage metrics, user counts, or activity feeds visible
+- Customer logos, certifications, or awards displayed contextually
+- User-generated content or community elements showcased
+
+### **Trust Builder**
+Demos that include solid social proof elements but in a more traditional way
+- Customer testimonials present but static
+- Some metrics or numbers shown (users, companies served, etc.)
+- Customer logos displayed but not integrated into the demo flow
+- Basic credibility indicators like security badges or certifications
+
+### **Feature Focused**
+Demos that prioritize product functionality with minimal social proof
+- Primarily demonstrates product capabilities and features
+- Limited or superficial social proof elements
+- Focus on "what it does" rather than "who uses it"
+- May mention customers but doesn't showcase their success
+
+### **Generic Showcase**
+Demos that show the product but lack compelling social validation
+- Basic product walkthrough without customer context
+- No visible user metrics or social indicators
+- Generic messaging without specific customer examples
+- Misses opportunities to demonstrate real-world usage
+
+### **Gated / Inaccessible**
+Demos that cannot be properly evaluated due to access restrictions
+- Requires login, registration, or special permissions
+- Broken links or technical issues preventing access
+- Geographic restrictions or other barriers to viewing
+
+## Evaluation Dimensions
+
+**social_proof_strength**: How compelling and prominent the social proof elements are (1 = no social proof visible, 10 = multiple strong forms of social proof seamlessly integrated)
+
+**credibility_building**: How effectively the demo builds trust and credibility (1 = undermines confidence, 10 = builds strong confidence in the product and company)
+
+**integration_quality**: How well social proof elements are woven into the demo experience (1 = disconnected or forced, 10 = naturally integrated and contextual)
+
+**evidence_authenticity**: How genuine and specific the social proof appears (1 = generic or fake-seeming, 10 = clearly authentic with specific details)
+
+**visual_impact**: How effectively visuals and interactivity showcase social proof (1 = all text-based or poorly presented, 10 = compelling visuals that show real usage)
+
+**persuasive_power**: Overall ability to convince prospects through demonstrated success (1 = fails to persuade, 10 = highly convincing through proven results)
+
+## Output Format
+
+Respond in JSON:
+{
+  "type": "one of the classification buckets above",
+  "overall_score": 1-10,
+  "social_proof_strength": 1-10,
+  "credibility_building": 1-10,
+  "integration_quality": 1-10,
+  "evidence_authenticity": 1-10,
+  "visual_impact": 1-10,
+  "persuasive_power": 1-10,
+  "summary": "2-3 sentence summary of what the demo shows and how it tells its story",
+  "strengths": ["list of specific things done well"],
+  "weaknesses": ["list of specific areas for improvement"],
+  "recommendation": "One specific actionable suggestion to improve this demo"
+}

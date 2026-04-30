@@ -8,7 +8,7 @@ WATCH_DIR = BASE_DIR / "watch"
 OUTPUT_DIR = BASE_DIR / "output" / "articles"
 STATIC_DIR = BASE_DIR / "static"
 
-DEMO_CLASSIFIER_DIR = BASE_DIR.parent / "storylane-demo-classifier"
+DEMO_CLASSIFIER_DIR = BASE_DIR / "storylane-demo-classifier"
 DEMO_INDEX_PATH = DEMO_CLASSIFIER_DIR / "demo_index.json"
 DEMO_SCREENSHOTS_DIR = DEMO_CLASSIFIER_DIR / "screenshots"
 
