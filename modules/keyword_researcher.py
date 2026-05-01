@@ -294,3 +294,34 @@ def research_keywords(topic: str, ideal_reader: str = "", angle: str = "",
         "settings_used": {"country": country, "max_kd": max_kd, "min_volume": min_volume},
         "researched_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
+
+
+def check_topics_demand(articles: list, progress_cb=None) -> None:
+    """
+    Batch Ahrefs volume+KD check for a list of idea-stage articles.
+    Writes demand_signal onto each article and saves. No-ops if Ahrefs unavailable.
+    """
+    if not config.AHREFS_API_TOKEN or not articles:
+        return
+
+    from modules.topic_planner import save_article
+
+    topics = [a["topic"] for a in articles if a.get("topic")]
+    if not topics:
+        return
+
+    if progress_cb:
+        progress_cb(f"Checking search demand for {len(topics)} topics...")
+
+    kw_data = _ahrefs_kw_data(topics)
+
+    for a in articles:
+        topic_key = a.get("topic", "").lower().strip()
+        data = kw_data.get(topic_key) or kw_data.get(a.get("topic", ""))
+        if data and data.get("volume") is not None:
+            a["demand_signal"] = {
+                "volume": data["volume"],
+                "difficulty": data["difficulty"],
+                "checked_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            }
+            save_article(a)

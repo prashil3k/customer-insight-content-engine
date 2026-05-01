@@ -203,6 +203,61 @@ def api_upload_transcript():
     return jsonify({"task_id": task_id})
 
 
+@app.route("/api/competitor-intel/upload", methods=["POST"])
+def api_upload_competitor_intel():
+    if "file" not in request.files:
+        return jsonify({"error": "file required"}), 400
+    f = request.files["file"]
+    if not f.filename.lower().endswith(".xlsx"):
+        return jsonify({"error": "XLSX files only"}), 400
+
+    import tempfile, os
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx", prefix="competitor_")
+    f.save(tmp.name)
+    tmp_path = tmp.name
+
+    task_id = f"competitor_{int(time.time())}"
+
+    def _run():
+        try:
+            from modules.competitor_intel import ingest_xlsx
+            result = ingest_xlsx(tmp_path, progress_cb=lambda m: _set_progress(task_id, m))
+            os.unlink(tmp_path)
+            _set_progress(task_id, f"DONE — {result['processed']} competitors ingested, {result['skipped']} skipped")
+        except Exception as e:
+            _set_progress(task_id, f"ERROR: {e}")
+
+    threading.Thread(target=_run, daemon=True).start()
+    return jsonify({"task_id": task_id})
+
+
+@app.route("/api/reddit/fetch", methods=["POST"])
+def api_reddit_fetch():
+    body = request.json or {}
+    query = body.get("query", "").strip()
+    subreddits = body.get("subreddits") or None
+    if not query:
+        return jsonify({"error": "query required"}), 400
+    task_id = f"reddit_{int(time.time())}"
+
+    def _run():
+        from modules.reddit_connector import ingest_reddit
+        try:
+            ingest_reddit(query, subreddits=subreddits, progress_cb=lambda m: _set_progress(task_id, m))
+        except Exception as e:
+            _set_progress(task_id, f"ERROR: {e}")
+
+    threading.Thread(target=_run, daemon=True).start()
+    return jsonify({"task_id": task_id})
+
+
+@app.route("/api/insights/archive", methods=["POST"])
+def api_archive_insights():
+    from modules.insight_extractor import archive_low_value_insights
+    archive_low_value_insights()
+    return jsonify({"ok": True})
+
+
 @app.route("/api/watch/process", methods=["POST"])
 def api_process_watch():
     task_id = f"watch_{int(time.time())}"
@@ -256,9 +311,12 @@ def api_generate_topics():
 
     def _run():
         from modules.topic_planner import generate_topics
+        from modules.keyword_researcher import check_topics_demand
         try:
             _set_progress(task_id, "Generating topic proposals...")
-            generate_topics(num_topics=num, progress_cb=lambda m: _set_progress(task_id, m))
+            new_articles = generate_topics(num_topics=num, progress_cb=lambda m: _set_progress(task_id, m))
+            if new_articles and config.AHREFS_API_TOKEN:
+                check_topics_demand(new_articles, progress_cb=lambda m: _set_progress(task_id, m))
             _set_progress(task_id, "DONE")
         except Exception as e:
             _set_progress(task_id, f"ERROR: {e}")

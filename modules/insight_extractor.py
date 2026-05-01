@@ -29,15 +29,16 @@ def _init_db():
             confidence REAL,
             used_in TEXT,
             raw_summary TEXT,
-            raw_input TEXT
+            raw_input TEXT,
+            archived INTEGER DEFAULT 0
         )
     """)
-    # Add raw_input column to existing DBs that predate this field
-    try:
-        conn.execute("ALTER TABLE insights ADD COLUMN raw_input TEXT")
-        conn.commit()
-    except Exception:
-        pass  # column already exists
+    for col, definition in [("raw_input", "TEXT"), ("archived", "INTEGER DEFAULT 0")]:
+        try:
+            conn.execute(f"ALTER TABLE insights ADD COLUMN {col} {definition}")
+            conn.commit()
+        except Exception:
+            pass
     conn.commit()
     conn.close()
 
@@ -200,6 +201,15 @@ def _compute_saturation(results: list) -> list:
     return results
 
 
+def archive_low_value_insights():
+    """Mark low-confidence or over-saturated insights as archived so they don't pollute draft selection."""
+    _init_db()
+    conn = sqlite3.connect(str(config.INSIGHTS_DB_PATH))
+    conn.execute("UPDATE insights SET archived = 1 WHERE confidence < 0.35 AND archived = 0")
+    conn.commit()
+    conn.close()
+
+
 def get_insights(filters: dict = None) -> list:
     _init_db()
     filters = filters or {}
@@ -208,6 +218,11 @@ def get_insights(filters: dict = None) -> list:
     query = "SELECT * FROM insights"
     params = []
     conditions = []
+
+    # Always exclude archived unless caller explicitly asks for them
+    if not filters.get("include_archived"):
+        conditions.append("(archived IS NULL OR archived = 0)")
+
     if filters.get("source_type"):
         conditions.append("source_type = ?")
         params.append(filters["source_type"])
@@ -217,9 +232,18 @@ def get_insights(filters: dict = None) -> list:
     if filters.get("min_confidence"):
         conditions.append("confidence >= ?")
         params.append(float(filters["min_confidence"]))
+
+    # Competitor pre-filter: narrows to insights mentioning any of the given competitors
+    competitor_list = filters.get("competitors") or []
+    if competitor_list:
+        comp_clauses = " OR ".join("LOWER(competitors) LIKE ?" for _ in competitor_list)
+        conditions.append(f"({comp_clauses})")
+        for c in competitor_list:
+            params.append(f"%{c.lower()}%")
+
     if conditions:
         query += " WHERE " + " AND ".join(conditions)
-    query += " ORDER BY extracted_at DESC"
+    query += " ORDER BY confidence DESC, extracted_at DESC"
     if filters.get("limit"):
         query += f" LIMIT {int(filters['limit'])}"
     rows = conn.execute(query, params).fetchall()

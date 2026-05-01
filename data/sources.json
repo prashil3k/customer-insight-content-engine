@@ -974,5 +974,83 @@
       "grain_585b7567-0f91-42f3-84c2-71553b2834fc",
       "grain_8dbf455f-f462-4cb9-b4ab-d5edfa4daf68"
     ]
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___consensus": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Consensus",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___saleo": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Saleo",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___howdygo": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "HowdyGo",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___reprise": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Reprise",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___tourial": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Tourial",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___navattic": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Navattic",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___walnut": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Walnut",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__storylane_-_competitor_-_fact_-_sheet___supademo": {
+    "source_name": "Storylane - Competitor - Fact - Sheet.xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Supademo",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__[internal]_storylane_-_competitor_compa__arcade": {
+    "source_name": "[Internal] Storylane - Competitor Comparison (WIP).xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Arcade",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__[internal]_storylane_-_competitor_compa__guideflow": {
+    "source_name": "[Internal] Storylane - Competitor Comparison (WIP).xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Guideflow",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__[internal]_storylane_-_competitor_compa__demoboost": {
+    "source_name": "[Internal] Storylane - Competitor Comparison (WIP).xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Demoboost",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__[internal]_storylane_-_competitor_compa__navattic": {
+    "source_name": "[Internal] Storylane - Competitor Comparison (WIP).xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Navattic",
+    "processed_at": "2026-05-01T09:24:15Z"
+  },
+  "competitor_intel__[internal]_storylane_-_competitor_compa__supademo": {
+    "source_name": "[Internal] Storylane - Competitor Comparison (WIP).xlsx",
+    "source_type": "competitor_intel",
+    "competitor": "Supademo",
+    "processed_at": "2026-05-01T09:24:15Z"
   }
 }

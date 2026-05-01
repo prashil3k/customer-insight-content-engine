@@ -63,14 +63,16 @@ storylane-content-engine/
 ├── modules/
 │   ├── model_manager.py          # create_message(tier) — Sonnet/Haiku with fallback chain
 │   ├── company_brain.py          # URL scraping + file upload → company_brief.json
-│   ├── insight_extractor.py      # Transcripts/dumps → structured insights → insights.db
+│   ├── insight_extractor.py      # Transcripts/dumps → structured insights → insights.db; archived flag; competitor SQL filter
 │   ├── grain_connector.py        # Grain REST API v2 poller (cursor-paginated, filtered)
 │   ├── sybill_connector.py       # Sybill REST API poller (mirrors grain pattern, pure pull)
+│   ├── competitor_intel.py       # XLSX ingest: auto-detects sheets, groups by competitor, writes competitor_intel insights
+│   ├── reddit_connector.py       # Reddit JSON API (no auth): fetch posts → extract_insights_from_text
 │   ├── pillar_map.py             # Content pillar coverage map
 │   ├── topic_planner.py          # Insights + pillar gaps → topic proposals with lineage
 │   ├── keyword_researcher.py     # SERP → brainstorm → Ahrefs validate + manual keywords
 │   ├── demo_connector.py         # POST /query-engine on classifier → local fallback
-│   ├── draft_generator.py        # Directive insights + Storylane enforcement + CTA rule
+│   ├── draft_generator.py        # Directive insights + Yoda pre-filter + Storylane enforcement + CTA rule
 │   ├── qc_engine.py              # 7-dimension scoring + suggestions + apply
 │   ├── seo_engine.py             # Structural checks + Claude semantic pass + link check
 │   ├── template_learner.py       # Article URL → structural template + mindset layer
@@ -152,6 +154,9 @@ storylane-content-engine/
 | PUT | `/api/settings` | Save scheduler/automation/rubric/filter settings |
 | PUT | `/api/settings/keys` | Save API keys (partial — only overwrites non-empty) |
 | GET | `/api/export-zip` | Portable zip — `?bundle=1` includes Demo Classifier |
+| POST | `/api/competitor-intel/upload` | Upload `.xlsx` competitor fact sheet — auto-detects sheets, one insight per competitor |
+| POST | `/api/reddit/fetch` | `{ "query": "..." }` — fetch Reddit posts → extract insights async |
+| POST | `/api/insights/archive` | Mark low-confidence insights (< 0.35) as archived |
 
 All Claude-calling operations are async: return `{ task_id }` immediately, frontend polls `/progress/:task_id` every 1.2s.
 
@@ -169,9 +174,15 @@ All Claude-calling operations are async: return `{ task_id }` immediately, front
 
 **`sybill_connector.py`** — Pure REST pull, no webhook/ngrok. Bearer `sk_live_...`. 90-day lookback on first run. Found 650+ historical calls. Rate-limited (0.3s / 0.5s delays). Wired to scheduler + manual poll button.
 
-**`keyword_researcher.py`** — 3-pass: SERP → Haiku brainstorm from parent categories → Ahrefs validation. Manual keywords get `score += 1000` — always top the list, never filtered by KD/volume.
+**`keyword_researcher.py`** — 3-pass: SERP → Haiku brainstorm from parent categories → Ahrefs validation. Manual keywords get `score += 1000` — always top the list, never filtered by KD/volume. `check_topics_demand(articles)` batch-checks Ahrefs volume + KD for idea-stage topics after generation and saves `demand_signal` onto each article.
 
 **`demo_connector.py`** — Calls `/query-engine` on Demo Classifier (port 8000). Falls back to local `demo_index.json` scoring if classifier is offline. Classifier is a sibling tool in `storylane-demo-classifier/` within the same repo.
+
+**`competitor_intel.py`** — Ingests XLSX competitor fact sheets. Auto-detects sheet type (multi-competitor sheets have a `Competitor` column; single-competitor sheets use the sheet name). Groups all data per competitor across all sheets, normalises name variants (e.g. `Tourial / Navless` → `Tourial`), then makes one Haiku call per competitor to produce a structured insight. `source_type: "competitor_intel"`. Deduplicates by `filename + competitor` — re-uploading the same file is a no-op; a second colleague's file creates additive insights. Requires pandas + openpyxl.
+
+**`reddit_connector.py`** — Fetches Reddit posts using the public JSON API (no auth, no PRAW). Searches configurable subreddits (default: sales, marketing, SaaS, b2bmarketing, startups, salestechnology). Bundles top posts into text and passes to `extract_insights_from_text`. `source_type: "reddit"`. Each query gets a unique source_id (timestamp), so re-running the same query always creates a fresh insight.
+
+**`draft_generator.py` (Yoda system)** — `_select_relevant_insights()` now extracts competitor names from the article topic (matched against a known list), runs a SQL-filtered query for competitor-specific insights first (`WHERE LOWER(competitors) LIKE '%howdygo%'`), then fills remaining slots from the general pool. General pool limit dropped from 100 to 50. Competitor insights always rank ahead of general insights at equal relevance scores.
 
 ---
 
@@ -200,6 +211,7 @@ All Claude-calling operations are async: return `{ task_id }` immediately, front
   "social_signals": [ { "format": "carousel|post|poll", "hook": "..." } ],
   "insight_ids_used": ["uuid"],
   "overlap_warning": { "similar_to": "...", "reason": "..." },
+  "demand_signal": { "volume": 0, "difficulty": 0, "checked_at": "ISO8601" },
   "created_at": "ISO8601",
   "updated_at": "ISO8601"
 }
@@ -236,13 +248,22 @@ Single file: `static/index.html` — vanilla JS, no build step.
 
 ## What's Next to Build
 
-| Item | Status | Notes |
-|---|---|---|
-| **"Add Article" UI** | 🔲 Next | Pipeline tab needs a manual article creation button + small form (topic, angle, ideal reader). Backend `POST /api/articles` already works — just missing the UI entry point. This is the missing front door for competitor articles, listicles, and any article with a pre-decided topic. |
-| **Competitor Intelligence ingest** | 🔲 Next | Export competitor XLSX as CSV/text → paste as Thought Dump → system extracts structured competitive insights (positioning, differentiators, weaknesses) into insights.db. At draft time, competitor insights surface naturally when topic matches (e.g. "HowdyGo alternatives"). Same insight reusable across multiple articles. |
-| **Image Generation step** | 🔲 Deferred | Post-draft step: Claude reads the article, identifies sections that need visuals, generates self-contained HTML charts/graphics. Exports as high-fidelity screenshot. Waiting on skill file with exact HTML generation architecture before building. Placeholder button reserved in editor topbar. |
-| **Webflow publish** | 🔲 Deferred | Push done articles to Webflow CMS via REST API v2. Needs collection ID + field mapping per pillar. |
-| **Hosted deployment** | 🔲 Deferred | Railway. Persistent volume for data/, classifier as second service, HTTP basic auth for team access. ~1 day effort. |
+| Item | Status | Complexity | Notes |
+|---|---|---|---|
+| **Image Generation step** | 🔲 Next | Large | Post-draft step: Claude reads the article, identifies sections that need visuals, generates self-contained HTML charts/graphics. Exports as high-fidelity screenshot. Waiting on skill file with exact HTML generation architecture before building. Placeholder button reserved in editor topbar. |
+| **Webflow publish** | 🔲 Deferred | Medium | Push done articles to Webflow CMS via REST API v2. Needs collection ID + field mapping per pillar. |
+| **Hosted deployment** | 🔲 Deferred | Medium | Railway. Persistent volume for data/, classifier as second service, HTTP basic auth for team access. ~1 day effort. |
+
+## Recently Completed (2026-05-01)
+
+| Item | Notes |
+|---|---|
+| **"Add Article" UI** | `+ Create Manually` button in Pipeline tab — topic, angle, pillar, ideal reader form. `ideal_reader` field added to create modal and passed through to article data. |
+| **Competitor Intelligence ingest** | `modules/competitor_intel.py` — XLSX upload, auto-detects sheet types, merges name variants, one insight per competitor. `POST /api/competitor-intel/upload`. UI button in Insights tab. pandas + openpyxl added to venv. 13 insights pre-loaded from two colleague files without API (direct DB write). |
+| **Smart insight retrieval (Yoda system)** | `archived` column added to insights.db. `get_insights()` now accepts `competitors` list → SQL pre-filter. `draft_generator.py` extracts competitor names from topic, pulls competitor-specific insights first, fills remaining slots from general pool. `POST /api/insights/archive` to trigger archival. |
+| **Angle-to-SERP intent validation** | Rule-based mismatch warning in keyword panel: if `serp.dominant_format` doesn't match the article's `angle`, orange warning badge appears inline. No AI cost. |
+| **Reddit insight source** | `modules/reddit_connector.py` — Reddit public JSON API (no OAuth, no PRAW). `POST /api/reddit/fetch`. UI button + modal in Insights tab. `source_type: "reddit"` in insights.db. Requires Claude API credits to extract insights. |
+| **Search demand signal** | `check_topics_demand()` in `keyword_researcher.py` auto-runs after topic generation. Batch-fetches Ahrefs volume + KD for each proposed topic title, saves `demand_signal` onto article. Shown as 📊 badge on Kanban cards and in editor Info sidebar. No-ops if Ahrefs token absent. |
 
 ---
 

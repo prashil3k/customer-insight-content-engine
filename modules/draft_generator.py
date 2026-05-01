@@ -10,15 +10,26 @@ from modules.model_manager import create_message
 from modules.skills_manager import build_skills_block
 
 
+_KNOWN_COMPETITORS = [
+    "consensus", "saleo", "howdygo", "reprise", "tourial", "navattic",
+    "walnut", "supademo", "arcade", "guideflow", "demoboost", "navless",
+]
+
+
+def _extract_competitors_from_topic(topic: str) -> list:
+    topic_lower = topic.lower()
+    return [c for c in _KNOWN_COMPETITORS if c in topic_lower]
+
+
 def _select_relevant_insights(topic: str, tags: list, limit: int = 8) -> list:
-    all_insights = get_insights({"min_confidence": 0.35, "limit": 100})
-    topic_words = set(topic.lower().split())
+    topic_lower = topic.lower()
+    topic_words = set(topic_lower.split())
+    mentioned_competitors = _extract_competitors_from_topic(topic)
 
     def relevance(ins):
         score = ins.get("confidence", 0.5)
         ins_tags = set(ins.get("tags", []))
-        tag_overlap = len(ins_tags.intersection(set(tags)))
-        score += tag_overlap * 0.3
+        score += len(ins_tags.intersection(set(tags))) * 0.3
         segment = (ins.get("customer_segment") or "").lower()
         summary = (ins.get("raw_summary") or "").lower()
         for word in topic_words:
@@ -26,8 +37,37 @@ def _select_relevant_insights(topic: str, tags: list, limit: int = 8) -> list:
                 score += 0.2
         return score
 
-    scored = sorted(all_insights, key=relevance, reverse=True)
-    return scored[:limit]
+    if mentioned_competitors:
+        # Pull competitor-specific insights first (SQL-filtered, cheap)
+        comp_insights = get_insights({
+            "competitors": mentioned_competitors,
+            "min_confidence": 0.35,
+            "limit": 30,
+        })
+        comp_ids = {ins["id"] for ins in comp_insights}
+
+        # Fill remaining slots from general pool, excluding already-fetched
+        general = get_insights({"min_confidence": 0.35, "limit": 50})
+        general = [ins for ins in general if ins["id"] not in comp_ids]
+
+        # Score and merge: competitor insights ranked first within their score band
+        scored_comp = sorted(comp_insights, key=relevance, reverse=True)
+        scored_gen = sorted(general, key=relevance, reverse=True)
+        combined = scored_comp + scored_gen
+    else:
+        combined = sorted(
+            get_insights({"min_confidence": 0.35, "limit": 50}),
+            key=relevance, reverse=True,
+        )
+
+    seen = set()
+    deduped = []
+    for ins in combined:
+        if ins["id"] not in seen:
+            seen.add(ins["id"])
+            deduped.append(ins)
+
+    return deduped[:limit]
 
 
 def _format_insights_for_prompt(insights: list, directive_ids: set = None) -> str:

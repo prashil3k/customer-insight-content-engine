@@ -532,6 +532,8 @@
       <div class="topbar-actions">
         <button class="btn btn-secondary btn-sm" onclick="openDumpModal()">+ Thought Dump</button>
         <button class="btn btn-secondary btn-sm" onclick="openUploadModal()">↑ Upload Transcript</button>
+        <button class="btn btn-secondary btn-sm" onclick="openCompetitorUploadModal()">↑ Competitor XLSX</button>
+        <button class="btn btn-secondary btn-sm" onclick="openRedditModal()">⟳ Reddit Scan</button>
         <button class="btn btn-secondary btn-sm" onclick="processWatch()">⟳ Scan Watch Folders</button>
       </div>
     </div>
@@ -547,6 +549,8 @@
           <option value="sybill">Sybill</option>
           <option value="manual">Manual</option>
           <option value="thought_dump">Thought Dumps</option>
+          <option value="competitor_intel">Competitor Intel</option>
+          <option value="reddit">Reddit</option>
         </select>
         <select class="form-select" style="width:150px;" id="filter-confidence" onchange="loadInsights()">
           <option value="">Any Confidence</option>
@@ -1148,10 +1152,10 @@ async function loadInsights() {
 function renderInsightCard(ins) {
   const confPct = Math.round((ins.confidence || 0) * 100);
   const confColor = confPct >= 70 ? 'var(--green)' : confPct >= 50 ? 'var(--yellow)' : 'var(--text-faint)';
-  const sourceColors = { grain:'badge-accent', sybill:'badge-green', thought_dump:'badge-orange', manual:'badge-grey' };
+  const sourceColors = { grain:'badge-accent', sybill:'badge-green', thought_dump:'badge-orange', manual:'badge-grey', competitor_intel:'badge-yellow', reddit:'badge-accent' };
   const badgeCls = sourceColors[ins.source_type] || 'badge-grey';
   const satScore = ins.saturation_score || 0;
-  const isSaturated = satScore >= 0.3;
+  const isSaturated = satScore >= 0.3 && ins.source_type !== 'competitor_intel';
   const satBadge = isSaturated
     ? `<span title="This pain point cluster is well-covered in your insight DB (${Math.round(satScore*100)}% overlap with other insights). Topics from here may be repetitive." style="font-size:10px;background:rgba(255,170,0,0.15);color:var(--warning);border:1px solid var(--warning);border-radius:3px;padding:1px 6px;cursor:default;">⚠ Saturated</span>`
     : '';
@@ -1171,7 +1175,7 @@ function renderInsightCard(ins) {
   }
 
   // Source type labels
-  const sourceLabels = { grain:'Grain Call', sybill:'Sybill Call', thought_dump:'Thought Dump', manual:'Manual' };
+  const sourceLabels = { grain:'Grain Call', sybill:'Sybill Call', thought_dump:'Thought Dump', manual:'Manual', competitor_intel:'Competitor Intel', reddit:'Reddit' };
   const sourceLabel = sourceLabels[ins.source_type] || ins.source_type;
 
   return `<div class="insight-card">
@@ -1263,6 +1267,41 @@ async function submitUpload() {
   pollTask(r.task_id, 'Processing transcript...', () => loadInsights());
 }
 
+function openCompetitorUploadModal() {
+  showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Upload Competitor XLSX</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Upload one or more competitor fact sheet files. Each tab is parsed automatically — one insight per competitor lands in your feed.</div>
+    <div class="form-group"><label class="form-label">Select XLSX file</label>
+      <input type="file" id="competitor-file-input" accept=".xlsx" style="width:100%;padding:8px 0;font-size:13px;"></div>
+    <button class="btn btn-primary" onclick="submitCompetitorUpload()">Process File</button>`);
+}
+
+async function submitCompetitorUpload() {
+  const input = document.getElementById('competitor-file-input');
+  if (!input?.files?.length) return;
+  const file = input.files[0];
+  closeModal();
+  const fd = new FormData();
+  fd.append('file', file);
+  const r = await fetch('/api/competitor-intel/upload', { method: 'POST', body: fd }).then(x => x.json());
+  pollTask(r.task_id, `Processing ${file.name}...`, () => loadInsights());
+}
+
+function openRedditModal() {
+  showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Reddit Insight Scan</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Searches r/sales, r/marketing, r/SaaS, r/b2bmarketing and more. Top posts are extracted into your insight feed.</div>
+    <div class="form-group"><label class="form-label">Search query</label>
+      <input class="form-input" id="reddit-query" style="width:100%;" placeholder="e.g. interactive demo tool problems"></div>
+    <button class="btn btn-primary" onclick="submitRedditScan()">Scan Reddit</button>`);
+}
+
+async function submitRedditScan() {
+  const query = document.getElementById('reddit-query')?.value.trim();
+  if (!query) return;
+  closeModal();
+  const r = await POST('/reddit/fetch', { query });
+  pollTask(r.task_id, `Scanning Reddit for "${query}"...`, () => loadInsights());
+}
+
 async function processWatch() {
   const r = await POST('/watch/process');
   pollTask(r.task_id, 'Scanning watch folders...', () => loadInsights());
@@ -1308,12 +1347,17 @@ function renderKanbanCard(a) {
   const overlapWarning = a.overlap_warning
     ? `<div style="margin-top:6px;font-size:10px;color:var(--warning);display:flex;align-items:flex-start;gap:4px;" title="${a.overlap_warning.reason}">⚠ Similar to: <em>${a.overlap_warning.similar_to?.slice(0,50)}</em></div>`
     : '';
+  const ds = a.demand_signal;
+  const demandBadge = ds
+    ? `<span class="badge badge-grey" style="font-size:10px;" title="Search volume · KD from Ahrefs">📊 ${ds.volume != null ? Number(ds.volume).toLocaleString() : '—'} vol · KD ${ds.difficulty ?? '—'}</span>`
+    : '';
   return `<div class="kanban-card" onclick="openArticle('${a.id}')">
     <div class="kanban-card-title">${a.topic}</div>
     <div class="kanban-card-meta">
       <span class="badge ${badgeCls}">${a.angle || 'tl'}</span>
       ${a.pillar ? `<span class="badge badge-grey" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${a.pillar}</span>` : ''}
       ${intents.map(i => `<span class="badge badge-grey">${i}</span>`).join('')}
+      ${demandBadge}
     </div>
     ${overlapWarning}
   </div>`;
@@ -1333,6 +1377,7 @@ async function generateTopics() {
 function openCreateModal() {
   showModal(`<div style="font-weight:700;font-size:16px;margin-bottom:16px;">Create Article Manually</div>
     <div class="form-group"><label class="form-label">Topic / Title</label><input class="form-input" id="create-topic" style="width:100%;" placeholder="e.g. Why PreSales Teams Are Burning Out"></div>
+    <div class="form-group"><label class="form-label">Ideal Reader</label><input class="form-input" id="create-reader" style="width:100%;" placeholder="e.g. VP of Sales at a 50-200 person SaaS company"></div>
     <div class="form-group"><label class="form-label">Angle</label>
       <select class="form-select" id="create-angle" style="width:100%;">
         ${['thought_leadership','listicle','opinion','data_led','how_to','comparison','digital_pr'].map(a => `<option value="${a}">${a}</option>`).join('')}
@@ -1345,7 +1390,12 @@ async function submitCreate() {
   const topic = document.getElementById('create-topic')?.value.trim();
   if (!topic) return;
   closeModal();
-  await POST('/articles', { topic, angle: document.getElementById('create-angle')?.value, pillar: document.getElementById('create-pillar')?.value });
+  await POST('/articles', {
+    topic,
+    ideal_reader: document.getElementById('create-reader')?.value.trim() || '',
+    angle: document.getElementById('create-angle')?.value,
+    pillar: document.getElementById('create-pillar')?.value,
+  });
   loadPipeline();
 }
 
@@ -1526,8 +1576,12 @@ function renderKeywordPanel(a) {
     return `<tr><td>${k.keyword}</td><td>${fmtVol(k.volume)}</td><td style="${kdColor(k.difficulty)};font-weight:600;">${fmtKD(k.difficulty)}</td><td>${srcBadge(k.source)}</td></tr>`;
   });
 
-  // SERP summary panel
+  // SERP summary panel + angle mismatch warning
   const serp = kw.serp;
+  const _serpFormatMap = { how_to:['how_to'], listicle:['listicle'], comparison:['comparison','data_led'], guide:['how_to','listicle'] };
+  const _expectedAngles = serp?.dominant_format ? (_serpFormatMap[serp.dominant_format] || null) : null;
+  const _angleMismatch = _expectedAngles && a.angle && !_expectedAngles.includes(a.angle);
+  const _mismatchWarning = _angleMismatch ? `<div style="margin-top:8px;padding:7px 10px;background:var(--orange-light);border-radius:var(--radius-sm);color:var(--orange);font-size:11px;font-weight:600;">⚠ Angle mismatch: SERP favours <strong>${serp.dominant_format}</strong> but article is set to <strong>${a.angle}</strong>. Consider switching angle or expect to outrank with differentiated positioning.</div>` : '';
   const serpHtml = serp ? `<div style="background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;margin-bottom:12px;font-size:12px;">
     <div style="font-weight:700;margin-bottom:4px;">📊 SERP Intelligence</div>
     ${serp.dominant_format ? `<div><strong>Format:</strong> ${serp.dominant_format}</div>` : ''}
@@ -1535,6 +1589,7 @@ function renderKeywordPanel(a) {
     ${serp.featured_snippet !== undefined ? `<div><strong>Featured snippet:</strong> ${serp.featured_snippet ? '✓ Yes' : '✗ No'}</div>` : ''}
     ${serp.top_results?.length ? `<div style="margin-top:6px;"><strong>Top results:</strong><br>${serp.top_results.slice(0,3).map(r=>`<span style="display:block;color:var(--text-muted);margin-top:2px;">→ ${r.title.slice(0,70)}</span>`).join('')}</div>` : ''}
     ${kw.settings_used ? `<div style="margin-top:6px;color:var(--text-faint);">Country: ${(kw.settings_used.country||'us').toUpperCase()} · Max KD: ${kw.settings_used.max_kd||70}</div>` : ''}
+    ${_mismatchWarning}
   </div>` : '';
 
   const manualKws = kw.manual || [];
@@ -1724,6 +1779,7 @@ function renderSidebarTab(a, tab) {
         ${a.pillar ? `<div style="margin-bottom:8px;"><div class="form-label">Content Pillar</div><div style="font-size:13px;">${a.pillar}</div></div>` : ''}
         ${(a.strategic_intent||[]).length ? `<div style="margin-bottom:8px;"><div class="form-label">Strategic Intent</div><div style="display:flex;gap:4px;flex-wrap:wrap;">${a.strategic_intent.map(i => `<span class="badge badge-accent">${i}</span>`).join('')}</div></div>` : ''}
         ${primary.keyword ? `<div style="margin-bottom:8px;"><div class="form-label">Primary Keyword</div><div style="font-size:13px;font-weight:600;">${primary.keyword} <span style="color:var(--text-muted);font-weight:400;">(vol: ${primary.volume||'?'}, KD: ${primary.difficulty||'?'})</span></div></div>` : ''}
+        ${a.demand_signal ? `<div style="margin-bottom:8px;"><div class="form-label">Search Demand</div><div style="font-size:13px;">📊 ${a.demand_signal.volume != null ? Number(a.demand_signal.volume).toLocaleString() : '—'} searches/mo · KD ${a.demand_signal.difficulty ?? '—'}</div></div>` : ''}
       </div>
       <div class="divider"></div>
       <div style="font-weight:600;font-size:13px;margin-bottom:10px;">🔗 Source Insights</div>
