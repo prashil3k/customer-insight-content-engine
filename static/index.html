@@ -972,6 +972,19 @@ https://docs.storylane.io/changelog</textarea>
 <!-- Toast -->
 <div id="toast"><div class="spinner"></div><span id="toast-msg"></span></div>
 
+<!-- Visuals Panel -->
+<div id="visuals-panel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:flex-start;justify-content:center;padding-top:60px;">
+  <div style="background:var(--surface);border-radius:var(--radius);width:640px;max-height:80vh;overflow-y:auto;position:relative;padding:28px 28px 24px;">
+    <button onclick="closeVisualsPanel()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted);">✕</button>
+    <div style="font-weight:700;font-size:16px;margin-bottom:4px;">🖼 Image Suggestions</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">All <code>[IMAGE: ...]</code> placeholders found in your draft. Copy individual descriptions or copy all at once to build them in Claude Code with your <code>/visual</code> skill.</div>
+    <div id="visuals-placeholder-list"></div>
+    <div id="visuals-copy-all-wrap" style="display:none;margin-top:18px;padding-top:16px;border-top:1px solid var(--border-light);">
+      <button class="btn btn-primary" onclick="copyAllVisualsForClaudeCode()" style="width:100%;">📋 Copy all for Claude Code</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modals -->
 <div id="modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;">
   <div id="modal-box" style="background:var(--surface);border-radius:var(--radius);padding:24px;width:500px;max-height:80vh;overflow-y:auto;position:relative;">
@@ -1491,6 +1504,11 @@ function renderTopbarActions(a) {
     actions.push(`<button class="btn btn-ghost btn-sm" onclick="goBackStage('${prevStage}')" title="Move back to ${prevLabel} stage" style="color:var(--text-muted);">← ${prevLabel}</button>`);
   }
 
+  // Visuals — available any time a draft exists
+  if (a.draft) {
+    actions.push(`<button class="btn btn-ghost btn-sm" onclick="openVisualsPanel()" title="View IMAGE placeholder suggestions — copy to Claude Code to build visuals">🖼 Images</button>`);
+  }
+
   actions.push(`<button class="btn btn-ghost btn-sm" onclick="showTab('pipeline')">⊞ Pipeline</button>`);
   el.innerHTML = actions.join('');
 }
@@ -1959,6 +1977,117 @@ async function doApplyAccepted(type) {
     if (type === 'qc') S.qcSuggestions = S.qcSuggestions.filter(i => i.accepted !== true);
     else S.seoSuggestions = S.seoSuggestions.filter(i => i.accepted !== true);
     renderEditor();
+  });
+}
+
+// ── Visuals panel ──────────────────────────────────────────────────────────────
+function _parseImagePlaceholders(draft) {
+  const re = /\[IMAGE:\s*([^\]|]+?)(?:\s*\|\s*([^\]]+?))?\s*\]/gi;
+  const results = [];
+  let m;
+  while ((m = re.exec(draft)) !== null) {
+    results.push({ description: m[1].trim(), hint: m[2]?.trim() || '' });
+  }
+  return results;
+}
+
+const _FORMAT_LABELS_JS = {
+  comparison: 'Comparison', process: 'Process Breakdown',
+  data_bar: 'Bar Chart', data_pie: 'Pie / Donut Chart',
+  data_curve: 'Trend Line Chart', data_scatter: 'Scatter Plot',
+  carousel: 'Carousel', resource_guide: 'Resource Guide',
+};
+const _FORMAT_KEYWORDS_JS = {
+  comparison: ['vs', 'versus', 'compare', 'comparison', 'difference', 'alternative'],
+  process: ['step', 'process', 'how to', 'workflow', 'stages', 'phases', 'flow'],
+  data_bar: ['bar chart', 'ranking', 'adoption', 'survey', 'percentage', 'breakdown'],
+  data_pie: ['pie', 'donut', 'distribution', 'share', 'proportion', 'split'],
+  data_curve: ['growth', 'trend', 'over time', 'curve', 'line chart', 'increase'],
+  data_scatter: ['scatter', 'correlation', 'cluster', 'relationship'],
+  carousel: ['carousel', 'slides', 'multi-slide', 'series'],
+  resource_guide: ['tools', 'resources', 'list of', 'guide', 'ecosystem'],
+};
+function _pickFormat(description, hint) {
+  const combined = (description + ' ' + hint).toLowerCase();
+  const scores = {};
+  for (const [fmt, kws] of Object.entries(_FORMAT_KEYWORDS_JS)) {
+    scores[fmt] = kws.filter(kw => combined.includes(kw)).length;
+  }
+  const best = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
+  return (best && best[1] > 0) ? best[0] : 'comparison';
+}
+
+function openVisualsPanel() {
+  const a = S.currentArticle;
+  if (!a) return;
+  document.getElementById('visuals-panel').style.display = 'flex';
+
+  const placeholders = _parseImagePlaceholders(a.draft || '');
+  const listEl = document.getElementById('visuals-placeholder-list');
+  const copyAllWrap = document.getElementById('visuals-copy-all-wrap');
+
+  if (placeholders.length === 0) {
+    listEl.innerHTML = `<div style="font-size:13px;color:var(--yellow);padding:12px 14px;background:var(--yellow-light);border-radius:6px;">
+      ⚠ No <code>[IMAGE: ...]</code> placeholders found in this draft.<br>
+      <span style="color:var(--text-muted);font-size:12px;margin-top:4px;display:block;">Add placeholders like <code>[IMAGE: comparison of X vs Y | comparison]</code> while editing the draft, then come back here.</span>
+    </div>`;
+    copyAllWrap.style.display = 'none';
+    return;
+  }
+
+  const formatBadge = (fmt) => `<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:var(--accent-light);color:var(--accent);">${_FORMAT_LABELS_JS[fmt] || fmt}</span>`;
+
+  listEl.innerHTML = `<div style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">${placeholders.length} image placeholder${placeholders.length > 1 ? 's' : ''} found in draft:</div>` +
+    placeholders.map((p, i) => {
+      const fmt = _pickFormat(p.description, p.hint);
+      const fullPlaceholder = p.placeholder;
+      return `<div style="padding:12px 14px;background:var(--bg);border-radius:8px;margin-bottom:8px;border:1px solid var(--border-light);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;">
+          <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
+            <span style="font-size:11px;font-weight:700;color:var(--text-faint);min-width:20px;">#${i+1}</span>
+            <span style="font-size:13px;font-weight:600;line-height:1.4;">${p.description}</span>
+          </div>
+          <button onclick="copyToClipboard(${JSON.stringify(fullPlaceholder)}, this)" style="background:none;border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;color:var(--text-muted);white-space:nowrap;">📋 Copy</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          ${formatBadge(fmt)}
+          ${p.hint ? `<span style="font-size:11px;color:var(--text-muted);">hint: ${p.hint}</span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+
+  copyAllWrap.style.display = 'block';
+}
+
+function closeVisualsPanel() {
+  document.getElementById('visuals-panel').style.display = 'none';
+}
+
+function copyToClipboard(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied';
+    btn.style.color = 'var(--green)';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1800);
+  });
+}
+
+function copyAllVisualsForClaudeCode() {
+  const a = S.currentArticle;
+  if (!a) return;
+  const placeholders = _parseImagePlaceholders(a.draft || '');
+  if (!placeholders.length) return;
+  const topic = a.topic || 'this article';
+  const lines = placeholders.map((p, i) => {
+    const fmt = _FORMAT_LABELS_JS[_pickFormat(p.description, p.hint)] || 'Comparison';
+    return `${i + 1}. ${p.description}${p.hint ? ` (hint: ${p.hint})` : ''} → Format: ${fmt}`;
+  });
+  const prompt = `Build these visuals for a Storylane article on "${topic}":\n\n${lines.join('\n')}`;
+  const btn = document.querySelector('#visuals-copy-all-wrap button');
+  navigator.clipboard.writeText(prompt).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied to clipboard!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
   });
 }
 

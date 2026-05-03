@@ -78,7 +78,8 @@ storylane-content-engine/
 │   ├── template_learner.py       # Article URL → structural template + mindset layer
 │   ├── link_library.py           # Internal link index → injected into draft prompts
 │   ├── skills_manager.py         # Skills rubric files: upload, store, toggle per use-case, inject
-│   └── validation_engine.py      # Post-apply validation: insight fidelity + meaning + keywords
+│   ├── validation_engine.py      # Post-apply validation: insight fidelity + meaning + keywords
+│   └── image_generator.py        # Visual generation: parse [IMAGE:] placeholders → on-brand HTML infographics
 ├── data/
 │   ├── company_brief.json        # Distilled Storylane intelligence (~800–1200 tokens)
 │   ├── insights.db               # SQLite: all extracted insights
@@ -90,11 +91,17 @@ storylane-content-engine/
 │   ├── link_index.json           # Internal link library
 │   ├── kw_cache.json             # Ahrefs keyword cache (gitignored)
 │   ├── demo_query_cache.json     # Demo classifier query cache — 1h TTL (gitignored)
-│   └── settings.json             # All config: API keys, scheduler, automation (gitignored)
+│   ├── settings.json             # All config: API keys, scheduler, automation (gitignored)
+│   └── visual-system/            # Storylane visual design system (copied from storylane-visual-system/)
+│       ├── DESIGN-SYSTEM.md      # Brand guidelines: palette, typography, approved combos
+│       ├── *-template.html       # 8 self-contained HTML templates (comparison, process, bar, pie, curve, scatter, carousel, resource-guide)
+│       └── logos/                # Pre-downloaded brand logos (Storylane SVGs + SaaS ecosystem PNGs)
 ├── watch/
 │   ├── grain/                    # Drop Grain exports here for manual ingestion
 │   └── sybill/                   # Drop Sybill exports here
-├── output/articles/              # Exported .md files (gitignored)
+├── output/
+│   ├── articles/                 # Exported .md files (gitignored)
+│   └── images/                   # Generated HTML visuals: images/{article_id}/visual_NN_{format}.html
 ├── storylane-demo-classifier/    # Demo Classifier — sibling tool in same repo, port 8000
 ├── Content Engine.command        # Launcher — auto-venv, first-run loading screen, opens browser
 ├── Push to GitHub.command        # git add . → commit (prompts for message) → push
@@ -157,6 +164,9 @@ storylane-content-engine/
 | POST | `/api/competitor-intel/upload` | Upload `.xlsx` competitor fact sheet — auto-detects sheets, one insight per competitor |
 | POST | `/api/reddit/fetch` | `{ "query": "..." }` — fetch Reddit posts → extract insights async |
 | POST | `/api/insights/archive` | Mark low-confidence insights (< 0.35) as archived |
+| POST | `/api/articles/:id/images` | Generate HTML visuals for all `[IMAGE: ...]` placeholders in draft (async → task_id) |
+| GET | `/api/articles/:id/images` | List previously generated visuals for an article |
+| GET | `/api/articles/:id/images/:filename` | Serve a generated visual HTML file directly |
 
 All Claude-calling operations are async: return `{ task_id }` immediately, frontend polls `/progress/:task_id` every 1.2s.
 
@@ -176,7 +186,9 @@ All Claude-calling operations are async: return `{ task_id }` immediately, front
 
 **`keyword_researcher.py`** — 3-pass: SERP → Haiku brainstorm from parent categories → Ahrefs validation. Manual keywords get `score += 1000` — always top the list, never filtered by KD/volume. `check_topics_demand(articles)` batch-checks Ahrefs volume + KD for idea-stage topics after generation and saves `demand_signal` onto each article.
 
-**`demo_connector.py`** — Calls `/query-engine` on Demo Classifier (port 8000). Falls back to local `demo_index.json` scoring if classifier is offline. Classifier is a sibling tool in `storylane-demo-classifier/` within the same repo.
+**`demo_connector.py`** — Calls `/query-engine` on Demo Classifier (port 8000). Falls back to local `demo_index.json` scoring if classifier is offline. `get_screenshot_path()` guards against non-existent `DEMO_SCREENSHOTS_DIR` (returns `None` early if dir missing). Classifier is a sibling tool in `storylane-demo-classifier/` within the same repo.
+
+**`image_generator.py`** — Post-draft visual generation. Scans article draft for `[IMAGE: description | hint]` placeholders using regex. For each placeholder, picks a visual format via keyword heuristics (8 formats: comparison, process, data_bar, data_pie, data_curve, data_scatter, carousel, resource_guide — no AI cost). Then calls Claude Sonnet with the complete HTML template and instructs it to replace only the content (text, numbers, labels) — not regenerate CSS — keeping output compact (~220–250 lines). Logo base64-embedded from `data/visual-system/logos/`. Saves to `output/images/{article_id}/visual_NN_{format}.html`. Accessible via `🎨 Visuals` button in the editor topbar (shown whenever a draft exists).
 
 **`competitor_intel.py`** — Ingests XLSX competitor fact sheets. Auto-detects sheet type (multi-competitor sheets have a `Competitor` column; single-competitor sheets use the sheet name). Groups all data per competitor across all sheets, normalises name variants (e.g. `Tourial / Navless` → `Tourial`), then makes one Haiku call per competitor to produce a structured insight. `source_type: "competitor_intel"`. Deduplicates by `filename + competitor` — re-uploading the same file is a no-op; a second colleague's file creates additive insights. Requires pandas + openpyxl.
 
@@ -250,14 +262,17 @@ Single file: `static/index.html` — vanilla JS, no build step.
 
 | Item | Status | Complexity | Notes |
 |---|---|---|---|
-| **Image Generation step** | 🔲 Next | Large | Post-draft step: Claude reads the article, identifies sections that need visuals, generates self-contained HTML charts/graphics. Exports as high-fidelity screenshot. Waiting on skill file with exact HTML generation architecture before building. Placeholder button reserved in editor topbar. |
 | **Webflow publish** | 🔲 Deferred | Medium | Push done articles to Webflow CMS via REST API v2. Needs collection ID + field mapping per pillar. |
 | **Hosted deployment** | 🔲 Deferred | Medium | Railway. Persistent volume for data/, classifier as second service, HTTP basic auth for team access. ~1 day effort. |
 
-## Recently Completed (2026-05-01)
+## Recently Completed (2026-05-03)
 
 | Item | Notes |
 |---|---|
+| **Image Generation** | `modules/image_generator.py` — parses `[IMAGE: desc \| hint]` placeholders from drafts, picks format by keyword heuristics, fills Storylane-branded HTML templates via Sonnet. 8 formats supported. `🎨 Visuals` button in editor topbar. Three new routes: POST/GET `/api/articles/:id/images`, GET `/api/articles/:id/images/:filename`. Visuals saved to `output/images/{article_id}/`. Design system + templates + logos copied from `storylane-visual-system/` into `data/visual-system/`. |
+| **Draft generation fix** | `demo_connector.get_screenshot_path()` crashed when `DEMO_SCREENSHOTS_DIR` didn't exist. Added early-return guard. Articles now advance through the full pipeline correctly. |
+| **Error handling in pipeline** | All four pipeline action callbacks (`doGenerateDraft`, `doResearchKeywords`, `doRunQC`, `doRunSEO`) now check `msg.startsWith('ERROR')` and show a toast instead of re-triggering `_autoAdvance()` — preventing infinite retry loops on failure. |
+| **Check Keys fix** | `GET('/api/settings/key-health')` had a double `/api/` prefix bug (fetch helper prepends `/api` automatically). Fixed to `GET('/settings/key-health')`. Added granular Anthropic key statuses: `invalid`, `billing`, `rate_limited` with distinct icons and notes. |
 | **"Add Article" UI** | `+ Create Manually` button in Pipeline tab — topic, angle, pillar, ideal reader form. `ideal_reader` field added to create modal and passed through to article data. |
 | **Competitor Intelligence ingest** | `modules/competitor_intel.py` — XLSX upload, auto-detects sheet types, merges name variants, one insight per competitor. `POST /api/competitor-intel/upload`. UI button in Insights tab. pandas + openpyxl added to venv. 13 insights pre-loaded from two colleague files without API (direct DB write). |
 | **Smart insight retrieval (Yoda system)** | `archived` column added to insights.db. `get_insights()` now accepts `competitors` list → SQL pre-filter. `draft_generator.py` extracts competitor names from topic, pulls competitor-specific insights first, fills remaining slots from general pool. `POST /api/insights/archive` to trigger archival. |

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Breakdown — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+
+  .card {
+    width: 900px;
+    background: #FEECF7;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  .header {
+    background: #390323;
+    padding: 44px 48px 40px;
+  }
+  .badge {
+    display: inline-flex;
+    background: #ED2DA0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    padding: 36px 48px;
+    align-items: start;
+  }
+
+  /* Steps */
+  .steps { padding-right: 32px; }
+  .step {
+    display: flex;
+    gap: 18px;
+    padding: 0 0 30px;
+    position: relative;
+  }
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 36px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(237,45,160,0.15);
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    background: #ED2DA0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content {}
+  .step-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #390323;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .step-desc {
+    font-size: 15px;
+    color: rgba(57,3,35,0.7);
+    line-height: 1.6;
+  }
+  .step-tag {
+    display: inline-block;
+    background: #7948B5;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 100px;
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Right cards */
+  .info-cards { display: flex; flex-direction: column; gap: 14px; }
+
+  .info-card {
+    border-radius: 16px;
+    padding: 24px 22px;
+  }
+  .info-card.dark { background: #13010C; }
+  .info-card.pink { background: #FFBDE5; }
+  .info-card.purple { background: #DDC1FF; }
+
+  .info-card .card-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .info-card.dark .card-label { color: rgba(255,255,255,0.4); }
+  .info-card.pink .card-label, .info-card.purple .card-label { color: rgba(57,3,35,0.45); }
+
+  .info-card .card-stat {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .info-card.dark .card-stat { color: #FFD863; }
+  .info-card.pink .card-stat { color: #390323; }
+  .info-card.purple .card-stat { color: #390323; }
+
+  .info-card .card-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .info-card.dark .card-desc { color: rgba(255,255,255,0.55); }
+  .info-card.pink .card-desc, .info-card.purple .card-desc { color: rgba(57,3,35,0.65); }
+
+  .cta-bar {
+    background: #13010C;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-text { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn {
+    background: #ED2DA0;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Process Breakdown</div>
+    <h1>5 Steps to a Demo That<br><em>Actually Converts</em></h1>
+    <p>How top sales teams build interactive demos that move deals forward — fast.</p>
+  </div>
+
+  <div class="body">
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Capture your product as-is</div>
+          <div class="step-desc">Use Storylane's Chrome extension to record a live session of your product. No staging environment, no engineering help — just click through the flow you'd show a prospect.</div>
+          <span class="step-tag">~5 min</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Clean up and focus the flow</div>
+          <div class="step-desc">Remove irrelevant screens, reorder steps, and blur sensitive data. Leave only the "aha moment" path your ideal buyer needs to see.</div>
+          <span class="step-tag">~10 min</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Add guided tooltips and CTAs</div>
+          <div class="step-desc">Layer hotspots, step descriptions, and lead capture forms. Guide buyers through the value without a sales rep present — the demo sells itself.</div>
+          <span class="step-tag">~15 min</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Personalize per account</div>
+          <div class="step-desc">Swap in the prospect's logo, company name, and use-case data. Personalized demos see 3× higher engagement than generic ones.</div>
+          <span class="step-tag">~2 min per account</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Share, track, and follow up smart</div>
+          <div class="step-desc">Send a unique link. Watch who views which steps in real time. Follow up with context — "I saw you spent time on the analytics section…"</div>
+          <span class="step-tag">Ongoing</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card dark">
+        <div class="card-label">Average build time</div>
+        <div class="card-stat">32 min</div>
+        <div class="card-desc">From raw product recording to a polished, shareable interactive demo.</div>
+      </div>
+      <div class="info-card pink">
+        <div class="card-label">Engagement lift</div>
+        <div class="card-stat">3×</div>
+        <div class="card-desc">Personalized demos vs. generic ones — measured across 500+ Storylane customers.</div>
+      </div>
+      <div class="info-card purple">
+        <div class="card-label">Pipeline impact</div>
+        <div class="card-stat">+39%</div>
+        <div class="card-desc">Teams using demo-first outreach generate more qualified pipeline in the same timeframe.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Ready to build your first demo?</div>
+      <div class="cta-sub">Start free — no engineering or design skills needed.</div>
+    </div>
+    <a class="cta-btn" href="#">Build now →</a>
+  </div>
+
+</div>
+</body>
+</html>

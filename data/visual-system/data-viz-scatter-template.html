@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Viz Scatter — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+  .card { width: 900px; background: #FEECF7; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+  .header { background: #390323; padding: 44px 48px 40px; }
+  .badge { display: inline-flex; background: #ED2DA0; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 18px; }
+  .header h1 { font-size: 38px; font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); }
+
+  .chart-wrap { padding: 40px 48px 16px; }
+  .chart-container { background: #fff; border-radius: 16px; padding: 28px 28px 20px 48px; position: relative; }
+
+  .y-axis-label {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+    font-size: 11px; font-weight: 600; color: rgba(57,3,35,0.35); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+  }
+  .x-axis-label {
+    text-align: center; font-size: 11px; font-weight: 600; color: rgba(57,3,35,0.35);
+    letter-spacing: 0.06em; text-transform: uppercase; margin-top: 8px;
+  }
+
+  .legend-row { display: flex; gap: 20px; padding: 16px 48px 0; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: rgba(57,3,35,0.65); font-weight: 500; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  .insight-box {
+    margin: 24px 48px 0;
+    background: #13010C;
+    border-radius: 14px;
+    padding: 22px 28px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .insight-stat { font-size: 40px; font-weight: 700; color: #FFD863; letter-spacing: -0.03em; line-height: 1; flex-shrink: 0; }
+  .insight-text { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.5; font-weight: 500; }
+  .insight-text strong { color: #fff; }
+
+  .cta-bar { margin-top: 32px; background: #390323; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .cta-text { font-size: 16px; font-weight: 600; color: #fff; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn { background: #ED2DA0; color: #fff; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 100px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Data Viz · Scatter Plot</div>
+    <h1>Demo Views vs.<br><em>Deal Close Rate</em></h1>
+    <p>Correlation between interactive demo engagement and closed-won outcomes across 800+ deals.</p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-container">
+      <div class="y-axis-label">Close Rate (%)</div>
+      <svg width="100%" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="trendGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7948B5" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#ED2DA0" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Grid -->
+        <line x1="0" y1="68" x2="720" y2="68" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="136" x2="720" y2="136" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="204" x2="720" y2="204" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="272" x2="720" y2="272" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="144" y1="0" x2="144" y2="310" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="288" y1="0" x2="288" y2="310" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="432" y1="0" x2="432" y2="310" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="576" y1="0" x2="576" y2="310" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+
+        <!-- Y axis labels -->
+        <text x="-6" y="72" text-anchor="end" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">80%</text>
+        <text x="-6" y="140" text-anchor="end" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">60%</text>
+        <text x="-6" y="208" text-anchor="end" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">40%</text>
+        <text x="-6" y="276" text-anchor="end" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">20%</text>
+
+        <!-- X axis labels -->
+        <text x="0" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">0</text>
+        <text x="144" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">2</text>
+        <text x="288" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">4</text>
+        <text x="432" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">6</text>
+        <text x="576" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">8</text>
+        <text x="720" y="326" text-anchor="middle" font-size="11" fill="rgba(57,3,35,0.35)" font-family="Inter">10+</text>
+
+        <!-- Trend line -->
+        <line x1="20" y1="290" x2="700" y2="40" stroke="url(#trendGrad)" stroke-width="2" stroke-dasharray="6,4"/>
+
+        <!-- SMB dots (pink) -->
+        <circle cx="30" cy="285" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="80" cy="268" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="130" cy="252" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="170" cy="238" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="220" cy="218" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="270" cy="198" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="310" cy="180" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="380" cy="158" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="440" cy="135" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="520" cy="108" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="600" cy="82" r="7" fill="#ED2DA0" opacity="0.75"/>
+        <circle cx="670" cy="58" r="7" fill="#ED2DA0" opacity="0.75"/>
+
+        <!-- Mid-market dots (purple) -->
+        <circle cx="50" cy="278" r="8" fill="#7948B5" opacity="0.8"/>
+        <circle cx="150" cy="245" r="8" fill="#7948B5" opacity="0.8"/>
+        <circle cx="240" cy="210" r="8" fill="#7948B5" opacity="0.8"/>
+        <circle cx="340" cy="172" r="8" fill="#7948B5" opacity="0.8"/>
+        <circle cx="450" cy="128" r="9" fill="#7948B5" opacity="0.8"/>
+        <circle cx="560" cy="94" r="9" fill="#7948B5" opacity="0.8"/>
+        <circle cx="650" cy="65" r="9" fill="#7948B5" opacity="0.8"/>
+
+        <!-- Enterprise dots (yellow) -->
+        <circle cx="100" cy="262" r="10" fill="#FFD863" opacity="0.9"/>
+        <circle cx="260" cy="205" r="10" fill="#FFD863" opacity="0.9"/>
+        <circle cx="400" cy="150" r="11" fill="#FFD863" opacity="0.9"/>
+        <circle cx="540" cy="98" r="12" fill="#FFD863" opacity="0.9"/>
+        <circle cx="680" cy="48" r="13" fill="#FFD863" opacity="0.9"/>
+
+        <!-- Annotation: high-value cluster -->
+        <rect x="510" y="32" width="170" height="48" rx="8" fill="#390323"/>
+        <text x="524" y="52" font-size="12" fill="#FFD863" font-weight="700" font-family="Inter">High-value cluster</text>
+        <text x="524" y="68" font-size="11" fill="rgba(255,255,255,0.6)" font-family="Inter">6+ views → 70%+ close rate</text>
+        <line x1="595" y1="80" x2="620" y2="98" stroke="#390323" stroke-width="2"/>
+      </svg>
+      <div class="x-axis-label">Demo views per deal</div>
+    </div>
+  </div>
+
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:#ED2DA0;"></div>SMB deals</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7948B5;"></div>Mid-market deals</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFD863;"></div>Enterprise deals</div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-stat">6×</div>
+    <div class="insight-text">Deals where buyers view a demo <strong>6 or more times</strong> close at <strong>3.2× the rate</strong> of single-view deals. The data is clear: repeat demo engagement is the strongest predictor of close.</div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Turn demo views into closed deals</div>
+      <div class="cta-sub">Track engagement signals and follow up at the right moment.</div>
+    </div>
+    <a class="cta-btn" href="#">See how →</a>
+  </div>
+
+</div>
+</body>
+</html>

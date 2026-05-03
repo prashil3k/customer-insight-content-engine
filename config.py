@@ -12,7 +12,11 @@ DEMO_CLASSIFIER_DIR = BASE_DIR / "storylane-demo-classifier"
 DEMO_INDEX_PATH = DEMO_CLASSIFIER_DIR / "demo_index.json"
 DEMO_SCREENSHOTS_DIR = DEMO_CLASSIFIER_DIR / "screenshots"
 
-for _d in [DATA_DIR, WATCH_DIR / "grain", WATCH_DIR / "sybill", OUTPUT_DIR, STATIC_DIR]:
+VISUAL_SYSTEM_DIR = DATA_DIR / "visual-system"
+IMAGES_OUTPUT_DIR = BASE_DIR / "output" / "images"
+
+for _d in [DATA_DIR, WATCH_DIR / "grain", WATCH_DIR / "sybill", OUTPUT_DIR, STATIC_DIR,
+           VISUAL_SYSTEM_DIR, IMAGES_OUTPUT_DIR]:
     _d.mkdir(parents=True, exist_ok=True)
 
 def _load_saved_keys() -> dict:

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Viz Bar — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+  .card { width: 900px; background: #FEECF7; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+  .header { background: #390323; padding: 44px 48px 40px; }
+  .badge {
+    display: inline-flex; background: #ED2DA0; color: #fff;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 100px; margin-bottom: 18px;
+  }
+  .header h1 { font-size: 38px; font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); }
+
+  .chart-area { padding: 40px 48px 36px; }
+
+  .bar-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .bar-label { width: 160px; font-size: 14px; font-weight: 600; color: #390323; text-align: right; flex-shrink: 0; line-height: 1.3; }
+  .bar-track { flex: 1; height: 44px; background: rgba(57,3,35,0.07); border-radius: 8px; position: relative; overflow: hidden; }
+  .bar-fill {
+    height: 100%; border-radius: 8px;
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 14px;
+    position: relative;
+    transition: width 0.3s;
+  }
+  .bar-fill span { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; }
+  .bar-pct { width: 52px; font-size: 14px; font-weight: 700; color: #390323; flex-shrink: 0; }
+
+  .source-note { font-size: 12px; color: rgba(57,3,35,0.35); margin-top: 24px; text-align: right; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 0 48px 36px; }
+  .stat-card { background: #13010C; border-radius: 14px; padding: 24px 22px; }
+  .stat-card .num { font-size: 34px; font-weight: 700; color: #FFD863; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .stat-card .lbl { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.45; font-weight: 500; }
+
+  .cta-bar { background: #390323; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .cta-text { font-size: 16px; font-weight: 600; color: #fff; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn { background: #ED2DA0; color: #fff; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 100px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Data Viz · Bar Chart</div>
+    <h1>Demo Conversion Rates<br>by <em>GTM Motion</em></h1>
+    <p>How different go-to-market approaches stack up when interactive demos are part of the flow.</p>
+  </div>
+
+  <div class="chart-area">
+
+    <div class="bar-row">
+      <div class="bar-label">Demo-led outbound</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:88%;background:linear-gradient(90deg,#ED2DA0,#7948B5)"><span>88%</span></div>
+      </div>
+      <div class="bar-pct">88%</div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Self-serve + demo</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:76%;background:linear-gradient(90deg,#7948B5,#DDC1FF)"><span>76%</span></div>
+      </div>
+      <div class="bar-pct">76%</div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Website embed</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:62%;background:linear-gradient(90deg,#FF7F51,#FFD863)"><span>62%</span></div>
+      </div>
+      <div class="bar-pct">62%</div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Email sequence + demo</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:54%;background:linear-gradient(90deg,#1E6263,#FFBDE5)"><span>54%</span></div>
+      </div>
+      <div class="bar-pct">54%</div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Cold email only</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:31%;background:rgba(57,3,35,0.25)"><span style="color:#390323">31%</span></div>
+      </div>
+      <div class="bar-pct">31%</div>
+    </div>
+
+    <div class="bar-row">
+      <div class="bar-label">Static PDF deck</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:18%;background:rgba(57,3,35,0.15)"><span style="color:#390323">18%</span></div>
+      </div>
+      <div class="bar-pct">18%</div>
+    </div>
+
+    <div class="source-note">Source: Storylane customer data, 2024 · n = 1,200+ deals</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="num">4.9×</div>
+      <div class="lbl">higher conversion for demo-led vs. static PDF</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">62%</div>
+      <div class="lbl">of top performers use demos in their first outbound touch</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">↓ 40%</div>
+      <div class="lbl">shorter sales cycles when buyers self-explore before calls</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Add demos to your outbound — today</div>
+      <div class="cta-sub">Build in 2 minutes. No engineering. No design skills.</div>
+    </div>
+    <a class="cta-btn" href="#">Try free →</a>
+  </div>
+
+</div>
+</body>
+</html>

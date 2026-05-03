@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparison — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+
+  .card {
+    width: 900px;
+    background: #FEECF7;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  .header {
+    background: #390323;
+    padding: 44px 48px 40px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    background: #ED2DA0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); font-weight: 400; }
+
+  .table-wrap { padding: 36px 48px 36px; }
+
+  .col-headers {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .col-headers .spacer {}
+  .col-pill {
+    background: #7948B5;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 20px;
+    border-radius: 12px;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+  .col-pill.accent { background: #390323; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: stretch;
+  }
+  .row-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(57,3,35,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-right: 12px;
+  }
+  .cell {
+    background: #FFBDE5;
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 16px;
+    color: #390323;
+    font-weight: 500;
+    line-height: 1.45;
+    display: flex;
+    align-items: center;
+  }
+  .cell.alt { background: #DDC1FF; }
+  .cell .check { color: #ED2DA0; font-size: 20px; margin-right: 8px; font-weight: 700; }
+  .cell .cross { color: rgba(57,3,35,0.3); font-size: 18px; margin-right: 8px; }
+  .cell strong { color: #390323; font-weight: 700; }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 0 48px 36px;
+  }
+  .summary-card {
+    background: #13010C;
+    border-radius: 14px;
+    padding: 24px 22px;
+  }
+  .summary-card .icon { font-size: 28px; margin-bottom: 10px; }
+  .summary-card .title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .summary-card .desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  .cta-bar {
+    background: #390323;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-bar .cta-text { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+  .cta-bar .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn {
+    background: #ED2DA0;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Comparison</div>
+    <h1>Guided Demo vs.<br><em>Unguided Trial Access</em></h1>
+    <p>Why dropping prospects into a raw trial dashboard is quietly killing your close rate.</p>
+  </div>
+
+  <div class="table-wrap">
+    <div class="col-headers">
+      <div class="spacer"></div>
+      <div class="col-pill">Personalized Guided Demo</div>
+      <div class="col-pill accent">Unguided Trial Dashboard</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">First Impression</div>
+      <div class="cell"><span class="check">✓</span> Prospect sees <strong>their own logo, data, and use case</strong> from the first click</div>
+      <div class="cell alt"><span class="cross">✗</span> Generic empty dashboard with no context — "where do I even start?"</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Time to Value</div>
+      <div class="cell"><span class="check">✓</span> Prospect reaches the <strong>"aha moment" in minutes</strong> via curated steps</div>
+      <div class="cell alt"><span class="cross">✗</span> Requires hours of exploration — most prospects churn before getting there</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Drop-off Risk</div>
+      <div class="cell"><span class="check">✓</span> Guided flow <strong>prevents dead ends</strong> — every step has a clear next action</div>
+      <div class="cell alt"><span class="cross">✗</span> 60–80% of trial users abandon within the first session without guidance</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Branding & Context</div>
+      <div class="cell"><span class="check">✓</span> Demo is <strong>pre-loaded with prospect's industry, name, and workflows</strong></div>
+      <div class="cell alt"><span class="cross">✗</span> Placeholder data and irrelevant sample content creates cognitive distance</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Sales Visibility</div>
+      <div class="cell"><span class="check">✓</span> Rep sees <strong>exactly which features</strong> the prospect engaged with and for how long</div>
+      <div class="cell alt"><span class="cross">✗</span> No insight into what prospect clicked — follow-up is a shot in the dark</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Support Burden</div>
+      <div class="cell"><span class="check">✓</span> Self-serve guided flow <strong>eliminates "how do I use this?" support tickets</strong></div>
+      <div class="cell alt"><span class="cross">✗</span> Overwhelmed prospects flood CS with basic questions or simply go dark</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-card">
+      <div class="icon">🚪</div>
+      <div class="title">74% of trial users never return after day 1</div>
+      <div class="desc">Unguided access without context leads to immediate abandonment — before prospects ever see real value.</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🎯</div>
+      <div class="title">2.4× higher conversion with guided demos</div>
+      <div class="desc">Prospects who follow a personalized guided flow convert to paid at more than double the rate of raw trial users.</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🔍</div>
+      <div class="title">Reps go in blind without demo analytics</div>
+      <div class="desc">Knowing which features a prospect explored lets reps tailor follow-ups and cut sales cycles by days.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Stop losing deals to the trial trap</div>
+      <div class="cta-sub">Build a personalized guided demo with Storylane — free, no credit card needed.</div>
+    </div>
+    <a class="cta-btn" href="https://storylane.io">Start for free →</a>
+  </div>
+
+</div>
+</body>
+</html>

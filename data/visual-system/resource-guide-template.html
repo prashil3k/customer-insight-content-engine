@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Guide — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+
+  .card {
+    width: 900px;
+    background: #FEECF7;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    background: #390323;
+    padding: 44px 48px 40px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    background: #ED2DA0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: #FFD863;
+  }
+  .header p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Table */
+  .table-wrap { padding: 36px 48px 0; }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 50px 180px 1fr 170px 120px;
+    gap: 0;
+    padding: 0 16px 10px;
+  }
+  .table-header span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(57,3,35,0.4);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 50px 180px 1fr 170px 120px;
+    gap: 0;
+    padding: 18px 16px;
+    border-top: 1px solid rgba(237,45,160,0.1);
+    align-items: center;
+  }
+  .row:last-child { border-bottom: 1px solid rgba(237,45,160,0.1); }
+
+  .row-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ED2DA0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tool-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-tile {
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #390323;
+    border: 1px solid rgba(237,45,160,0.12);
+  }
+  .tool-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #390323;
+    line-height: 1.3;
+  }
+  .tool-sub {
+    font-size: 12px;
+    color: rgba(57,3,35,0.45);
+    margin-top: 1px;
+  }
+
+  .desc {
+    font-size: 14px;
+    color: rgba(57,3,35,0.8);
+    line-height: 1.5;
+    padding-right: 12px;
+  }
+
+  .connects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .tag {
+    background: #390323;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  .impact {
+    font-size: 13px;
+    font-weight: 600;
+    color: #7948B5;
+  }
+
+  /* Bottom cards */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 32px 48px;
+  }
+  .info-card {
+    background: #FFBDE5;
+    border-radius: 14px;
+    padding: 22px 20px;
+  }
+  .info-card .stat {
+    font-size: 32px;
+    font-weight: 700;
+    color: #390323;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .info-card .stat em {
+    font-style: italic;
+    color: #ED2DA0;
+  }
+  .info-card .label {
+    font-size: 13px;
+    color: rgba(57,3,35,0.7);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  /* CTA */
+  .cta-bar {
+    background: #13010C;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-bar .cta-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+  .cta-bar .cta-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 2px;
+  }
+  .cta-btn {
+    background: #ED2DA0;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Resource Guide</div>
+    <h1>GTM Tech Stack for<br><em>Demo-First</em> Teams</h1>
+    <p>10 tools that help sales and marketing teams build, share, and convert with interactive demos.</p>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header">
+      <span>#</span>
+      <span>Tool</span>
+      <span>What it does</span>
+      <span>Connects to</span>
+      <span>Impact</span>
+    </div>
+
+    <div class="row">
+      <div class="row-num">01</div>
+      <div class="tool-cell">
+        <div class="logo-tile">SL</div>
+        <div><div class="tool-name">Storylane</div><div class="tool-sub">storylane.io</div></div>
+      </div>
+      <div class="desc">Build interactive HTML demos and product tours without engineering in minutes.</div>
+      <div class="connects"><span class="tag">HubSpot</span><span class="tag">Salesforce</span></div>
+      <div class="impact">↑ 39% pipeline</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">02</div>
+      <div class="tool-cell">
+        <div class="logo-tile">G</div>
+        <div><div class="tool-name">Gong</div><div class="tool-sub">gong.io</div></div>
+      </div>
+      <div class="desc">Revenue intelligence that captures every demo call and surfaces winning patterns.</div>
+      <div class="connects"><span class="tag">Salesforce</span><span class="tag">Outreach</span></div>
+      <div class="impact">↑ 23% win rate</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">03</div>
+      <div class="tool-cell">
+        <div class="logo-tile">HS</div>
+        <div><div class="tool-name">HubSpot</div><div class="tool-sub">hubspot.com</div></div>
+      </div>
+      <div class="desc">All-in-one CRM to track demo engagement, score leads, and automate follow-ups.</div>
+      <div class="connects"><span class="tag">Storylane</span><span class="tag">Slack</span></div>
+      <div class="impact">↓ 2× sales cycle</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">04</div>
+      <div class="tool-cell">
+        <div class="logo-tile">OR</div>
+        <div><div class="tool-name">Outreach</div><div class="tool-sub">outreach.io</div></div>
+      </div>
+      <div class="desc">Sales execution platform to sequence demo follow-ups and track engagement signals.</div>
+      <div class="connects"><span class="tag">Salesforce</span><span class="tag">Gong</span></div>
+      <div class="impact">↑ 31% replies</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">05</div>
+      <div class="tool-cell">
+        <div class="logo-tile">IN</div>
+        <div><div class="tool-name">Intercom</div><div class="tool-sub">intercom.com</div></div>
+      </div>
+      <div class="desc">Embed demos inside in-app onboarding flows and live chat to convert free users faster.</div>
+      <div class="connects"><span class="tag">Storylane</span><span class="tag">Zapier</span></div>
+      <div class="impact">↑ 27% activation</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">06</div>
+      <div class="tool-cell">
+        <div class="logo-tile">AP</div>
+        <div><div class="tool-name">Apollo.io</div><div class="tool-sub">apollo.io</div></div>
+      </div>
+      <div class="desc">Prospecting and outbound with demo links embedded directly in sequences.</div>
+      <div class="connects"><span class="tag">HubSpot</span><span class="tag">Outreach</span></div>
+      <div class="impact">↑ 18% demos booked</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">07</div>
+      <div class="tool-cell">
+        <div class="logo-tile">ZP</div>
+        <div><div class="tool-name">Zapier</div><div class="tool-sub">zapier.com</div></div>
+      </div>
+      <div class="desc">Automate demo view notifications, CRM updates, and Slack alerts without code.</div>
+      <div class="connects"><span class="tag">Storylane</span><span class="tag">Slack</span></div>
+      <div class="impact">Saves 4h/week</div>
+    </div>
+
+    <div class="row">
+      <div class="row-num">08</div>
+      <div class="tool-cell">
+        <div class="logo-tile">G2</div>
+        <div><div class="tool-name">G2</div><div class="tool-sub">g2.com</div></div>
+      </div>
+      <div class="desc">Link your Storylane demo from your G2 listing to let buyers self-evaluate instantly.</div>
+      <div class="connects"><span class="tag">Storylane</span><span class="tag">HubSpot</span></div>
+      <div class="impact">↑ 44% clicks</div>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="info-card">
+      <div class="stat"><em>67%</em></div>
+      <div class="label">of B2B buyers want to self-serve before talking to sales</div>
+    </div>
+    <div class="info-card">
+      <div class="stat">3.2×</div>
+      <div class="label">more pipeline generated by teams using interactive demos</div>
+    </div>
+    <div class="info-card">
+      <div class="stat"><em>80%</em></div>
+      <div class="label">faster to build a demo with Storylane vs. traditional tools</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Build your first demo in 2 minutes</div>
+      <div class="cta-sub">No engineering needed. No design skills required.</div>
+    </div>
+    <a class="cta-btn" href="#">Try Storylane Free →</a>
+  </div>
+
+</div>
+</body>
+</html>

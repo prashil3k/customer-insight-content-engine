@@ -721,6 +721,45 @@ def api_process_all():
     return jsonify({"task_id": task_id, "queued": len(articles), "auto_advance": auto_advance})
 
 
+@app.route("/api/articles/<article_id>/images", methods=["POST"])
+def api_generate_images(article_id):
+    from modules.topic_planner import get_article
+    a = get_article(article_id)
+    if not a:
+        abort(404)
+    if not a.get("draft"):
+        return jsonify({"error": "No draft — generate a draft first"}), 400
+    task_id = f"images_{article_id}"
+
+    def _run():
+        from modules.image_generator import generate_images
+        try:
+            _set_progress(task_id, "Scanning draft for image placeholders...")
+            result = generate_images(a, progress_cb=lambda m: _set_progress(task_id, m))
+            _set_progress(task_id, f"DONE — {result['count']} visual(s) generated")
+        except Exception as e:
+            _set_progress(task_id, f"ERROR: {e}")
+
+    threading.Thread(target=_run, daemon=True).start()
+    return jsonify({"task_id": task_id})
+
+
+@app.route("/api/articles/<article_id>/images", methods=["GET"])
+def api_get_images(article_id):
+    from modules.image_generator import get_generated_visuals
+    return jsonify(get_generated_visuals(article_id))
+
+
+@app.route("/api/articles/<article_id>/images/<filename>")
+def api_serve_image(article_id, filename):
+    import re
+    if not re.match(r'^visual_\d+_\w+\.html$', filename):
+        abort(404)
+    import flask
+    img_dir = config.IMAGES_OUTPUT_DIR / article_id
+    return flask.send_from_directory(str(img_dir), filename)
+
+
 @app.route("/api/articles/<article_id>/relink-insights", methods=["POST"])
 def api_relink_insights(article_id):
     from modules.topic_planner import get_article, save_article

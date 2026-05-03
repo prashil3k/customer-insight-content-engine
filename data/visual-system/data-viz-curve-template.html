@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Viz Curve — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+  .card { width: 900px; background: #FEECF7; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+  .header { background: #390323; padding: 44px 48px 40px; }
+  .badge { display: inline-flex; background: #ED2DA0; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 18px; }
+  .header h1 { font-size: 38px; font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); }
+
+  .chart-wrap { padding: 40px 48px 36px; position: relative; }
+
+  .chart-container { background: #fff; border-radius: 16px; padding: 32px 32px 24px; position: relative; }
+
+  .y-labels { position: absolute; left: 0; top: 32px; bottom: 48px; display: flex; flex-direction: column; justify-content: space-between; }
+  .y-label { font-size: 11px; color: rgba(57,3,35,0.35); font-weight: 500; width: 36px; text-align: right; }
+
+  svg.chart { display: block; width: 100%; }
+
+  .x-labels { display: flex; justify-content: space-between; margin-top: 10px; padding: 0 4px; }
+  .x-label { font-size: 11px; color: rgba(57,3,35,0.35); font-weight: 500; }
+
+  .callout {
+    position: absolute;
+    background: #390323;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    pointer-events: none;
+  }
+  .callout .val { font-size: 22px; font-weight: 700; color: #FFD863; display: block; line-height: 1; margin-bottom: 3px; }
+  .callout::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-bottom: none;
+    border-top-color: #390323;
+  }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 0 48px 36px; }
+  .stat-card { background: #13010C; border-radius: 14px; padding: 24px 22px; }
+  .stat-card .num { font-size: 34px; font-weight: 700; color: #FFD863; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .stat-card .lbl { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.45; font-weight: 500; }
+
+  .cta-bar { background: #390323; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .cta-text { font-size: 16px; font-weight: 600; color: #fff; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn { background: #ED2DA0; color: #fff; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 100px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Data Viz · Trend Line</div>
+    <h1>Demo Views Drive<br><em>Pipeline Growth</em></h1>
+    <p>Cumulative pipeline generated as interactive demo adoption grows across the sales team.</p>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-container">
+      <!-- Callout 1 -->
+      <div class="callout" style="top:32px;left:54%;">
+        <span class="val">$2.4M</span>pipeline at month 9
+      </div>
+      <!-- Callout 2 -->
+      <div class="callout" style="top:120px;left:18%;">
+        <span class="val">+39%</span>vs. prev quarter
+      </div>
+
+      <svg class="chart" viewBox="0 0 760 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid lines -->
+        <line x1="0" y1="56" x2="760" y2="56" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="112" x2="760" y2="112" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="168" x2="760" y2="168" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+        <line x1="0" y1="224" x2="760" y2="224" stroke="rgba(57,3,35,0.06)" stroke-width="1"/>
+
+        <!-- Gradient fill -->
+        <defs>
+          <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ED2DA0" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#ED2DA0" stop-opacity="0"/>
+          </linearGradient>
+          <!-- Purple secondary line -->
+          <linearGradient id="fillGrad2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7948B5" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#7948B5" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Fill area - main line -->
+        <path d="M0,250 C60,245 80,230 140,210 C200,190 220,175 280,155 C340,135 360,115 420,95 C480,75 520,62 580,50 C640,38 680,34 760,28 L760,280 L0,280 Z"
+              fill="url(#fillGrad)"/>
+
+        <!-- Fill area - secondary line -->
+        <path d="M0,270 C60,265 80,255 140,240 C200,225 220,215 280,200 C340,185 360,172 420,158 C480,144 520,135 580,125 C640,115 680,110 760,104 L760,280 L0,280 Z"
+              fill="url(#fillGrad2)"/>
+
+        <!-- Secondary line (purple - without demo) -->
+        <path d="M0,270 C60,265 80,255 140,240 C200,225 220,215 280,200 C340,185 360,172 420,158 C480,144 520,135 580,125 C640,115 680,110 760,104"
+              fill="none" stroke="#7948B5" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.6"/>
+
+        <!-- Main line (pink - with demo) -->
+        <path d="M0,250 C60,245 80,230 140,210 C200,190 220,175 280,155 C340,135 360,115 420,95 C480,75 520,62 580,50 C640,38 680,34 760,28"
+              fill="none" stroke="#ED2DA0" stroke-width="3" stroke-linecap="round"/>
+
+        <!-- Data points on main line -->
+        <circle cx="0" cy="250" r="5" fill="#ED2DA0"/>
+        <circle cx="140" cy="210" r="5" fill="#ED2DA0"/>
+        <circle cx="280" cy="155" r="5" fill="#ED2DA0"/>
+        <circle cx="420" cy="95" r="6" fill="#ED2DA0" stroke="#fff" stroke-width="2"/>
+        <circle cx="580" cy="50" r="6" fill="#FFD863" stroke="#ED2DA0" stroke-width="2"/>
+        <circle cx="760" cy="28" r="6" fill="#FFD863" stroke="#ED2DA0" stroke-width="2"/>
+      </svg>
+
+      <div class="x-labels">
+        <span class="x-label">Jan</span>
+        <span class="x-label">Mar</span>
+        <span class="x-label">May</span>
+        <span class="x-label">Jul</span>
+        <span class="x-label">Sep</span>
+        <span class="x-label">Nov</span>
+        <span class="x-label">Dec</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;margin-top:16px;padding-left:4px;">
+      <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(57,3,35,0.6);font-weight:500;">
+        <div style="width:20px;height:3px;background:#ED2DA0;border-radius:2px;"></div> With Storylane demos
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(57,3,35,0.6);font-weight:500;">
+        <div style="width:20px;height:2px;background:#7948B5;border-radius:2px;opacity:0.6;border-top:2px dashed #7948B5;"></div> Without demos
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="num">$2.4M</div>
+      <div class="lbl">pipeline generated in 9 months post-adoption</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">3.1×</div>
+      <div class="lbl">pipeline growth rate vs. control group without demos</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">Month 4</div>
+      <div class="lbl">average time to see measurable pipeline lift after launch</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Start your own growth curve</div>
+      <div class="cta-sub">Interactive demos that move pipeline — built in minutes.</div>
+    </div>
+    <a class="cta-btn" href="#">Get started free →</a>
+  </div>
+
+</div>
+</body>
+</html>

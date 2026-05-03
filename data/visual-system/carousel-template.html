@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carousel — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; flex-direction: column; align-items: center; gap: 24px; padding: 40px 0; font-family: 'Inter', sans-serif; }
+
+  .slide {
+    width: 900px;
+    height: 900px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Watermark */
+  .watermark {
+    position: absolute;
+    bottom: 28px;
+    right: 32px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.35;
+    z-index: 10;
+  }
+
+  /* ─── SLIDE 1: Dark cover ─── */
+  .s1 { background: #390323; justify-content: center; padding: 72px; }
+  .s1 .watermark { color: #fff; }
+  .s1 .eyebrow {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #ED2DA0; margin-bottom: 28px;
+  }
+  .s1 h1 {
+    font-size: 68px; font-weight: 700; color: #fff; line-height: 1.05;
+    letter-spacing: -0.03em; margin-bottom: 32px;
+  }
+  .s1 h1 em { font-style: italic; color: #FFD863; }
+  .s1 .sub { font-size: 22px; color: rgba(255,255,255,0.5); line-height: 1.5; font-weight: 400; max-width: 600px; }
+  .s1 .swipe-hint {
+    position: absolute; bottom: 36px; left: 72px;
+    font-size: 13px; color: rgba(255,255,255,0.3); font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ─── SLIDE 2: Light ─── */
+  .s2 { background: #FEECF7; padding: 64px 72px; justify-content: space-between; }
+  .s2 .watermark { color: #390323; }
+  .s2 .slide-num { font-size: 13px; font-weight: 700; color: #ED2DA0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+  .s2 h2 { font-size: 52px; font-weight: 700; color: #390323; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 32px; }
+  .s2 h2 em { font-style: italic; color: #ED2DA0; }
+  .s2 .points { display: flex; flex-direction: column; gap: 20px; }
+  .s2 .point { display: flex; gap: 16px; align-items: flex-start; }
+  .s2 .point-num {
+    width: 36px; height: 36px; background: #ED2DA0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .s2 .point-text { font-size: 20px; color: #390323; line-height: 1.5; font-weight: 500; padding-top: 4px; }
+  .s2 .point-text strong { font-weight: 700; }
+
+  /* ─── SLIDE 3: Dark accent ─── */
+  .s3 { background: #13010C; padding: 64px 72px; justify-content: space-between; }
+  .s3 .watermark { color: #fff; }
+  .s3 .slide-num { font-size: 13px; font-weight: 700; color: #ED2DA0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+  .s3 h2 { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 40px; }
+  .s3 h2 em { font-style: italic; color: #FFD863; }
+  .s3 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .s3 .stat-box { background: rgba(237,45,160,0.1); border: 1px solid rgba(237,45,160,0.2); border-radius: 16px; padding: 28px; }
+  .s3 .stat-val { font-size: 52px; font-weight: 700; color: #FFD863; letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px; }
+  .s3 .stat-lbl { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 500; line-height: 1.4; }
+
+  /* ─── SLIDE 4: Purple ─── */
+  .s4 { background: #7948B5; padding: 64px 72px; justify-content: space-between; }
+  .s4 .watermark { color: #fff; }
+  .s4 .slide-num { font-size: 13px; font-weight: 700; color: #FFD863; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+  .s4 h2 { font-size: 52px; font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 36px; }
+  .s4 h2 em { font-style: italic; color: #FFD863; }
+  .s4 .steps { display: flex; flex-direction: column; gap: 0; }
+  .s4 .step { display: flex; gap: 20px; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.12); align-items: flex-start; }
+  .s4 .step:last-child { border-bottom: none; }
+  .s4 .step-arrow { font-size: 28px; color: #FFD863; flex-shrink: 0; margin-top: 2px; }
+  .s4 .step-body {}
+  .s4 .step-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .s4 .step-desc { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.45; font-weight: 400; }
+
+  /* ─── SLIDE 5: CTA ─── */
+  .s5 { background: #390323; justify-content: center; align-items: center; text-align: center; padding: 72px; }
+  .s5 .watermark { color: #fff; }
+  .s5 .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #ED2DA0; margin-bottom: 28px; }
+  .s5 h2 { font-size: 60px; font-weight: 700; color: #fff; line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 24px; }
+  .s5 h2 em { font-style: italic; color: #FFD863; }
+  .s5 .sub { font-size: 20px; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 48px; max-width: 560px; }
+  .s5 .cta-btn {
+    display: inline-block; background: #ED2DA0; color: #fff;
+    font-size: 18px; font-weight: 700; padding: 18px 48px;
+    border-radius: 100px; text-decoration: none; letter-spacing: -0.01em;
+  }
+  .s5 .url { margin-top: 24px; font-size: 15px; color: rgba(255,255,255,0.3); font-weight: 500; }
+</style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Cover -->
+  <div class="slide s1">
+    <div class="eyebrow">5 things top sales teams know</div>
+    <h1>Demos that<br><em>close deals</em><br>aren't magic.</h1>
+    <p class="sub">They follow a repeatable system. Here's what the best GTM teams do differently.</p>
+    <div class="swipe-hint">→ Swipe to learn</div>
+    <div class="watermark">STORYLANE</div>
+  </div>
+
+  <!-- SLIDE 2: Point 1 -->
+  <div class="slide s2">
+    <div>
+      <div class="slide-num">01 / 05</div>
+      <h2>They let buyers<br><em>explore first</em></h2>
+    </div>
+    <div class="points">
+      <div class="point">
+        <div class="point-num">↑</div>
+        <div class="point-text"><strong>67% of B2B buyers</strong> want to self-serve before talking to sales — give them an interactive demo, not a form.</div>
+      </div>
+      <div class="point">
+        <div class="point-num">→</div>
+        <div class="point-text">Buyers who explore your product before a call show up <strong>3× more engaged</strong> and ask better questions.</div>
+      </div>
+      <div class="point">
+        <div class="point-num">✓</div>
+        <div class="point-text">Demo-first teams generate <strong>39% more qualified pipeline</strong> than those leading with outreach alone.</div>
+      </div>
+    </div>
+    <div class="watermark">STORYLANE</div>
+  </div>
+
+  <!-- SLIDE 3: Stats -->
+  <div class="slide s3">
+    <div>
+      <div class="slide-num">02 / 05</div>
+      <h2>The numbers<br>don't <em>lie</em></h2>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-val">2 min</div>
+        <div class="stat-lbl">Average time to build a polished interactive demo with Storylane</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">39%</div>
+        <div class="stat-lbl">Increase in pipeline for teams using demo-first outreach</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">3.2×</div>
+        <div class="stat-lbl">Higher close rate when buyers view the demo 6+ times</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">↓40%</div>
+        <div class="stat-lbl">Shorter sales cycles when buyers self-explore before calls</div>
+      </div>
+    </div>
+    <div class="watermark">STORYLANE</div>
+  </div>
+
+  <!-- SLIDE 4: How-to -->
+  <div class="slide s4">
+    <div>
+      <div class="slide-num">03 / 05</div>
+      <h2>The <em>5-step</em><br>demo playbook</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-arrow">→</div>
+        <div class="step-body">
+          <div class="step-title">Capture your product in one click</div>
+          <div class="step-desc">Chrome extension records a live session — no staging, no engineering.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-arrow">→</div>
+        <div class="step-body">
+          <div class="step-title">Trim to the "aha moment" path</div>
+          <div class="step-desc">Remove clutter. Keep only the steps your ideal buyer needs to see.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-arrow">→</div>
+        <div class="step-body">
+          <div class="step-title">Personalize per account in 2 min</div>
+          <div class="step-desc">Swap logo, name, and data. Personalized demos get 3× more engagement.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-arrow">→</div>
+        <div class="step-body">
+          <div class="step-title">Share a link — track everything</div>
+          <div class="step-desc">See which steps buyers click, skip, or replay in real time.</div>
+        </div>
+      </div>
+    </div>
+    <div class="watermark">STORYLANE</div>
+  </div>
+
+  <!-- SLIDE 5: CTA -->
+  <div class="slide s5">
+    <div class="eyebrow">Your turn</div>
+    <h2>Build your first<br>demo <em>today</em></h2>
+    <p class="sub">No engineering. No design skills. Just your product and 2 minutes.</p>
+    <a class="cta-btn" href="#">Start free at Storylane →</a>
+    <div class="url">storylane.io</div>
+    <div class="watermark">STORYLANE</div>
+  </div>
+
+</body>
+</html>

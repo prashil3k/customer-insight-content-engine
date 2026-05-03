@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparison — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+
+  .card {
+    width: 900px;
+    background: #FEECF7;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+  }
+
+  .header {
+    background: #390323;
+    padding: 44px 48px 40px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    background: #ED2DA0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 18px;
+  }
+  .header h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); font-weight: 400; }
+
+  .table-wrap { padding: 36px 48px 36px; }
+
+  .col-headers {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .col-headers .spacer {}
+  .col-pill {
+    background: #7948B5;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 20px;
+    border-radius: 12px;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+  .col-pill.accent { background: #390323; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+    align-items: stretch;
+  }
+  .row-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(57,3,35,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-right: 12px;
+  }
+  .cell {
+    background: #FFBDE5;
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 16px;
+    color: #390323;
+    font-weight: 500;
+    line-height: 1.45;
+    display: flex;
+    align-items: center;
+  }
+  .cell.alt { background: #DDC1FF; }
+  .cell .check { color: #ED2DA0; font-size: 20px; margin-right: 8px; font-weight: 700; }
+  .cell .cross { color: rgba(57,3,35,0.3); font-size: 18px; margin-right: 8px; }
+  .cell strong { color: #390323; font-weight: 700; }
+
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 0 48px 36px;
+  }
+  .summary-card {
+    background: #13010C;
+    border-radius: 14px;
+    padding: 24px 22px;
+  }
+  .summary-card .icon { font-size: 28px; margin-bottom: 10px; }
+  .summary-card .title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .summary-card .desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  .cta-bar {
+    background: #390323;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-bar .cta-text { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+  .cta-bar .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn {
+    background: #ED2DA0;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Comparison</div>
+    <h1>Buyer Hub vs.<br><em>Premature Free Trials</em></h1>
+    <p>Why curated deal rooms close more deals than handing prospects raw product access too soon.</p>
+  </div>
+
+  <div class="table-wrap">
+    <div class="col-headers">
+      <div class="spacer"></div>
+      <div class="col-pill">Storylane Buyer Hub</div>
+      <div class="col-pill accent">Premature Free Trial</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Prospect Readiness</div>
+      <div class="cell"><span class="check">✓</span> Guided tour <strong>matches buyer's stage</strong> — value lands before complexity</div>
+      <div class="cell alt"><span class="cross">✗</span> Prospect hits full product before understanding core value</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Content in One Place</div>
+      <div class="cell"><span class="check">✓</span> Demo, video, docs, and <strong>ROI calc in one branded room</strong></div>
+      <div class="cell alt"><span class="cross">✗</span> Assets scattered across email threads, Drive links, and decks</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Champion Enablement</div>
+      <div class="cell"><span class="check">✓</span> Champion <strong>shares the Hub internally</strong> to sell up the chain</div>
+      <div class="cell alt"><span class="cross">✗</span> Trial credentials can't be forwarded — internal selling stalls</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Drop-off Risk</div>
+      <div class="cell"><span class="check">✓</span> Curated steps keep buyers <strong>focused on the "aha" moment</strong></div>
+      <div class="cell alt"><span class="cross">✗</span> Overwhelmed prospects ghost — never reach activation milestone</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Engagement Data</div>
+      <div class="cell"><span class="check">✓</span> See <strong>which assets, demos, and docs</strong> each stakeholder viewed</div>
+      <div class="cell alt"><span class="cross">✗</span> Login data shows sessions, not intent — no feature-level signal</div>
+    </div>
+
+    <div class="row">
+      <div class="row-label">Deal Velocity</div>
+      <div class="cell"><span class="check">✓</span> Structured next steps and <strong>mutual action plan</strong> embedded in Hub</div>
+      <div class="cell alt"><span class="cross">✗</span> Open-ended trial drags on — no natural forcing function to close</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-card">
+      <div class="icon">🏠</div>
+      <div class="title">One link for every stakeholder</div>
+      <div class="desc">Share demos, videos, and docs in a single branded deal room — no more scattered follow-up emails.</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">📉</div>
+      <div class="title">Trials kill unprepared deals</div>
+      <div class="desc">Prospects given raw access before the "why" is clear churn silently — Buyer Hubs guide them to value first.</div>
+    </div>
+    <div class="summary-card">
+      <div class="icon">🔍</div>
+      <div class="title">Know who's actually buying</div>
+      <div class="desc">See which stakeholders engaged, which assets they spent time on, and who's ready to move forward.</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">Stop losing deals to trial drop-off — build a Buyer Hub</div>
+      <div class="cta-sub">Create a branded deal room with demos, video, and docs in minutes. Free to start.</div>
+    </div>
+    <a class="cta-btn" href="https://www.storylane.io">Try Storylane free →</a>
+  </div>
+
+</div>
+</body>
+</html>

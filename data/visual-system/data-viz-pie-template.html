@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Viz Pie — Storylane Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400;1,14..32,600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f0e8ee; display: flex; justify-content: center; padding: 40px 0; }
+  .card { width: 900px; background: #FEECF7; font-family: 'Inter', sans-serif; overflow: hidden; }
+
+  .header { background: #390323; padding: 44px 48px 40px; }
+  .badge { display: inline-flex; background: #ED2DA0; color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 18px; }
+  .header h1 { font-size: 38px; font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .header h1 em { font-style: italic; color: #FFD863; }
+  .header p { font-size: 16px; color: rgba(255,255,255,0.5); }
+
+  .chart-body { display: grid; grid-template-columns: 1fr 340px; gap: 0; padding: 40px 48px; align-items: center; }
+
+  /* Legend */
+  .legend { padding-right: 32px; }
+  .legend-title { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(57,3,35,0.4); margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+  .legend-info {}
+  .legend-label { font-size: 15px; font-weight: 600; color: #390323; line-height: 1.2; }
+  .legend-pct { font-size: 22px; font-weight: 700; color: #390323; letter-spacing: -0.02em; line-height: 1; margin-top: 2px; }
+  .legend-sub { font-size: 12px; color: rgba(57,3,35,0.45); margin-top: 1px; }
+
+  /* Donut */
+  .donut-wrap { display: flex; align-items: center; justify-content: center; position: relative; }
+  .donut-center {
+    position: absolute;
+    text-align: center;
+    pointer-events: none;
+  }
+  .donut-center .big { font-size: 42px; font-weight: 700; color: #390323; letter-spacing: -0.03em; line-height: 1; }
+  .donut-center .big em { font-style: italic; color: #ED2DA0; }
+  .donut-center .sub { font-size: 13px; color: rgba(57,3,35,0.5); font-weight: 500; margin-top: 4px; line-height: 1.3; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 0 48px 36px; }
+  .stat-card { background: #13010C; border-radius: 14px; padding: 24px 22px; }
+  .stat-card .num { font-size: 34px; font-weight: 700; color: #FFD863; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .stat-card .lbl { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.45; font-weight: 500; }
+
+  .cta-bar { background: #390323; padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .cta-text { font-size: 16px; font-weight: 600; color: #fff; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .cta-btn { background: #ED2DA0; color: #fff; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 100px; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="badge">Data Viz · Donut Chart</div>
+    <h1>Where Buyers <em>Drop Off</em><br>in the Demo Journey</h1>
+    <p>Breakdown of how prospects engage with interactive demos — and where they convert.</p>
+  </div>
+
+  <div class="chart-body">
+
+    <div class="legend">
+      <div class="legend-title">Engagement breakdown</div>
+
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ED2DA0;"></div>
+        <div class="legend-info">
+          <div class="legend-label">Completed & converted</div>
+          <div class="legend-pct">34%</div>
+          <div class="legend-sub">Finished tour, clicked CTA</div>
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#7948B5;"></div>
+        <div class="legend-info">
+          <div class="legend-label">Completed, no CTA</div>
+          <div class="legend-pct">28%</div>
+          <div class="legend-sub">Finished tour, re-engaged later</div>
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FFD863;"></div>
+        <div class="legend-info">
+          <div class="legend-label">Partial — high intent</div>
+          <div class="legend-pct">21%</div>
+          <div class="legend-sub">Viewed 50%+, strong signal</div>
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FF7F51;"></div>
+        <div class="legend-info">
+          <div class="legend-label">Partial — early drop</div>
+          <div class="legend-pct">12%</div>
+          <div class="legend-sub">Left before key feature screens</div>
+        </div>
+      </div>
+
+      <div class="legend-item">
+        <div class="legend-dot" style="background:rgba(57,3,35,0.15);"></div>
+        <div class="legend-info">
+          <div class="legend-label">Bounced</div>
+          <div class="legend-pct">5%</div>
+          <div class="legend-sub">Opened, left in &lt;10 seconds</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="donut-wrap">
+      <svg width="300" height="300" viewBox="0 0 300 300">
+        <!-- Donut segments. cx=150, cy=150, r=110, strokeWidth=50, circumference=691.15 -->
+        <!-- Total = 691.15. Segments: 34%=235, 28%=193.5, 21%=145.1, 12%=82.9, 5%=34.6 -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(57,3,35,0.08)" stroke-width="52"/>
+
+        <!-- Segment 1: 34% pink — starts at top (-173px offset) -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="#ED2DA0" stroke-width="50"
+          stroke-dasharray="235 456" stroke-dashoffset="173" transform="rotate(-90 150 150)"/>
+
+        <!-- Segment 2: 28% purple -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="#7948B5" stroke-width="50"
+          stroke-dasharray="193.5 497.6" stroke-dashoffset="-62" transform="rotate(-90 150 150)"/>
+
+        <!-- Segment 3: 21% yellow -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="#FFD863" stroke-width="50"
+          stroke-dasharray="145.1 546" stroke-dashoffset="-255.5" transform="rotate(-90 150 150)"/>
+
+        <!-- Segment 4: 12% orange -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="#FF7F51" stroke-width="50"
+          stroke-dasharray="82.9 608.2" stroke-dashoffset="-400.6" transform="rotate(-90 150 150)"/>
+
+        <!-- Segment 5: 5% muted -->
+        <circle cx="150" cy="150" r="110" fill="none" stroke="rgba(57,3,35,0.15)" stroke-width="50"
+          stroke-dasharray="34.6 656.5" stroke-dashoffset="-483.5" transform="rotate(-90 150 150)"/>
+      </svg>
+
+      <div class="donut-center">
+        <div class="big"><em>83%</em></div>
+        <div class="sub">meaningful<br>engagement</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="num">83%</div>
+      <div class="lbl">of viewers engage meaningfully — read, click, or revisit</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">2.3×</div>
+      <div class="lbl">higher CTA click rate on personalized vs. generic demos</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">5%</div>
+      <div class="lbl">bounce rate — far lower than landing pages or PDFs</div>
+    </div>
+  </div>
+
+  <div class="cta-bar">
+    <div>
+      <div class="cta-text">See your own engagement data</div>
+      <div class="cta-sub">Storylane tracks every click, step, and drop-off in real time.</div>
+    </div>
+    <a class="cta-btn" href="#">Start tracking →</a>
+  </div>
+
+</div>
+</body>
+</html>
