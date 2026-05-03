@@ -1117,8 +1117,16 @@ def api_key_health():
             results["anthropic"] = "ok"
         except ant.AuthenticationError:
             results["anthropic"] = "invalid"
+        except ant.PermissionDeniedError:
+            results["anthropic"] = "billing"
+        except ant.RateLimitError:
+            results["anthropic"] = "rate_limited"
+        except ant.BadRequestError as e:
+            # Billing errors sometimes surface as 400 with a billing message
+            msg = str(e).lower()
+            results["anthropic"] = "billing" if "billing" in msg or "credit" in msg or "quota" in msg else "ok"
         except Exception:
-            results["anthropic"] = "ok"   # other errors (rate limit etc) mean key is valid
+            results["anthropic"] = "ok"   # network hiccup, overload, etc — key is still valid
 
     # ── Ahrefs ────────────────────────────────────────────────────────────────
     if not config.AHREFS_API_TOKEN:

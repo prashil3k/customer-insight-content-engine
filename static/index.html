@@ -2684,10 +2684,10 @@ async function checkKeyHealth() {
   const el = document.getElementById('key-health-result');
   el.innerHTML = '<span style="color:var(--text-muted);">Checking keys…</span>';
   try {
-    const res = await GET('/api/settings/key-health');
+    const res = await GET('/settings/key-health');
     const labels = { anthropic: 'Anthropic', ahrefs: 'Ahrefs', grain: 'Grain', sybill: 'Sybill' };
-    const icon = { ok:'✅', invalid:'❌', not_set:'⚪', set:'✅', error:'⚠️' };
-    const note = { ok:'', invalid:' — key rejected by API', not_set:' — not configured', set:' — configured (webhook, cannot ping)', error:' — could not reach API' };
+    const icon = { ok:'✅', invalid:'❌', not_set:'⚪', set:'✅', error:'⚠️', billing:'💳', rate_limited:'⏳' };
+    const note = { ok:'', invalid:' — key rejected by API', not_set:' — not configured', set:' — configured (webhook, cannot ping)', error:' — could not reach API', billing:' — valid key but billing issue / credits exhausted', rate_limited:' — valid key, currently rate limited' };
     el.innerHTML = Object.entries(res).map(([k, v]) =>
       `<div style="margin-bottom:4px;">${icon[v] || '⚠️'} <strong>${labels[k]}</strong>${note[v] || ''}</div>`
     ).join('');

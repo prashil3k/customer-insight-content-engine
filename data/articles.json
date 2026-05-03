@@ -5831,10 +5831,361 @@
         "backlinkable"
       ],
       "gap_it_fills": "PreSales Efficiency has zero articles and is missing listicle content specifically. This is the definitive listicle entry point for the pillar \u2014 opinionated, role-specific, and structured around a real bottleneck that every SE leader recognizes immediately.",
-      "stage": "idea",
-      "keywords": {},
-      "draft": "",
-      "qc_result": null,
+      "stage": "qc",
+      "keywords": {
+        "primary": {
+          "keyword": "demo automation",
+          "volume": 200,
+          "difficulty": 5,
+          "cpc": 900,
+          "score": 0.186,
+          "source": "ahrefs"
+        },
+        "secondary": [
+          {
+            "keyword": "solutions engineer productivity",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "presales team efficiency",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "sales engineering best practices",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "when to use solutions engineers",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "SE resource allocation",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "presales bottleneck",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "sales engineer workload",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          }
+        ],
+        "all_candidates": [
+          {
+            "keyword": "demo automation",
+            "volume": 200,
+            "difficulty": 5,
+            "cpc": 900,
+            "score": 0.186,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "solutions engineer productivity",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "presales team efficiency",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "sales engineering best practices",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "when to use solutions engineers",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "SE resource allocation",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "presales bottleneck",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "sales engineer workload",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "demo strategy for sales teams",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "reducing presales costs",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "interactive demos vs solutions engineers",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "presales team structure",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": null,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "early stage sales calls best practices",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "how to scale sales without more SEs",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          },
+          {
+            "keyword": "sales demo process optimization",
+            "volume": "unknown",
+            "difficulty": 50,
+            "cpc": 0,
+            "score": 0.1,
+            "source": "ahrefs"
+          }
+        ],
+        "serp": null,
+        "settings_used": {
+          "country": "us",
+          "max_kd": 70,
+          "min_volume": 0
+        },
+        "researched_at": "2026-05-03T17:51:24Z"
+      },
+      "draft": "# The SE Bottleneck Audit: 6 Demo Scenarios Where Demo Automation Should Replace Your Solutions Engineers\n\nYour solutions engineers are your most expensive, highest-leverage people in the revenue org. And right now, a significant portion of their week is being consumed by demos that should never require them.\n\n**Demo automation** isn't a threat to your SE team's relevance \u2014 it's the unlock that lets them do the work only they can do. The problem is most presales leaders haven't drawn the line clearly enough between \"SE-worthy\" and \"SE-optional\" scenarios. So SEs get pulled into everything, and the bottleneck compounds quietly until pipeline starts slipping.\n\nHere's the audit. Six specific demo scenarios where solutions engineer productivity is being drained \u2014 and where automation should be doing the work instead.\n\n---\n\n## Scenario 1: Discovery Calls 1 and 2 \u2014 Demo Automation Belongs Here, Not Your SE\n\nIf your AEs can't run a light product walkthrough on a first or second call without SE support, you don't have a training problem. You have a tooling problem.\n\nAndrew, a presales leader at Redgate Software (a database DevOps company with ~30 AEs), put it plainly: *\"There's like one or two out of, I don't know, 30 that I would trust to do something so.\"* Two AEs out of thirty capable of running an independent demo. The other 28 require SE involvement \u2014 for calls that may not even be qualified yet.\n\nHis prescription was equally direct: *\"Making it easier for salespeople to do light demos and qualify a little bit more before bringing in sales engineers.\"*\n\nThis is where **demo automation** earns its budget on day one. AEs and SDRs can run preset interactive demos \u2014 click-by-click product walkthroughs built in Storylane \u2014 without touching the live product, without SE prep, and without risk of a live demo breaking. The SE gets pulled in after the prospect is qualified. Not before.\n\n**What to automate:** A 10\u201320 step interactive demo covering your product's top 3 value moments. AE-deployable. No SE required.\n\n---\n\n## Scenario 2: Repeat Demos for Stakeholders Who Missed the First Call\n\nYour SE ran an excellent 60-minute demo. The champion loved it. Now three new stakeholders want to see it \u2014 and your SE is being asked to schedule three more calls.\n\nThis is a **presales team efficiency** killer hiding in plain sight. Every repeat demo for a missing stakeholder is a full SE hour consumed for a meeting that should be a link.\n\nSarbajit, a presales engineer at Locus.sh (a B2B SaaS logistics platform), described the exact pain: *\"Instead of always having to host a new call for every additional stakeholder that joins the conversation... instead reviewing a one hour Zoom recording or setting up an additional call, they can go directly to this demo resource.\"*\n\nHe validated this immediately because he'd lived it \u2014 manually running live demo calls for every prospect, no leave-behind, full presales time required for every stakeholder interaction.\n\nThe fix: after the first SE-led demo, the champion gets a shareable interactive demo link they can forward internally. New stakeholders self-serve. Your SE stays out of it unless a live technical deep-dive is warranted.\n\n**What to automate:** A polished, shareable version of your core demo \u2014 built once, sent by the champion, tracked by your SE for engagement signals.\n\n[IMAGE: Illustration showing AE sending a shareable demo link to a champion who forwards it to 3 internal stakeholders \u2014 all viewing independently without a new call | Flow diagram, clean SaaS style]\n\n---\n\n## Scenario 3: Unguided Free Trials That Confuse Prospects Into Silence\n\nFree trials that generate no conversion data and produce ghosted deals are consuming SE time twice: once when the SE runs the pre-trial demo, and again when they're pulled in to rescue a prospect who got lost.\n\nA solutions engineer at Teamleader \u2014 a Visma ERP platform where 2 SEs support 35+ AEs \u2014 described the conversion problem directly: *\"Our system is really complex... That leads the prospect to be a bit lost when they test themselves. So I would like to guide them a bit more and yeah, potentially to convert a bit more.\"*\n\nHis ideal wasn't a live SE-led session. It was a guided, interactive instance: *\"I would like to give them an instance demo account, for example, in which they will be able to click through, type in some boxes to create a new customer, to create a new project.\"*\n\nThat's a Storylane sandbox demo \u2014 hands-on, guided with tooltips and hotspots, self-paced, and shareable without an SE on the line. It replaces the unguided trial that was failing anyway, and it gives the SE actual engagement data: which features did the prospect explore, which steps did they complete, where did they drop off.\n\n**What to automate:** A guided sandbox environment that mirrors the trial experience with structured waypoints \u2014 no SE required to babysit it.\n\n---\n\n## Scenario 4: Trade Show and Field Event Demos\n\n[IMAGE: Trade show booth with sales reps running demos on tablets \u2014 no Wi-Fi required | Event/field setting, product demo context]\n\nGraham, Head of Solutions Engineering at HiveWatch (a physical security SaaS company), learned this one the hard way. At a trade show, his entire team \u2014 15 people \u2014 had no working Wi-Fi. Live demos died. The team went dark.\n\n*\"I leaned on it and I was like, hey, I think this is probably why we need a tool for this, right? So that we're not totally out of luck when something like this happens.\"*\n\nField events are a uniquely punishing SE bottleneck because the SE is physically present but still can't demo reliably \u2014 live products fail, environments break, connectivity disappears. And at a booth with 15 reps and dozens of prospect conversations happening simultaneously, one SE can't cover every conversation.\n\nInteractive demos solve this completely. Pre-captured, offline-capable, runnable by any rep from a tablet or laptop without SE involvement or a live product environment.\n\n**What to automate:** A self-contained event demo \u2014 10\u201315 steps, visual-first, runnable without Wi-Fi by any AE or BDR at the booth.\n\n---\n\n## Scenario 5: Post-Demo Enterprise Buying Committees\n\nThis one is where **sales engineering best practices** most often break down at the enterprise tier.\n\nYour SE nailed the discovery call with the technical champion. Now the buying committee wants access \u2014 a VP, a legal stakeholder, an ops lead, maybe a security reviewer. None of them were on the original call. All of them have questions that don't require a live SE session.\n\nHayley Lowe, a product marketer at hivr.ai, made this case directly to her own skeptical CEO, who initially doubted that interactive demos could serve complex enterprise deals with multiple stakeholders. Her response: *\"You're still able to demo the product. And then follow up with this, which gives them a huge amount of access to a variety of features. So there's still that use case still exists here.\"*\n\nThe mechanism she described: a Storylane Buyer Hub \u2014 a personalized, branded deal room containing the demo, supporting materials, and contextual messaging \u2014 sent to the champion to share with the committee. The SE doesn't re-run the demo for each stakeholder. The Hub does it.\n\n**What to automate:** A Buyer Hub configured after the first SE-led call. Champion shares it. Each committee member engages at their own pace. SE monitors engagement and steps back in only when a specific technical question surfaces.\n\n[DEMO: https://app.storylane.io/demo/fwa3jg16xql3 | Example of a sophisticated interactive demo appropriate for a post-discovery leave-behind to an enterprise buying committee]\n\n---\n\n## Scenario 6: Website Visitors Who Need to See the Product Before They'll Book a Meeting\n\n**Demo automation** at the top of the funnel is arguably the highest-leverage SE time reclaim of all \u2014 because there's no SE involved in the first place, and yet SE time is indirectly drained when unqualified prospects book discovery calls based on no product exposure.\n\nAmanda, a demand gen manager at a B2B SaaS company with multiple product lines, found that demo engagement data from Storylane was showing up directly in their 6Sense intent platform: *\"All of the people that are interacting with the Storylane demos seem to be showing up in our 6Sense platform as well, so we're not finding that there's a lot falling through the crack.\"*\n\nWhen prospects self-qualify by watching an interactive product tour before booking a call, the calls that do get scheduled arrive warmer, more informed, and more worthy of SE time. **SE resource allocation** improves not because SEs are doing less, but because the pipeline entering their queue is better filtered.\n\n**What to automate:** Embedded interactive product tours on key solution pages \u2014 a 10-step overview that surfaces intent signal and pre-qualifies visitors before they ever request a demo.\n\n---\n\n## The Benchmark Worth Citing\n\nHere's a data point that should be in every SE team's planning doc: At Redgate Software, with approximately 30 account executives, only 1\u20132 were trusted to run live product demos independently. That means **93%+ of the AE team required SE support for any demo interaction** \u2014 regardless of deal stage or prospect qualification level.\n\nThis isn't a Redgate-specific anomaly. It's the natural outcome of complex products, undertrained reps, and an absence of SE-optional demo infrastructure. It's also the number that makes a compelling case to your CFO for **presales team efficiency** investment.\n\n---\n\n## The Line You Need to Draw\n\nWhen to use solutions engineers: qualified prospects with confirmed technical fit, complex customization questions, late-stage security reviews, or competitive deep-dives where live product expertise is decisive.\n\nWhen to use demo automation: everything else on this list.\n\nThe SEs who thrive in scaled GTM orgs aren't the ones who do every demo. They're the ones who do the demos that only they can do \u2014 because someone built the infrastructure to handle the rest.\n\n---\n\n## See What SE-Optional Demos Look Like in Practice\n\nEvery scenario in this audit maps to a specific Storylane capability \u2014 from AE-deployable interactive demos on early discovery calls, to Buyer Hubs for enterprise committees, to embedded website tours that filter your inbound before it reaches your team. If your SE team is still being pulled into calls 1 and 2, it's worth seeing how fast you can change that. [Start a free trial at storylane.io](https://www.storylane.io) and build your first SE-optional demo today.",
+      "qc_result": {
+        "overall_score": 7,
+        "hook_score": 6,
+        "fluff_score": 7,
+        "relevancy_score": 8,
+        "reader_value_score": 8,
+        "eeat_score": 8,
+        "insight_authenticity_score": 9,
+        "summary": "This article is structurally sound, well-sourced, and genuinely useful to its target reader \u2014 the SE team quotes are specific and credibly deployed. The main weaknesses are a soft opening that buries the tension, a few filler transitions that dilute momentum, and a CTA that reads like a vendor pitch rather than a natural close. Minor fixes will push this to publication-ready.",
+        "suggestions": [
+          {
+            "id": 1,
+            "type": "hook",
+            "severity": "critical",
+            "location": "Opening paragraph (H1 + first two paragraphs)",
+            "issue": "The opener makes a true claim \u2014 SEs are expensive and overloaded \u2014 but it's a claim every SE leader already knows and has heard a hundred times. It doesn't create urgency, doesn't cite a number, and doesn't surprise. The second paragraph softens it further with a reassurance ('Demo automation isn't a threat') that reads like vendor positioning, not editorial authority.",
+            "suggestion": "Open with the most damning specific fact in the article \u2014 the Redgate stat \u2014 then weaponize it immediately. Skip the reassurance paragraph entirely. The reader is a presales leader, not a nervous SE. They don't need to be told this isn't a threat.",
+            "example_fix": "At Redgate Software \u2014 30 AEs, a mature sales team, dedicated SE function \u2014 1 or 2 reps can run a product demo without a solutions engineer. The other 28 require SE involvement, including on calls where the prospect isn't qualified yet. If that ratio sounds familiar, your SEs aren't overloaded because they're understaffed. They're overloaded because nobody has drawn the line between SE-worthy and SE-optional."
+          },
+          {
+            "id": 2,
+            "type": "preamble",
+            "severity": "major",
+            "location": "Second paragraph, before the scenario list",
+            "issue": "The sentence 'Demo automation isn't a threat to your SE team's relevance \u2014 it's the unlock that lets them do the work only they can do' is vendor-reassurance copy, not editorial content. It adds no information and exists to handle an objection the reader probably doesn't have. It also front-loads a conclusion before the evidence.",
+            "suggestion": "Delete this sentence entirely. The article's structure already answers the objection by defining SE-worthy vs. SE-optional scenarios. Let the content do the work.",
+            "example_fix": null
+          },
+          {
+            "id": 3,
+            "type": "fluff",
+            "severity": "minor",
+            "location": "Scenario 1, third paragraph: 'This is where demo automation earns its budget on day one.'",
+            "issue": "This is a marketing tagline, not a statement of fact or analysis. It asserts ROI without showing it, and it interrupts the flow from the Redgate quote to the actual prescription.",
+            "suggestion": "Remove the sentence. Jump directly from Andrew's quote to the mechanism \u2014 what AEs and SDRs can actually do with demo automation instead.",
+            "example_fix": null
+          },
+          {
+            "id": 4,
+            "type": "eeat",
+            "severity": "major",
+            "location": "Scenario 1, Redgate quote attribution",
+            "issue": "Andrew is identified only by first name with no title. For a B2B publication, this weakens credibility. The source insights confirm he's a presales leader. That title should be in the article.",
+            "suggestion": "Add Andrew's role on first mention: 'Andrew, a presales leader at Redgate Software...' is already present \u2014 good. But his last name or at minimum his role confirmation should be included if it can be verified from source notes. If last name isn't available, make sure title is explicit in the text.",
+            "example_fix": "Andrew, Head of Presales at Redgate Software, put it plainly..."
+          },
+          {
+            "id": 5,
+            "type": "fluff",
+            "severity": "minor",
+            "location": "Scenario 2, opening sentence: 'Your SE ran an excellent 60-minute demo.'",
+            "issue": "'Excellent' is doing no work here. The word adds warmth but subtracts precision. The scenario setup is already clear without it.",
+            "suggestion": "Cut 'excellent.' The scenario is about the repeat problem, not the quality of the original demo.",
+            "example_fix": "Your SE ran a 60-minute demo. The champion loved it."
+          },
+          {
+            "id": 6,
+            "type": "fluff",
+            "severity": "minor",
+            "location": "Scenario 2, second paragraph: 'This is a presales team efficiency killer hiding in plain sight.'",
+            "issue": "The phrase 'hiding in plain sight' is clich\u00e9 and adds no analytical value. The scenario already makes the problem visible without this framing.",
+            "suggestion": "Delete the phrase or replace with the actual cost: a quantified estimate of hours lost per stakeholder repeat call.",
+            "example_fix": "Every repeat stakeholder demo is a full SE hour. On a five-stakeholder deal, that's five hours of SE time that should have been one link."
+          },
+          {
+            "id": 7,
+            "type": "insight_gap",
+            "severity": "major",
+            "location": "Scenario 2, Locus.sh attribution",
+            "issue": "Sarbajit's company is identified as 'Locus.sh (a B2B SaaS logistics platform)' but the source insights describe him as covering 'North America and Europe enterprise markets' \u2014 a detail that makes his pain point more credible and the scale of the problem more tangible for the enterprise-focused reader. This context is missing.",
+            "suggestion": "Add geographic/market scope to Sarbajit's intro to signal that this is an enterprise-scale problem, not a startup edge case.",
+            "example_fix": "Sarbajit, a presales engineer at Locus.sh \u2014 a B2B SaaS logistics platform operating across enterprise accounts in North America and Europe..."
+          },
+          {
+            "id": 8,
+            "type": "structure",
+            "severity": "minor",
+            "location": "Scenario 3, Teamleader \u2014 SE ratio metric omitted",
+            "issue": "The source insights contain a compelling ratio: 2 SEs supporting 35+ AEs across three language markets. This number is more striking than the generic intro about 'Visma ERP platform where 2 SEs support 35+ AEs' \u2014 but it's buried in a parenthetical and never called out as a data point in its own right. The 17:1 AE-to-SE ratio is a powerful signal for the reader.",
+            "suggestion": "Surface the 17:1 ratio explicitly as a data point early in the scenario, before the quote. It contextualizes why a guided sandbox isn't a nice-to-have \u2014 it's the only viable option at that ratio.",
+            "example_fix": "At Teamleader, 2 solutions engineers support more than 35 AEs across French, German, and Dutch markets \u2014 a ratio that makes live SE-led trial support structurally impossible."
+          },
+          {
+            "id": 9,
+            "type": "eeat",
+            "severity": "minor",
+            "location": "Scenario 4, HiveWatch \u2014 trade show anecdote",
+            "issue": "Graham's quote is compelling but the setup undersells it. The article says '15 people had no working Wi-Fi' but doesn't clarify whether those were all SEs/AEs at the booth or total attendees \u2014 which changes the severity of the breakdown. The source notes say '15 people' which likely means 15 booth staff. Confirm and be precise.",
+            "suggestion": "Clarify that the 15 people were the HiveWatch team at the event (not 15 prospects), and that the breakdown meant zero demos ran for any booth visitor. This makes the stakes of the failure concrete.",
+            "example_fix": "At one trade show, the entire HiveWatch booth team \u2014 15 people \u2014 lost Wi-Fi. No one ran a single demo. The team went dark for the event."
+          },
+          {
+            "id": 10,
+            "type": "insight_gap",
+            "severity": "minor",
+            "location": "Scenario 4, HiveWatch",
+            "issue": "The source insights contain a second Graham quote: 'We'll buy the tool and won't use it for months until somebody's ready to use it.' This is a candid admission about the adoption risk of demo automation tools \u2014 and it's more interesting than his Wi-Fi quote because it's self-aware. It's not used anywhere in the article.",
+            "suggestion": "Consider adding this quote as a counterweight \u2014 a moment where Graham acknowledges the adoption risk \u2014 then resolve it with HiveWatch's deployment approach. It adds credibility and nuance, and it pre-handles an objection SE leaders will have.",
+            "example_fix": "Graham was clear-eyed about the risk: 'We'll buy the tool and won't use it for months until somebody's ready to use it.' His answer was to start with the field event use case \u2014 a forcing function with a hard deadline and a clear owner."
+          },
+          {
+            "id": 11,
+            "type": "structure",
+            "severity": "major",
+            "location": "Scenario 5, Hayley Lowe attribution",
+            "issue": "Hayley Lowe is introduced as 'a product marketer at hivr.ai' \u2014 but she's not an SE or presales leader. She's the only source in the article who isn't in a presales role, and her quote is about persuading a skeptical CEO, not about SE bottleneck pain. This creates a credibility gap: why is a product marketer's internal pitch relevant to a VP of PreSales?",
+            "suggestion": "Either reframe her contribution as 'here's how someone outside presales validated the enterprise use case' \u2014 which is actually a strong signal \u2014 or replace her quote with a presales-perspective voice if one is available. If she stays, the transition needs to explain why her CEO skepticism scenario is relevant to an SE leader.",
+            "example_fix": "The skepticism isn't limited to SE teams. Hayley Lowe, a product marketer at hivr.ai, had to make this case to her own CEO \u2014 and the argument she used maps directly to how SE leaders should frame it internally."
+          },
+          {
+            "id": 12,
+            "type": "relevancy",
+            "severity": "minor",
+            "location": "Scenario 6, Amanda attribution \u2014 demand gen manager",
+            "issue": "Amanda is a demand gen manager, not a presales leader. Her 6Sense intent data point is genuinely useful, but the framing pivots the scenario toward marketing attribution rather than SE time reclaim. The ideal reader is an SE leader who cares about pipeline quality entering their queue \u2014 the article should make that connection explicit rather than relying on the reader to make the leap.",
+            "suggestion": "After Amanda's quote, add one sentence that translates the demand gen signal into an SE outcome: what does higher-intent inbound actually do to the SE's calendar?",
+            "example_fix": "For SE teams, the downstream effect is simple: fewer 'what does your product do?' calls, and more calls where the prospect already knows enough to ask a real question."
+          },
+          {
+            "id": 13,
+            "type": "fluff",
+            "severity": "minor",
+            "location": "'The Benchmark Worth Citing' section, final sentence",
+            "issue": "'It's also the number that makes a compelling case to your CFO for presales team efficiency investment' is a hand-holding sentence that treats the reader as someone who can't make that inference. They can.",
+            "suggestion": "Cut the sentence. The stat speaks for itself. If you want to add value, give the CFO math instead: estimated SE hours consumed by unqualified demos per month at this ratio.",
+            "example_fix": null
+          },
+          {
+            "id": 14,
+            "type": "cta",
+            "severity": "major",
+            "location": "Final CTA section: 'See What SE-Optional Demos Look Like in Practice'",
+            "issue": "The CTA reads like product marketing copy, not editorial close. 'Every scenario in this audit maps to a specific Storylane capability' is a sales sentence. 'It's worth seeing how fast you can change that' is vague. The CTA abandons the editorial voice the article spent 2,000 words building and pivots to brand promotion in a way that will make readers feel baited.",
+            "suggestion": "Keep the CTA but strip the product-catalog language. Frame it around the reader's next action \u2014 building their own SE bottleneck audit \u2014 and make the product mention feel like a tool, not the destination.",
+            "example_fix": "If you're not sure where your SE team's time is actually going, start with a one-week audit: log every demo touchpoint by stage, stakeholder count, and whether an SE was required. The pattern usually becomes obvious by day three. When it does, Storylane's free trial is a fast way to build your first SE-optional demo \u2014 start at storylane.io."
+          },
+          {
+            "id": 15,
+            "type": "structure",
+            "severity": "minor",
+            "location": "'The Line You Need to Draw' section",
+            "issue": "This section is the most useful distillation in the article but is placed after 'The Benchmark Worth Citing' \u2014 which means the reader hits the summary stat before they've seen the decision framework. The framework should come first, making the stat feel like proof of a principle rather than a standalone data point.",
+            "suggestion": "Swap the order: move 'The Line You Need to Draw' before 'The Benchmark Worth Citing.' End with the stat as punctuation on the framework, not the other way around.",
+            "example_fix": null
+          },
+          {
+            "id": 16,
+            "type": "rambling",
+            "severity": "minor",
+            "location": "Scenario 3, paragraph beginning 'That's a Storylane sandbox demo'",
+            "issue": "The sentence 'It replaces the unguided trial that was failing anyway' is slightly defensive in tone \u2014 'failing anyway' is editorializing that doesn't add information. More importantly, the paragraph then pivots to engagement data benefits without fully closing the loop on the conversion problem the SE described.",
+            "suggestion": "Tighten the paragraph by removing the defensive qualifier and making the engagement data benefit more specific \u2014 tie it back to the SE's ability to intervene at the right moment, not just 'monitor.'",
+            "example_fix": "A guided sandbox gives the SE something the free trial never did: signal. Which features did the prospect explore? Where did they stall? That data tells an SE exactly when and why to step back in \u2014 and eliminates the rescue call that was eating their calendar."
+          }
+        ]
+      },
       "seo_result": null,
       "social_signals": [
         {
@@ -5863,7 +6214,7 @@
         "similar_to": "Self-Serve or Sales-Assisted? A Framework for Deciding Which Demos Should Never Require a Human in the Loop",
         "reason": "Both tackle the core question of when SEs should be removed from the demo process, just from different analytical angles (efficiency audit vs. decision framework)."
       },
-      "updated_at": "2026-04-27T11:17:33Z",
+      "updated_at": "2026-05-03T17:55:02Z",
       "created_at": "2026-04-27T11:17:33Z"
     },
     {
