@@ -1006,9 +1006,13 @@ const POST = (p, b) => api('POST', p, b);
 const PUT = (p, b) => api('PUT', p, b);
 
 // ── Toast / progress ──────────────────────────────────────────────────────────
-function showToast(msg) {
+function showToast(msg, autoDismissMs) {
   document.getElementById('toast-msg').textContent = msg;
   document.getElementById('toast').classList.add('show');
+  if (autoDismissMs) {
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(hideToast, autoDismissMs);
+  }
 }
 function hideToast() { document.getElementById('toast').classList.remove('show'); }
 
@@ -1895,7 +1899,8 @@ function _refreshApplyBtn(type) {
 async function doResearchKeywords() {
   const a = S.currentArticle;
   const r = await POST(`/articles/${a.id}/keywords`);
-  pollTask(r.task_id, 'Researching keywords...', async () => {
+  pollTask(r.task_id, 'Researching keywords...', async (msg) => {
+    if (msg && msg.startsWith('ERROR')) { showToast('Keyword research failed: ' + msg.replace('ERROR: ', ''), 5000); return; }
     S.currentArticle = await GET(`/articles/${a.id}`);
     renderEditor();
     _autoAdvance();
@@ -1905,7 +1910,8 @@ async function doResearchKeywords() {
 async function doGenerateDraft() {
   const a = S.currentArticle;
   const r = await POST(`/articles/${a.id}/draft`);
-  pollTask(r.task_id, 'Generating draft (this takes ~30s)...', async () => {
+  pollTask(r.task_id, 'Generating draft (this takes ~30s)...', async (msg) => {
+    if (msg && msg.startsWith('ERROR')) { showToast('Draft generation failed: ' + msg.replace('ERROR: ', ''), 5000); return; }
     S.currentArticle = await GET(`/articles/${a.id}`);
     renderEditor();
     _autoAdvance();
@@ -1915,7 +1921,8 @@ async function doGenerateDraft() {
 async function doRunQC() {
   const a = S.currentArticle;
   const r = await POST(`/articles/${a.id}/qc`);
-  pollTask(r.task_id, 'Running QC check...', async () => {
+  pollTask(r.task_id, 'Running QC check...', async (msg) => {
+    if (msg && msg.startsWith('ERROR')) { showToast('QC check failed: ' + msg.replace('ERROR: ', ''), 5000); return; }
     S.currentArticle = await GET(`/articles/${a.id}`);
     S.qcSuggestions = (S.currentArticle.qc_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
     switchSidebarTab('qc');
@@ -1931,7 +1938,8 @@ async function doRunSEO() {
   }
   const a = S.currentArticle;
   const r = await POST(`/articles/${a.id}/seo`);
-  pollTask(r.task_id, 'Running SEO check...', async () => {
+  pollTask(r.task_id, 'Running SEO check...', async (msg) => {
+    if (msg && msg.startsWith('ERROR')) { showToast('SEO check failed: ' + msg.replace('ERROR: ', ''), 5000); return; }
     S.currentArticle = await GET(`/articles/${a.id}`);
     S.seoSuggestions = (S.currentArticle.seo_result?.suggestions || []).map(s => ({ suggestion: s, accepted: null, expanded: false }));
     switchSidebarTab('seo');

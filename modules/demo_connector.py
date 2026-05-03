@@ -214,6 +214,8 @@ def screenshot_exists(company_name: str, step: int = 1) -> bool:
 def get_screenshot_path(company_name: str, step: int = 1) -> str | None:
     if not company_name:
         return None
+    if not config.DEMO_SCREENSHOTS_DIR.exists():
+        return None
     step_str = f"step_{step:03d}.png"
     candidate = config.DEMO_SCREENSHOTS_DIR / company_name / step_str
     if candidate.exists():
