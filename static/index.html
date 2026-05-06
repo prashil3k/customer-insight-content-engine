@@ -941,14 +941,21 @@ https://docs.storylane.io/changelog</textarea>
         <div class="settings-section-title">🔗 Internal Link Library</div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Index Storylane pages so the draft generator can inject real internal links. Add blog posts, feature pages, docs, and comparison pages. Each URL is scraped and indexed once.</div>
         <div class="form-group">
-          <label class="form-label">Add URL</label>
-          <div style="display:flex;gap:8px;">
-            <input type="url" class="form-input" id="link-url-input" placeholder="https://www.storylane.io/blog/..." style="flex:1;" onkeydown="if(event.key==='Enter')addInternalLink()">
-            <button class="btn btn-primary" onclick="addInternalLink()">+ Index</button>
+          <label class="form-label">Add URLs</label>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">Paste anything — raw URLs, sitemap XML, or any blob of text. All <code>https://</code> links found will be extracted and indexed one by one.</div>
+          <textarea class="form-input" id="link-url-input" placeholder="Paste sitemap XML, a list of URLs, or any text containing links..." style="min-height:80px;resize:vertical;font-family:inherit;font-size:12px;"></textarea>
+          <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+            <button class="btn btn-primary" onclick="addInternalLink()">+ Index All</button>
           </div>
         </div>
-        <div id="link-library-list" style="margin-top:8px;">
-          <div style="color:var(--text-faint);font-size:12px;">Loading...</div>
+        <div style="margin-top:12px;">
+          <button onclick="toggleLinkLibrary()" id="link-library-toggle" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--text-muted);padding:0;display:flex;align-items:center;gap:4px;">
+            <span id="link-library-chevron" style="font-size:10px;">▶</span>
+            <span id="link-library-count">Indexed links</span>
+          </button>
+          <div id="link-library-list" style="display:none;margin-top:8px;">
+            <div style="color:var(--text-faint);font-size:12px;">Loading...</div>
+          </div>
         </div>
       </div>
 
@@ -2643,11 +2650,21 @@ async function saveSettings() {
 }
 
 // ── Internal Link Library ──────────────────────────────────────────────────────
+function toggleLinkLibrary() {
+  const list = document.getElementById('link-library-list');
+  const chevron = document.getElementById('link-library-chevron');
+  const open = list.style.display === 'none';
+  list.style.display = open ? 'block' : 'none';
+  chevron.textContent = open ? '▼' : '▶';
+}
+
 async function loadLinkLibrary() {
   const el = document.getElementById('link-library-list');
   if (!el) return;
   try {
     const links = await GET('/links');
+    const countEl = document.getElementById('link-library-count');
+    if (countEl) countEl.textContent = links.length ? `Indexed links (${links.length})` : 'Indexed links';
     if (!links.length) {
       el.innerHTML = `<div style="color:var(--text-faint);font-size:12px;">No links indexed yet. Add Storylane blog posts, feature pages, and docs above.</div>`;
       return;
@@ -2673,20 +2690,32 @@ async function loadLinkLibrary() {
 
 async function addInternalLink() {
   const input = document.getElementById('link-url-input');
-  const url = input?.value?.trim();
-  if (!url) return;
+  const raw = input?.value?.trim();
+  if (!raw) return;
+
+  const urls = [...new Set(raw.match(/https?:\/\/[^\s<>"'\]]+/g) || [])];
+  if (!urls.length) { showToast('No valid URLs found.'); setTimeout(hideToast, 3000); return; }
+
   input.value = '';
-  showToast('Indexing URL...');
-  try {
-    const { task_id } = await POST('/links/add', { url });
-    pollTask(task_id, `Indexing ${url.split('/').pop() || url}`, async () => {
-      hideToast();
-      await loadLinkLibrary();
-    });
-  } catch(e) {
-    showToast('Failed to add link.');
-    setTimeout(hideToast, 3000);
-  }
+  let done = 0;
+
+  const indexNext = async () => {
+    if (done >= urls.length) { hideToast(); await loadLinkLibrary(); return; }
+    const url = urls[done];
+    showToast(`Indexing ${done + 1} / ${urls.length}: ${url.split('/').pop() || url}`);
+    try {
+      const { task_id } = await POST('/links/add', { url });
+      pollTask(task_id, `Indexing ${url.split('/').pop() || url}`, async () => {
+        done++;
+        await indexNext();
+      });
+    } catch(e) {
+      done++;
+      await indexNext();
+    }
+  };
+
+  await indexNext();
 }
 
 async function deleteInternalLink(encodedUrl) {
