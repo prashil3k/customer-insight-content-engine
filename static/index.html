@@ -941,10 +941,11 @@ https://docs.storylane.io/changelog</textarea>
         <div class="settings-section-title">🔗 Internal Link Library</div>
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">Index Storylane pages so the draft generator can inject real internal links. Add blog posts, feature pages, docs, and comparison pages. Each URL is scraped and indexed once.</div>
         <div class="form-group">
-          <label class="form-label">Add URL</label>
-          <div style="display:flex;gap:8px;">
-            <input type="url" class="form-input" id="link-url-input" placeholder="https://www.storylane.io/blog/..." style="flex:1;" onkeydown="if(event.key==='Enter')addInternalLink()">
-            <button class="btn btn-primary" onclick="addInternalLink()">+ Index</button>
+          <label class="form-label">Add URLs</label>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;">Paste one or more links — each URL on its own line or separated by spaces. All URLs will be indexed one by one.</div>
+          <textarea class="form-input" id="link-url-input" placeholder="https://www.storylane.io/blog/post-1&#10;https://www.storylane.io/features/demo&#10;https://www.storylane.io/blog/post-2" style="min-height:80px;resize:vertical;font-family:inherit;font-size:12px;"></textarea>
+          <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+            <button class="btn btn-primary" onclick="addInternalLink()">+ Index All</button>
           </div>
         </div>
         <div id="link-library-list" style="margin-top:8px;">
@@ -2673,20 +2674,34 @@ async function loadLinkLibrary() {
 
 async function addInternalLink() {
   const input = document.getElementById('link-url-input');
-  const url = input?.value?.trim();
-  if (!url) return;
+  const raw = input?.value?.trim();
+  if (!raw) return;
+
+  const urls = [...new Set(
+    raw.split(/[\s,]+/).map(s => s.trim()).filter(s => /^https?:\/\/.+/.test(s))
+  )];
+  if (!urls.length) { showToast('No valid URLs found.'); setTimeout(hideToast, 3000); return; }
+
   input.value = '';
-  showToast('Indexing URL...');
-  try {
-    const { task_id } = await POST('/links/add', { url });
-    pollTask(task_id, `Indexing ${url.split('/').pop() || url}`, async () => {
-      hideToast();
-      await loadLinkLibrary();
-    });
-  } catch(e) {
-    showToast('Failed to add link.');
-    setTimeout(hideToast, 3000);
-  }
+  let done = 0;
+
+  const indexNext = async () => {
+    if (done >= urls.length) { hideToast(); await loadLinkLibrary(); return; }
+    const url = urls[done];
+    showToast(`Indexing ${done + 1} / ${urls.length}: ${url.split('/').pop() || url}`);
+    try {
+      const { task_id } = await POST('/links/add', { url });
+      pollTask(task_id, `Indexing ${url.split('/').pop() || url}`, async () => {
+        done++;
+        await indexNext();
+      });
+    } catch(e) {
+      done++;
+      await indexNext();
+    }
+  };
+
+  await indexNext();
 }
 
 async function deleteInternalLink(encodedUrl) {
